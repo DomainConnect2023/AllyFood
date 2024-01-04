@@ -45,8 +45,13 @@ const DashboardScreen = ({route}: {route: any}) => {
         (async()=> {
             setFetchedData([]);
             setBarData({ labels: [], datasets: [{ data: [] }] });
-            setTodayDate(await AsyncStorage.getItem('setDate') ?? todayDate);
-            fetchDataApi(route.params.stayPage,await AsyncStorage.getItem('setDate'));
+            if(await AsyncStorage.getItem('setDate')=="null"){
+                setTodayDate(await AsyncStorage.getItem('setDate') ?? todayDate);
+                fetchDataApi(route.params.stayPage,todayDate);
+            }else{
+                setTodayDate(await AsyncStorage.getItem('setDate') ?? todayDate);
+                fetchDataApi(route.params.stayPage,await AsyncStorage.getItem('setDate'));
+            }
         })();
     }, [])
 
@@ -97,6 +102,8 @@ const DashboardScreen = ({route}: {route: any}) => {
         }else if(type=="Overall"){
             setURL="GetOverall";
         }
+
+        // console.log(getIPaddress+" "+setURL+" "+runDate);
 
         await RNFetchBlob.config({
             trusty: true
@@ -243,7 +250,7 @@ const DashboardScreen = ({route}: {route: any}) => {
                 </View>
             ) : (
                 <View>
-                    {fetchedData.length==0 ? (
+                    {(fetchedData.length==0 ) ? (
                         <View style={{alignItems: 'center',justifyContent: 'center'}}>
                             <Image
                                 source={ImagesAssets.noData}

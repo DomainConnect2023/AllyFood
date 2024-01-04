@@ -38,6 +38,8 @@ const LoginScreen = () => {
     
     const loginAPI = async() => {
         await AsyncStorage.setItem('IPaddress', IPaddress);
+        await AsyncStorage.setItem('userCode', username);
+        await AsyncStorage.setItem('password', password);
         setIsSignedIn(true);
         // await RNFetchBlob.config({
         //     trusty: true

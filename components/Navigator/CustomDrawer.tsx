@@ -8,6 +8,7 @@ import TabNavigation from '../../screens/TabNavigation';
 import { css } from '../../objects/commonCSS';
 import { useAuth } from '../Auth_Provider/Auth_Context';
 import { useState } from 'react';
+import PickingListScreen from '../../screens/pickinglistScreen';
 
 const Drawer = createDrawerNavigator();
 
@@ -32,13 +33,19 @@ export function CustomDrawer() {
         headerTitle: 'Dashboard',
         headerRight: () => (
           <View style={css.row}>
-            {/* <Ionicons name="search-circle-sharp" size={35} color="#FFF" style={{marginLeft:5,marginRight:5}} onPress={() => navigation.navigate(SearchReportScreen as never)} /> */}
             <Ionicons name="log-out-outline" size={35} color="#FFF" style={{marginLeft:5,marginRight:10}} onPress={() => setIsSignedIn(false)} />
           </View>
         ),
       }} />
+      <Drawer.Screen name="Picking List" component={PickingListScreen} options={{
+        headerTitle: 'Dashboard',
+        headerRight: () => (
+          <View style={css.row}>
+            <Ionicons name="log-out-outline" size={35} color="#FFF" style={{marginLeft:5,marginRight:10}} onPress={() => setIsSignedIn(false)} />
+          </View>
+        ),
+      }}  />
       <Drawer.Screen name="Monthly Rental" component={PlanningScreen} />
-      <Drawer.Screen name="Picking List" component={PlanningScreen} />
       
       {/* <Drawer.Screen name="Profile" component={ProfileScreen} />
       <Drawer.Screen name="Setting" component={SettingScreen} /> */}
