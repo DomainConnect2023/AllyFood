@@ -43,9 +43,10 @@ const DashboardScreen = ({route}: {route: any}) => {
 
     useEffect(()=> { // when starting the page
         (async()=> {
+            
             setFetchedData([]);
             setBarData({ labels: [], datasets: [{ data: [] }] });
-            if(await AsyncStorage.getItem('setDate')=="null"){
+            if(await AsyncStorage.getItem('setDate')==null){
                 setTodayDate(await AsyncStorage.getItem('setDate') ?? todayDate);
                 fetchDataApi(route.params.stayPage,todayDate);
             }else{

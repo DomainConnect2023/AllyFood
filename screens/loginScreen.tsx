@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { Image, Pressable } from 'react-native';
+import { Alert, Image, PermissionsAndroid, Platform, Pressable } from 'react-native';
 import { View, Text, TextInput, StyleSheet } from 'react-native';
 import KeyboardAvoidWrapper from '../components/KeyboardAvoidWrapper';
 import MainContainer from '../components/MainContainer';
@@ -14,6 +14,7 @@ import { ImagesAssets } from '../objects/images';
 import { Dropdown } from 'react-native-searchable-dropdown-kj';
 import RNFetchBlob from 'rn-fetch-blob';
 import { useAuth } from '../components/Auth_Provider/Auth_Context';
+import { PERMISSIONS, request } from 'react-native-permissions';
 
 
 export const [isLoginSuccess, setLoginStatus] = useState<String | null>("");

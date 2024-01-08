@@ -38,7 +38,7 @@ export function CustomDrawer() {
         ),
       }} />
       <Drawer.Screen name="Picking List" component={PickingListScreen} options={{
-        headerTitle: 'Dashboard',
+        headerTitle: 'Picking List',
         headerRight: () => (
           <View style={css.row}>
             <Ionicons name="log-out-outline" size={35} color="#FFF" style={{marginLeft:5,marginRight:10}} onPress={() => setIsSignedIn(false)} />
