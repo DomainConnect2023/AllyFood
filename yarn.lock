@@ -5950,6 +5950,11 @@ react-native-svg@^14.0.0, "react-native-svg@> 6.4.1":
     css-select "^5.1.0"
     css-tree "^1.1.3"
 
+react-native-table-component@^1.1.5:
+  version "1.1.5"
+  resolved "https://registry.npmjs.org/react-native-table-component/-/react-native-table-component-1.1.5.tgz"
+  integrity sha512-sXPfSJgalL5mERH87GRVT4IjZwAVHHqbfY3cSZGKiungkmQLRQJeqTs+fIUokDp+mpcbY6W8zmBpj7eivOTJKw==
+
 react-native-vector-icons@*, react-native-vector-icons@^10.0.2:
   version "10.0.2"
   resolved "https://registry.npmjs.org/react-native-vector-icons/-/react-native-vector-icons-10.0.2.tgz"

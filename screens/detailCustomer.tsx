@@ -199,7 +199,7 @@ const DetailCustomerScreen = () => {
                                     <CircleColorText color={item.color} />
                                 </Text>
                             </View>
-                            <Text style={css.textHeader}>Weight: {currencyFormat(parseInt(item.weight))}</Text>
+                            <Text style={css.textHeader}>Weight: {currencyFormat(parseInt(item.amount))}</Text>
                         </View>
                     </View>
                 </View>
@@ -231,7 +231,7 @@ const DetailCustomerScreen = () => {
                             <View style={{flexDirection: 'row',}}>
                                 <Text style={css.textHeader}>{item.name}</Text>
                             </View>
-                            <Text style={css.textHeader}>Day of Total Weight: {currencyFormat(parseInt(item.weight))}</Text>
+                            <Text style={css.textHeader}>Day of Total Weight: {currencyFormat(parseInt(item.amount))}</Text>
                         </View>
                     </View>
                 </View>

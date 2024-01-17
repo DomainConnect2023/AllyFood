@@ -30,6 +30,7 @@
     "react-native-searchable-dropdown-kj": "^1.9.0",
     "react-native-snackbar": "^2.6.2",
     "react-native-svg": "^14.0.0",
+    "react-native-table-component": "^1.1.5",
     "react-native-vector-icons": "^10.0.2",
     "react-native-webview-domain": "^13.6.35",
     "rn-fetch-blob": "^0.12.0"

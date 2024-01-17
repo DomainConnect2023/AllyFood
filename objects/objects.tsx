@@ -25,6 +25,26 @@ export interface SelectBarData {
     value: string;
 }
 
+export interface pickingListData {
+    key: string;
+    customerID: string;
+    customerName: string;
+    refNo: string;
+    isDoneLoadingOnTruck: boolean;
+    isDonePicking: boolean;
+    datasets: {
+        productCode: string;
+        productName: string;
+        toPickCartonQuantity: number;
+        toPickPalletQuantity: number;
+        locationStockBalances: {
+            locationDescription: string;
+            cartonBalance: number;
+            palletBalance: number;
+        }[];
+    }[];
+}
+
 export interface PieData {
     name: string;
     value: number;

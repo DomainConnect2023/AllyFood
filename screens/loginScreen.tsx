@@ -24,7 +24,7 @@ const LoginScreen = () => {
     const [password, setPassword] = useState('ALLY123');
 
     const inputRef = React.createRef<TextInput>();
-    const [IPaddress, setIPadress] = useState("192.168.1.164:1234");
+    const [IPaddress, setIPadress] = useState("192.168.1.168:1234");
 
     const { setIsSignedIn } = useAuth();
     // const { isSignedIn } = useAuth();
