@@ -62,10 +62,10 @@ const LoginScreen = () => {
             // if (IPaddress.length === 0) {
             //     // setIPadress(URLAccess.getLiveSiteIP);
             // }
-            // if (__DEV__) {
-            //     setUserName("admin");
-            //     setPassword("ALLY123");
-            // }
+            if (__DEV__) {
+                setUserName("admin");
+                setPassword("ALLY123");
+            }
         })();
     }, [])
     
@@ -75,7 +75,7 @@ const LoginScreen = () => {
         await AsyncStorage.setItem('IPaddress', IPaddress);
         await AsyncStorage.setItem('userCode', username);
         await AsyncStorage.setItem('password', password);
-        setIsSignedIn(true);
+        // setIsSignedIn(true);
         await RNFetchBlob.config({
             trusty: true
         }).fetch('POST', "https://"+IPaddress+"/App/Login",{
