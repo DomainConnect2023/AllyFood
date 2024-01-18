@@ -76,9 +76,10 @@ const LoginScreen = () => {
     const loginAPI = async() => {
         await AsyncStorage.setItem('IPaddress', IPaddress);
         console.log(IPaddress)
+        
         await AsyncStorage.setItem('userCode', username);
         await AsyncStorage.setItem('password', password);
-        setIsSignedIn(true);
+        // setIsSignedIn(true);
         await RNFetchBlob.config({
             trusty: true
         }).fetch('POST', "https://"+IPaddress+"/App/Login",{
