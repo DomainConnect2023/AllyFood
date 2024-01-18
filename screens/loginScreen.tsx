@@ -42,12 +42,11 @@ const LoginScreen = () => {
     const getIPAdd = async() =>{
         try{
             let url =(URLAccess.getIPAddress+"&branch="+branch);
-            console.log("Website API ",url)
             
             let result = await RNFetchBlob.config({trusty:true}).fetch('get',url);
             let responses: ApiResponse = JSON.parse(result.data);
             
-            console.log("Login API: "+responses.ipAddress);
+            
             setIPadress(responses.ipAddress);
         }
         catch(error)
@@ -64,10 +63,10 @@ const LoginScreen = () => {
             // if (IPaddress.length === 0) {
             //     // setIPadress(URLAccess.getLiveSiteIP);
             // }
-            // if (__DEV__) {
-            //     setUserName("admin");
-            //     setPassword("ALLY123");
-            // }
+            if (__DEV__) {
+                setUserName("admin");
+                setPassword("ALLY123");
+            }
         })();
     }, [])
     
@@ -75,8 +74,6 @@ const LoginScreen = () => {
 
     const loginAPI = async() => {
         await AsyncStorage.setItem('IPaddress', IPaddress);
-        console.log(IPaddress)
-        
         await AsyncStorage.setItem('userCode', username);
         await AsyncStorage.setItem('password', password);
         // setIsSignedIn(true);
