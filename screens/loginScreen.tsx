@@ -90,11 +90,18 @@ const LoginScreen = () => {
             // if (IPaddress.length === 0) {
             //     // setIPadress(URLAccess.getLiveSiteIP);
             // }
+<<<<<<< HEAD
             // if (__DEV__) {
             //     setUserName("admin");
             //     setPassword("ALLY123");
             // }
 >>>>>>> d60dfc5 (fix login screen)
+=======
+            if (__DEV__) {
+                setUserName("admin");
+                setPassword("ALLY123");
+            }
+>>>>>>> f072c98 (add dev setting)
         })();
     }, [])
 
