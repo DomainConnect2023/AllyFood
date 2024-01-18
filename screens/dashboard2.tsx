@@ -150,6 +150,7 @@ const DashboardScreen2 = ({route}: {route: any}) => {
             }, JSON.stringify(params),
         ).then(async (response) => {
             // console.log("Today: "+theDate+" TW: "+response.json().totalWeight);
+            console.log(getIPaddress)
             if(await response.json().status=="1"){
                 setFetchedData(response.json().data.map((item: { weight: string; key: any; name: any; }) => ({
                     key: item.key,
