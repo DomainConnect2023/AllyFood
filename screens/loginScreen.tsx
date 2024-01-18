@@ -81,10 +81,20 @@ const LoginScreen = () => {
         (async()=> {
             // setIPadress(URLAccess.getLocalIP);
             getIPAdd();
+<<<<<<< HEAD
             if (__DEV__) {
                 setUserName("admin");
                 setPassword("ALLY123");
             }
+=======
+            // if (IPaddress.length === 0) {
+            //     // setIPadress(URLAccess.getLiveSiteIP);
+            // }
+            // if (__DEV__) {
+            //     setUserName("admin");
+            //     setPassword("ALLY123");
+            // }
+>>>>>>> d60dfc5 (fix login screen)
         })();
     }, [])
 
