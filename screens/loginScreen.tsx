@@ -1,20 +1,14 @@
-import React, { useContext, useEffect, useState } from 'react';
-import { Alert, Image, PermissionsAndroid, Platform, Pressable } from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { Image, Pressable } from 'react-native';
 import { View, Text, TextInput, StyleSheet } from 'react-native';
 import KeyboardAvoidWrapper from '../components/KeyboardAvoidWrapper';
 import MainContainer from '../components/MainContainer';
-import { useNavigation } from '@react-navigation/native';
-import TabNavigation from './TabNavigation';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import axios from 'axios';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import Snackbar from 'react-native-snackbar';
-import { URLAccess } from '../objects/URLAccess';
 import { ImagesAssets } from '../objects/images';
-import { Dropdown } from 'react-native-searchable-dropdown-kj';
-import RNFetchBlob from 'rn-fetch-blob';
 import { useAuth } from '../components/Auth_Provider/Auth_Context';
-import { PERMISSIONS, request } from 'react-native-permissions';
+import RNFetchBlob from 'rn-fetch-blob';
+import Snackbar from 'react-native-snackbar';
 
 
 export const [isLoginSuccess, setLoginStatus] = useState<String | null>("");
@@ -41,36 +35,36 @@ const LoginScreen = () => {
         await AsyncStorage.setItem('IPaddress', IPaddress);
         await AsyncStorage.setItem('userCode', username);
         await AsyncStorage.setItem('password', password);
-        setIsSignedIn(true);
-        // await RNFetchBlob.config({
-        //     trusty: true
-        // }).fetch('POST', "https://"+IPaddress+"/App/Login",{
-        //         "Content-Type": "application/json",  
-        // }, JSON.stringify({
-        //         "Code": username as string,
-        //         "Password": password as string,
-        // }),
-        // ).then(async (response) => {
-        //     if(response.json().isSuccess==true){
-        //         await AsyncStorage.setItem('IPaddress', IPaddress),
-        //         await AsyncStorage.setItem('userID', response.json().userId.toString()),
-        //         setUserName("");
-        //         setPassword("");
-        //         setIsSignedIn(true);
-        //     }else{
-        //         Snackbar.show({
-        //             text: response.json().message,
-        //             duration: Snackbar.LENGTH_SHORT,
-        //         });
-        //     }
-        // })
-        // .catch(error => {
-        //     console.log(error.message);
-        //     Snackbar.show({
-        //         text: error.message,
-        //         duration: Snackbar.LENGTH_SHORT,
-        //     });
-        // });
+        // setIsSignedIn(true);
+        await RNFetchBlob.config({
+            trusty: true
+        }).fetch('POST', "https://"+IPaddress+"/App/Login",{
+                "Content-Type": "application/json",  
+        }, JSON.stringify({
+                "Code": username as string,
+                "Password": password as string,
+        }),
+        ).then(async (response) => {
+            if(response.json().isSuccess==true){
+                await AsyncStorage.setItem('IPaddress', IPaddress),
+                await AsyncStorage.setItem('userID', response.json().userId.toString()),
+                setUserName("");
+                setPassword("");
+                setIsSignedIn(true);
+            }else{
+                Snackbar.show({
+                    text: response.json().message,
+                    duration: Snackbar.LENGTH_SHORT,
+                });
+            }
+        })
+        .catch(error => {
+            console.log(error.message);
+            Snackbar.show({
+                text: error.message,
+                duration: Snackbar.LENGTH_SHORT,
+            });
+        });
     };
 
     return (
