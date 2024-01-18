@@ -33,6 +33,7 @@ const LoginScreen = () => {
     
     const inputRef = React.createRef<TextInput>();
     const [IPaddress, setIPadress] = useState("");
+    
 
     const { setIsSignedIn } = useAuth();
     // const { isSignedIn } = useAuth();
@@ -41,6 +42,7 @@ const LoginScreen = () => {
     const getIPAdd = async() =>{
         try{
             let url =(URLAccess.getIPAddress+"&branch="+branch);
+            console.log("Website API ",url)
             
             let result = await RNFetchBlob.config({trusty:true}).fetch('get',url);
             let responses: ApiResponse = JSON.parse(result.data);
@@ -73,6 +75,7 @@ const LoginScreen = () => {
 
     const loginAPI = async() => {
         await AsyncStorage.setItem('IPaddress', IPaddress);
+        console.log(IPaddress)
         await AsyncStorage.setItem('userCode', username);
         await AsyncStorage.setItem('password', password);
         setIsSignedIn(true);
