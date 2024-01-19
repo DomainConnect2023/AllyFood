@@ -92,8 +92,8 @@ const DetailCustomerScreen = () => {
             tonggleDatePicker();
         }
     }
-    const confirmIOSDate = async() => {
-        const currentDate=selectedIOSDate;
+    const confirmIOSDate = async(date:any) => {
+        const currentDate=date;
         setShowDate(currentDate.toISOString().split('T')[0]);
         setTodayDate(currentDate.toISOString().split('T')[0]);
         AsyncStorage.setItem('fromDate', currentDate.toISOString().split('T')[0]+" 00:00:00"),
