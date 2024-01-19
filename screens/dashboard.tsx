@@ -94,6 +94,7 @@ const DashboardScreen = ({route}: {route: any}) => {
         setDataProcess(true);
         var getIPaddress=await AsyncStorage.getItem('IPaddress');
         var runDate=todayDate.split(' ')[0];
+        console.log("today date "+ todayDate);
         let setURL
 
         if(type=="Receiving"){
