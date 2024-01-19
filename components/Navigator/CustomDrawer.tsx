@@ -45,7 +45,7 @@ export function CustomDrawer() {
           </View>
         ),
       }}  />
-      <Drawer.Screen name="Monthly Rental" component={PlanningScreen} />
+      {/* <Drawer.Screen name="Monthly Rental" component={PlanningScreen} /> */}
       
       {/* <Drawer.Screen name="Profile" component={ProfileScreen} />
       <Drawer.Screen name="Setting" component={SettingScreen} /> */}
