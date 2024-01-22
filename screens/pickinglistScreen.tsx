@@ -265,8 +265,8 @@ const PickingListScreen = () => {
         }
     } 
 
-    const confirmIOSDate = async() => {
-        const currentDate=selectedIOSDate;
+    const confirmIOSDate = async(date:any) => {
+        const currentDate=date;
         setTodayDate(currentDate.toISOString().split('T')[0]);
         await AsyncStorage.setItem('setDate', currentDate.toISOString().split('T')[0]+" 00:00:00");
         setDatePickerVisible(false);

@@ -294,8 +294,8 @@ const DashboardScreen2 = ({route}: {route: any}) => {
         }
     }
 
-    const confirmIOSDate = async() => {
-        const currentDate=selectedIOSDate;
+    const confirmIOSDate = async(date:any) => {
+        const currentDate=date;
         console.log(currentDate);
         setTodayDate(currentDate.toISOString().split('T')[0]);
         setSelectedDate(currentDate.toISOString().split('T')[0]);

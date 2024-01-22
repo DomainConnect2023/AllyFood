@@ -78,7 +78,7 @@ android {
         applicationId "com.allyfood"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 9
+        versionCode 3
         versionName "1.0"
     }
     signingConfigs {
