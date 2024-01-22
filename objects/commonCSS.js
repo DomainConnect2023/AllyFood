@@ -1,4 +1,5 @@
 import { Dimensions, StyleSheet } from "react-native";
+import { colorThemeDB } from "./colors";
 
 export const css = StyleSheet.create({
     container: {
@@ -12,7 +13,7 @@ export const css = StyleSheet.create({
         height: 60, 
         flexDirection: 'row',
         alignItems: 'center', 
-        backgroundColor: "#112A08",
+        backgroundColor: colorThemeDB.colors.onPrimary,
     },
     HeaderView :{
         flex: 1, 
@@ -30,7 +31,7 @@ export const css = StyleSheet.create({
     listThing: {
         width: 30,
         height: 40, 
-        backgroundColor: '#112A08', 
+        backgroundColor: colorThemeDB.colors.onPrimary, 
         justifyContent: 'center', 
         alignItems: 'center',
         borderRadius: 20,
@@ -160,6 +161,16 @@ export const css = StyleSheet.create({
     basicTextDiscription: {
         fontStyle: "italic",
         fontSize: 12,
+    },
+    firstContainer: {
+        height: '8%',
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+    secondContainer: {
+        height: '40%',
+        justifyContent: 'center',
+        alignItems: 'center',
     },
 });
 

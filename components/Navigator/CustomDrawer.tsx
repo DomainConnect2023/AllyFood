@@ -9,6 +9,7 @@ import { css } from '../../objects/commonCSS';
 import { useAuth } from '../Auth_Provider/Auth_Context';
 import { useState } from 'react';
 import PickingListScreen from '../../screens/pickinglistScreen';
+import { colorThemeDB } from '../../objects/colors';
 
 const Drawer = createDrawerNavigator();
 
@@ -22,7 +23,7 @@ export function CustomDrawer() {
     <Drawer.Navigator initialRouteName="Dashboard" screenOptions={{
       headerShown: true,
       headerStyle: {
-        backgroundColor: "#112A08",
+        backgroundColor: colorThemeDB.colors.onPrimary,
       },
       headerTitleStyle: {color: "#FFF"},
       headerTintColor: '#fff', 

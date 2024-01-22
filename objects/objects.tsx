@@ -61,6 +61,12 @@ export interface BarData {
     }[];
 } 
 
+export interface BarData2 {
+    label: string;
+    value: number;
+    textFontSize: number;
+} 
+
 export const CircleColorText = ( {color}: {color: string} ) => {
     return (
       <View style={[css.circle, { backgroundColor: color }]}>

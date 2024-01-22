@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { View, Text, FlatList, TouchableOpacity, ActivityIndicator, Dimensions, Image, Platform, Pressable, TextInput } from "react-native";
 import { useEffect, useState } from 'react';
-import { LineChart,} from "react-native-chart-kit";
+// import { LineChart,} from "react-native-chart-kit";
 import Snackbar from 'react-native-snackbar';
 import { useNavigation } from '@react-navigation/native';
 import MainContainer from '../components/MainContainer';
@@ -9,7 +9,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { ImagesAssets } from '../objects/images';
 import KeyboardAvoidWrapper from '../components/KeyboardAvoidWrapper';
 import { css, datepickerCSS } from '../objects/commonCSS';
-import { showData, BarData, currencyFormat } from '../objects/objects';
+import { showData, BarData, BarData2, currencyFormat } from '../objects/objects';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import RNFetchBlob from 'rn-fetch-blob';
 import 'react-native-gesture-handler';
@@ -17,6 +17,8 @@ import DateTimePickerModal from 'react-native-modal-datetime-picker';
 import { ProgressBar } from 'react-native-paper';
 import DetailScreen from './detailScreen';
 import DetailOverallScreen from './detailOverallScreen';
+import { LineChart } from 'react-native-gifted-charts';
+import { colorThemeDB } from '../objects/colors';
 
 const DashboardScreen = ({route}: {route: any}) => {
     const navigation = useNavigation();
@@ -30,7 +32,9 @@ const DashboardScreen = ({route}: {route: any}) => {
 
     const [fetchedData, setFetchedData] = useState<showData[]>([]); // Flatlist with Pie
     const [BarData, setBarData] = useState<BarData>({ labels: [], datasets: [{ data: [] }] });
+    const [BarData2, setBarData2] = useState<BarData2[]>([]);
     const [totalAmount, setTotalAmount] = useState<number>(0); // total
+    const [maxChartValue, setMaxChartValue] = useState<number>(100);
 
     const [dataProcess, setDataProcess] = useState(false); // check when loading data
 
@@ -54,7 +58,7 @@ const DashboardScreen = ({route}: {route: any}) => {
                 fetchDataApi(route.params.stayPage,await AsyncStorage.getItem('setDate'));
             }
         })();
-    }, [])
+    }, []);
 
     // Date Picker
     const onChangeDate = async ({type}: any, selectedDate: any) => {
@@ -123,9 +127,20 @@ const DashboardScreen = ({route}: {route: any}) => {
                     amount: type == "Overall" ? item.overallAmount : item.handlingChargesAmount,
                 })));
 
+                setBarData2(response.json().barChart.map(type == "Overall" ? (item: { overallAmount: any; days: any; }) => ({
+                    label: item.days.slice(0,-3),
+                    value: item.overallAmount,
+                    // textFontSize: 10
+                }) : (item: { handlingChargesAmount: any; days: any; }) =>({
+                    label: item.days.slice(0,-3),
+                    value: item.handlingChargesAmount,
+                    // textFontSize: 10
+                })));
+
                 const WeightArray=(response.json().barChart.map(type == "Overall" ? (item: { overallAmount: any; }) => item.overallAmount : (item: { handlingChargesAmount: any; }) => item.handlingChargesAmount));
                 const MaxWeight = Math.max.apply(Math, WeightArray);
-                const MaxWeight_Rounded = Math.ceil(MaxWeight/500) * 500;
+                const MaxWeight_Rounded = Math.ceil(MaxWeight/100) * 100;
+                setMaxChartValue(MaxWeight_Rounded);
 
                 const convertedData: BarData = {
                     labels: response.json().barChart.map((item: { days: any; }) => item.days),
@@ -175,7 +190,7 @@ const DashboardScreen = ({route}: {route: any}) => {
                     <View style={[css.cardBody]}>
                         <View style={{alignItems: 'flex-start',justifyContent: 'center',flex: 1,flexGrow: 1,}}>
                             <View style={{flexDirection: 'row',}}>
-                                <Text style={css.textHeader}>{item.name}</Text>
+                                <Text style={css.textHeader} numberOfLines={2}>{item.name}</Text>
                                 <Text style={css.textDescription}>
                                     Amount: {item.amount}
                                 </Text>
@@ -185,13 +200,13 @@ const DashboardScreen = ({route}: {route: any}) => {
                                     <ProgressBar
                                         style={{width:200, height: 10}}
                                         progress={0}
-                                        color={"#8561c5"}
+                                        color={colorThemeDB.colors.onPrimary}
                                     />
                                 ) : (
                                     <ProgressBar
                                         style={{width:200, height: 10}}
                                         progress={Math.round(parseInt(item.amount)/totalAmount*100)/100}
-                                        color={"#8561c5"}
+                                        color={colorThemeDB.colors.onPrimary}
                                     />
                                 )}
                                 <Text style={[css.textDescription,{textAlign:"center"}]}>
@@ -211,105 +226,111 @@ const DashboardScreen = ({route}: {route: any}) => {
     
     return (
         <MainContainer>
-            {/* <KeyboardAvoidWrapper> */}
-
-            {/* Set Date */}
-            <View style={css.row}>
-                {showPicker && Platform.OS === 'android' && <DateTimePicker 
-                    mode="date"
-                    display="calendar"
-                    value={getDate}
-                    onChange={onChangeDate}
-                    style={datepickerCSS.datePicker}
-                />}        
-                <Pressable style={css.pressableCSS} onPress={tonggleDatePicker} >
-                    <TextInput
-                        style={datepickerCSS.textInput}
-                        placeholder="Select Date"
-                        value={todayDate.toString().substring(0,10)}
-                        onChangeText={setTodayDate}
-                        placeholderTextColor="#11182744"
-                        editable={false}
-                        onPressIn={tonggleDatePicker}
-                    />
-                </Pressable>
-            </View>    
-
-            {/* End Select Date */}
-            {Platform.OS === "ios" && (<DateTimePickerModal
-                date={selectedIOSDate}
-                isVisible={datePickerVisible}
-                mode="date"
-                display='inline'
-                onConfirm={confirmIOSDate}
-                onCancel={hideIOSDatePicker}
-            />)}
-            
             {dataProcess== true ? (
                 <View style={[css.container]}>
                     <ActivityIndicator size="large" />
                 </View>
             ) : (
-                <View>
-                    {(fetchedData.length==0 ) ? (
-                        <View style={{alignItems: 'center',justifyContent: 'center'}}>
-                            <Image
-                                source={ImagesAssets.noData}
-                                style={{width: Dimensions.get("window").width/100*80, height: 200}}
+            <View style={{height:Dimensions.get("screen").height/100*77}}>
+                <View style={css.firstContainer}>
+                    <View style={css.row}>
+                        {showPicker && Platform.OS === 'android' && <DateTimePicker 
+                            mode="date"
+                            display="calendar"
+                            value={getDate}
+                            onChange={onChangeDate}
+                            style={datepickerCSS.datePicker}
+                        />}        
+                        <Pressable style={css.pressableCSS} onPress={tonggleDatePicker} >
+                            <TextInput
+                                style={datepickerCSS.textInput}
+                                placeholder="Select Date"
+                                value={todayDate.toString().substring(0,10)}
+                                onChangeText={setTodayDate}
+                                placeholderTextColor="#11182744"
+                                editable={false}
+                                onPressIn={tonggleDatePicker}
                             />
-                            <Text style={{fontSize:16,margin:30}}>Today No data yet</Text>
-                        </View>
-                    ) : (
-                    <View>
-                        <View style={{alignItems: 'center',justifyContent: 'center'}}>
-                            <View>
-                            <LineChart
-                                data={BarData}
-                                width={Dimensions.get("window").width/100*90}
-                                height={160}
-                                yAxisSuffix=""
-                                yAxisLabel=""
-                                chartConfig={{
-                                    backgroundColor: '#1cc910',
-                                    backgroundGradientFrom: '#eff3ff',
-                                    backgroundGradientTo: '#efefef',
-                                    decimalPlaces: 0,
-                                    color: (opacity = 1) => `rgba(0, 0, 0, ${opacity})`,
-                                    style: {
-                                        borderRadius: 16,
-                                    },
-                                }}
-                                style={{
-                                    marginVertical: 8,
-                                    borderRadius: 16, 
-                                }}
-                            />
-                            </View>
-                        </View>
-                        
-                        <View style={[css.row,{marginTop:5,marginBottom:5}]}>
-                            <Text style={{fontSize:20,fontWeight:'bold',textAlign:"center",fontStyle:"italic"}}>
-                                {route.params.stayPage} Amount: {totalAmount}
-                            </Text>
-                        </View>
-                        
-                        <View style={{alignItems: 'center',justifyContent: 'center',}}>
-                            {/* <View> */}
-                            <View style={{height:Dimensions.get("screen").height/100*45}}>
-                            {/* <View style={{height:"auto"}}> */}
-                                {/* TODO: review this on responsive part */}
-                                <FlatList
-                                    data={fetchedData}
-                                    renderItem={FlatListItem}
-                                    keyExtractor={(item) => item.key}
-                                />
-                            </View>
-                        </View>
-                    </View>
-                    )}
+                        </Pressable>
+                    </View>    
+
+                    {Platform.OS === "ios" && (<DateTimePickerModal
+                        date={selectedIOSDate}
+                        isVisible={datePickerVisible}
+                        mode="date"
+                        display='inline'
+                        onConfirm={confirmIOSDate}
+                        onCancel={hideIOSDatePicker}
+                    />)}
                 </View>
+
+                <View style={css.secondContainer}>
+                    <LineChart
+                        data={BarData2}
+                        height={160}
+                        width={Dimensions.get("screen").width}
+                        noOfSections={2}
+                        maxValue={maxChartValue}
+                        areaChart
+                        startFillColor={colorThemeDB.colors.onPrimary}
+                        showValuesAsDataPointsText
+                        spacing={65}
+                        initialSpacing={25}
+                        color1={colorThemeDB.colors.onPrimary}
+                        textColor1="black"
+                        dataPointsHeight={4}
+                        dataPointsWidth={6}
+                        dataPointsColor1={colorThemeDB.colors.onPrimary}
+                        textShiftY={0}
+                        textShiftX={10}
+                        textFontSize={10}
+                        adjustToWidth={true}
+                        // curved
+                        // showArrow1
+                        onPress={async (item: any) => {
+                            console.log(item);
+                            Snackbar.show({
+                                text: item.label+": "+item.value.toString(),
+                                duration: Snackbar.LENGTH_SHORT,
+                            });
+                        }}
+                    />
+                    {/* <LineChart
+                        data={BarData}
+                        width={Dimensions.get("window").width/100*90}
+                        height={160}
+                        yAxisSuffix=""
+                        yAxisLabel=""
+                        chartConfig={{
+                            backgroundColor: '#1cc910',
+                            backgroundGradientFrom: '#eff3ff',
+                            backgroundGradientTo: '#efefef',
+                            decimalPlaces: 0,
+                            color: (opacity = 1) => `rgba(0, 0, 0, ${opacity})`,
+                            style: {
+                                borderRadius: 16,
+                            },
+                        }}
+                        style={{
+                            marginVertical: 8,
+                            borderRadius: 16, 
+                        }}
+                    /> */}
+                    
+                    <View style={[css.row,{marginTop:5,marginBottom:5}]}>
+                        <Text style={{fontSize:20,fontWeight:'bold',textAlign:"center",fontStyle:"italic"}}>
+                            {route.params.stayPage} Amount: {totalAmount}
+                        </Text>
+                    </View>
+                </View>
+                <FlatList
+                    data={fetchedData}
+                    renderItem={FlatListItem}
+                    keyExtractor={(item) => item.key}
+                />
+                
+            </View>
             )}
-            {/* </KeyboardAvoidWrapper> */}
         </MainContainer>
     );
 }

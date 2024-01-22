@@ -6,11 +6,13 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import MainContainer from '../components/MainContainer';
 import { css, datepickerCSS } from '../objects/commonCSS';
 import RNFetchBlob from 'rn-fetch-blob';
-import { BarData, pickingListData } from '../objects/objects';
+import { BarData, BarData2, pickingListData } from '../objects/objects';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import DateTimePickerModal from 'react-native-modal-datetime-picker';
-import { LineChart } from 'react-native-chart-kit';
+// import { LineChart } from 'react-native-chart-kit';
 import { ImagesAssets } from '../objects/images';
+import { LineChart } from 'react-native-gifted-charts';
+import { colorThemeDB } from '../objects/colors';
 
 const PickingListScreen = () => {
     const getDate = new Date;
@@ -22,7 +24,10 @@ const PickingListScreen = () => {
 
     const [fetchedData, setFetchedData] = useState<pickingListData[]>([]); // Flatlist with Pie
     const [BarData, setBarData] = useState<BarData>({ labels: [], datasets: [{ data: [] }] });
+    const [BarData2, setBarData2] = useState<BarData2[]>([]);
     const [totalAmount, setTotalAmount] = useState<number>(0); // total
+
+    const [maxChartValue, setMaxChartValue] = useState<number>(100);
     
     const [dataProcess, setDataProcess] = useState(false);
     const [expandedItems, setExpandedItems] = useState([]);
@@ -89,10 +94,18 @@ const PickingListScreen = () => {
                     //     }]
                     // }
                 })));
+
+                setBarData2(response.json().barChart.map((item: { goodsIssueCount: any; days: any; }) => ({
+                    label: item.days.slice(0,-3),
+                    value: item.goodsIssueCount,
+                    // textFontSize: 10
+                })));
                 
                 const WeightArray=(response.json().barChart.map((item: { goodsIssueCount: any; }) => item.goodsIssueCount));
                 const MaxWeight = Math.max.apply(Math, WeightArray);
                 const MaxWeight_Rounded = Math.ceil(MaxWeight/5) * 5;
+
+                setMaxChartValue(MaxWeight_Rounded);
 
                 const convertedData: BarData = {
                     labels: response.json().barChart.map((item: { days: any; }) => item.days),
@@ -272,129 +285,113 @@ const PickingListScreen = () => {
 
     return (
         <MainContainer>
-            {/* Set Date */}
-            <View style={css.row}>
-                {showPicker && Platform.OS === 'android' && <DateTimePicker 
-                    mode="date"
-                    display="calendar"
-                    value={getDate}
-                    onChange={onChangeDate}
-                    style={datepickerCSS.datePicker}
-                />}        
-                <Pressable style={css.pressableCSS} onPress={tonggleDatePicker} >
-                    <TextInput
-                        style={datepickerCSS.textInput}
-                        placeholder="Select Date"
-                        value={todayDate.toString().substring(0,10)}
-                        onChangeText={setTodayDate}
-                        placeholderTextColor="#11182744"
-                        editable={false}
-                        onPressIn={tonggleDatePicker}
-                    />
-                </Pressable>
-            </View>    
-
-            {/* End Select Date */}
-            {Platform.OS === "ios" && (<DateTimePickerModal
-                date={selectedIOSDate}
-                isVisible={datePickerVisible}
-                mode="date"
-                display='inline'
-                onConfirm={confirmIOSDate}
-                onCancel={hideIOSDatePicker}
-            />)}
-
             {(dataProcess==true) ? (
                 <View style={[css.container]}>
                     <ActivityIndicator size="large" />
                 </View>
             ) : (
-                <View>
-                    {(fetchedData.length==0 ) ? (
-                        <View style={{alignItems: 'center',justifyContent: 'center'}}>
-                            <Image
-                                source={ImagesAssets.noData}
-                                style={{width: Dimensions.get("window").width/100*80, height: 200}}
+            <View style={{height:Dimensions.get("screen").height/100*83}}>
+                <View style={css.firstContainer}>
+                    <View style={css.row}>
+                        {showPicker && Platform.OS === 'android' && <DateTimePicker 
+                            mode="date"
+                            display="calendar"
+                            value={getDate}
+                            onChange={onChangeDate}
+                            style={datepickerCSS.datePicker}
+                        />}        
+                        <Pressable style={css.pressableCSS} onPress={tonggleDatePicker} >
+                            <TextInput
+                                style={datepickerCSS.textInput}
+                                placeholder="Select Date"
+                                value={todayDate.toString().substring(0,10)}
+                                onChangeText={setTodayDate}
+                                placeholderTextColor="#11182744"
+                                editable={false}
+                                onPressIn={tonggleDatePicker}
                             />
-                            <Text style={{fontSize:16,margin:30}}>Today No data yet</Text>
+                        </Pressable>
+                    </View>    
+
+                    {Platform.OS === "ios" && (<DateTimePickerModal
+                        date={selectedIOSDate}
+                        isVisible={datePickerVisible}
+                        mode="date"
+                        display='inline'
+                        onConfirm={confirmIOSDate}
+                        onCancel={hideIOSDatePicker}
+                    />)}
+                </View>
+
+                <View style={css.secondContainer}>
+                    <LineChart
+                        data={BarData2}
+                        height={160}
+                        width={Dimensions.get("screen").width}
+                        noOfSections={2}
+                        maxValue={maxChartValue}
+                        areaChart
+                        startFillColor={colorThemeDB.colors.onPrimary}
+                        showValuesAsDataPointsText
+                        spacing={65}
+                        initialSpacing={25}
+                        color1={colorThemeDB.colors.onPrimary}
+                        textColor1="black"
+                        dataPointsHeight={4}
+                        dataPointsWidth={6}
+                        dataPointsColor1={colorThemeDB.colors.onPrimary}
+                        textShiftY={0}
+                        textShiftX={10}
+                        textFontSize={10}
+                        adjustToWidth={true}
+                        // curved
+                        // showArrow1
+                        onPress={async (item: any) => {
+                            console.log(item);
+                            Snackbar.show({
+                                text: item.label+": "+item.value.toString(),
+                                duration: Snackbar.LENGTH_SHORT,
+                            });
+                        }}
+                    />
+                    <View style={[css.row,{marginTop:5,marginBottom:5,}]}>
+                        <View style={{width:"80%"}}>
+                            <Text style={{fontSize:20,fontWeight:'bold',textAlign:"center",fontStyle:"italic"}}>
+                                Today Issue Amount: {totalAmount}
+                            </Text>
                         </View>
-                    ) : (
-                    <View>
-                        <View style={{alignItems: 'center',justifyContent: 'center'}}>
-                            <View>
-                            <LineChart
-                                data={BarData}
-                                width={Dimensions.get("window").width/100*90}
-                                height={160}
-                                yAxisSuffix=""
-                                yAxisLabel=""
-                                chartConfig={{
-                                    backgroundColor: '#1cc910',
-                                    backgroundGradientFrom: '#eff3ff',
-                                    backgroundGradientTo: '#efefef',
-                                    decimalPlaces: 0,
-                                    color: (opacity = 1) => `rgba(0, 0, 0, ${opacity})`,
-                                    style: {
-                                        borderRadius: 16,
-                                    },
-                                    propsForLabels:{
-                                        fontFamily:'MontserratBold',
-                                        fontSize:8,
-                                    },
-                                }}
-                                style={{
-                                    marginVertical: 8,
-                                    borderRadius: 16, 
-                                }}
-                                
-                            />
+                        <View style={{width:"20%",alignItems:'flex-start',justifyContent:'center',margin:5}}>
+                            <View style={css.row}>
+                                <View style={[css.circle, { backgroundColor: "red" }]}>
+                                </View>
+                                <Text style={{fontSize:10,fontWeight:'bold',textAlign:"left",fontStyle:"italic"}}>
+                                    Pending
+                                </Text>
                             </View>
-                        </View> 
-                        
-                        <View style={{height:Dimensions.get("screen").height/100*48}}>
-                            <View style={[css.row,{marginTop:5,marginBottom:5,}]}>
-                                <View style={{width:"80%"}}>
-                                    <Text style={{fontSize:20,fontWeight:'bold',textAlign:"center",fontStyle:"italic"}}>
-                                        Today Issue Amount: {totalAmount}
-                                    </Text>
+                            <View style={css.row}>
+                                <View style={[css.circle, { backgroundColor: "yellow" }]}>
                                 </View>
-                                <View style={{width:"20%",alignItems:'flex-start',justifyContent:'center',margin:5}}>
-                                    <View style={css.row}>
-                                        <View style={[css.circle, { backgroundColor: "red" }]}>
-                                        </View>
-                                        <Text style={{fontSize:10,fontWeight:'bold',textAlign:"left",fontStyle:"italic"}}>
-                                            Pending
-                                        </Text>
-                                    </View>
-                                    <View style={css.row}>
-                                        <View style={[css.circle, { backgroundColor: "yellow" }]}>
-                                        </View>
-                                        <Text style={{fontSize:10,fontWeight:'bold',textAlign:"left",fontStyle:"italic"}}>
-                                            Picking
-                                        </Text>
-                                    </View>
-                                    <View style={css.row}>
-                                        <View style={[css.circle, { backgroundColor: "green" }]}>
-                                        </View>
-                                        <Text style={{fontSize:10,fontWeight:'bold',textAlign:"left",fontStyle:"italic"}}>
-                                            Completed
-                                        </Text>
-                                    </View>
-                                </View>
+                                <Text style={{fontSize:10,fontWeight:'bold',textAlign:"left",fontStyle:"italic"}}>
+                                    Picking
+                                </Text>
                             </View>
-                            <View style={{alignItems: 'center',justifyContent: 'center',marginTop:10}}>
-                                <View style={{}}>
-                                    <FlatList
-                                        data={fetchedData}
-                                        renderItem={FlatListItem}
-                                        keyExtractor={(item) => item.key}
-                                    />
+                            <View style={css.row}>
+                                <View style={[css.circle, { backgroundColor: "green" }]}>
                                 </View>
+                                <Text style={{fontSize:10,fontWeight:'bold',textAlign:"left",fontStyle:"italic"}}>
+                                    Completed
+                                </Text>
                             </View>
                         </View>
                     </View>
-                    )}
                 </View>
+                        
+                <FlatList
+                    data={fetchedData}
+                    renderItem={FlatListItem}
+                    keyExtractor={(item) => item.key}
+                />
+            </View>
             )}
         </MainContainer>
     );

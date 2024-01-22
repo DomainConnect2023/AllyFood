@@ -9,62 +9,97 @@ import { ImagesAssets } from '../objects/images';
 import { useAuth } from '../components/Auth_Provider/Auth_Context';
 import RNFetchBlob from 'rn-fetch-blob';
 import Snackbar from 'react-native-snackbar';
+import { URLAccess } from '../objects/URLAccess';
 
 
 export const [isLoginSuccess, setLoginStatus] = useState<String | null>("");
 
-const LoginScreen = () => {
-    const [username, setUserName] = useState('admin');
-    const [password, setPassword] = useState('ALLY123');
+interface ApiResponse{
+    ipAddress:string;
+    isSuccess:string;
+}
 
+const LoginScreen = () => {
+    const [username, setUserName] = useState('');//admin
+    const [password, setPassword] = useState('');//ALLY123
+    
+    // const [packageName,setpackageName]=useState('com.AllyFood');
+    const [branch,setbranch]=useState("192.168.1.");
+    
     const inputRef = React.createRef<TextInput>();
-    const [IPaddress, setIPadress] = useState("192.168.1.168:1234");
+    const [IPaddress, setIPadress] = useState("");
 
     const { setIsSignedIn } = useAuth();
     // const { isSignedIn } = useAuth();
 
+
+    const getIPAdd = async() =>{
+        try{
+            let url =(URLAccess.getIPAddress+"&branch="+branch);
+            
+            let result = await RNFetchBlob.config({trusty:true}).fetch('get',url);
+            let responses: ApiResponse = JSON.parse(result.data);
+            
+            console.log("Login API: "+responses.ipAddress);
+            setIPadress(responses.ipAddress);
+        }
+        catch(error)
+        {
+            console.error(error);
+        }
+    };
+
     useEffect(()=> {
         (async()=> {
-            if (IPaddress.length === 0) {
-                // setIPadress(URLAccess.getLiveSiteIP);
+            setIPadress(URLAccess.getLocalIP);
+            // getIPAdd();
+
+            if (__DEV__) {
+                setUserName("admin");
+                setPassword("ALLY123");
             }
         })();
     }, [])
     
+
+
     const loginAPI = async() => {
-        await AsyncStorage.setItem('IPaddress', IPaddress);
+        await AsyncStorage.setItem('IPaddress', IPaddress),
         await AsyncStorage.setItem('userCode', username);
         await AsyncStorage.setItem('password', password);
-        // setIsSignedIn(true);
-        await RNFetchBlob.config({
-            trusty: true
-        }).fetch('POST', "https://"+IPaddress+"/App/Login",{
-                "Content-Type": "application/json",  
-        }, JSON.stringify({
-                "Code": username as string,
-                "Password": password as string,
-        }),
-        ).then(async (response) => {
-            if(response.json().isSuccess==true){
-                await AsyncStorage.setItem('IPaddress', IPaddress),
-                await AsyncStorage.setItem('userID', response.json().userId.toString()),
-                setUserName("");
-                setPassword("");
-                setIsSignedIn(true);
-            }else{
-                Snackbar.show({
-                    text: response.json().message,
-                    duration: Snackbar.LENGTH_SHORT,
-                });
-            }
-        })
-        .catch(error => {
-            console.log(error.message);
-            Snackbar.show({
-                text: error.message,
-                duration: Snackbar.LENGTH_SHORT,
-            });
-        });
+        setIsSignedIn(true);
+        // await RNFetchBlob.config({
+        //     trusty: true
+        // }).fetch('POST', "https://"+IPaddress+"/App/Login",{
+        //         "Content-Type": "application/json",  
+        // }, JSON.stringify({
+        //         "Code": username as string,
+        //         "Password": password as string,
+                
+        // }),
+        // ).then(async (response) => {
+        //     if(response.json().isSuccess==true){
+        //         await AsyncStorage.setItem('IPaddress', IPaddress),
+        //         await AsyncStorage.setItem('userCode', username);
+        //         await AsyncStorage.setItem('password', password);
+        //         await AsyncStorage.setItem('userID', response.json().userId.toString()),
+        //         setUserName("");
+        //         setPassword("");
+        //         setIsSignedIn(true);
+        //     }else{
+        //         Snackbar.show({
+        //             text: response.json().message,
+        //             duration: Snackbar.LENGTH_SHORT,
+        //         });
+        //     }
+        // })
+        // .catch(error => {
+        //     console.log(error.message);
+        //     Snackbar.show({
+        //         text: error.message,
+        //         duration: Snackbar.LENGTH_SHORT,
+        //     });
+        // });
     };
 
     return (
