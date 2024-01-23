@@ -341,7 +341,7 @@ const DashboardScreen2 = ({route}: {route: any}) => {
                         {showPicker && Platform.OS === 'android' && <DateTimePicker 
                             mode="date"
                             display="calendar"
-                            value={getDate}
+                            value={selectedIOSDate}
                             onChange={onChangeDate}
                             style={datepickerCSS.datePicker}
                         />}        

@@ -13,6 +13,7 @@ import DateTimePickerModal from 'react-native-modal-datetime-picker';
 import { ImagesAssets } from '../objects/images';
 import { LineChart } from 'react-native-gifted-charts';
 import { colorThemeDB } from '../objects/colors';
+import moment from 'moment';
 
 const PickingListScreen = () => {
     const getDate = new Date;
@@ -49,6 +50,7 @@ const PickingListScreen = () => {
             }else{
                 setTodayDate(await AsyncStorage.getItem('setDate') ?? todayDate);
                 fetchDataApi(await AsyncStorage.getItem('setDate'));
+                setSelectedIOSDate(moment.utc(await AsyncStorage.getItem('setDate') ?? todayDate).toDate());
             }
         })();
     }, []);
@@ -255,23 +257,64 @@ const PickingListScreen = () => {
         setShowPicker(false);
         if(type=="set"){
             const currentDate=selectedDate;
-            setSelectedIOSDate(currentDate);
+            setSelectedIOSDate(currentDate); 
+            //If user= admin show january data
             if(Platform.OS==="android"){
-                setTodayDate(currentDate.toISOString().split('T')[0]);
-                await AsyncStorage.setItem('setDate', currentDate.toISOString().split('T')[0]+" 00:00:00");
-                setShowPicker(false);
-                await fetchDataApi(currentDate.toISOString().split('T')[0]);
-            }
+                if(await AsyncStorage.getItem('userCode') == 'admin'){
+                    //The oldest way
+                    let Ddata=currentDate.toISOString().split('T')[0]
+                    let year=Ddata.split('-')[0]
+                    let month=Ddata.split('-')[1]
+                    let day =Ddata.split('-')[2]
+                    year="2024";
+                    month="01";
+                    setTodayDate(currentDate.toISOString().split('T')[0])
+                    await AsyncStorage.setItem('setDate', year+"-"+month+"-"+day);
+                    setShowPicker(false);
+                    await fetchDataApi(year+"-"+month+"-"+day);
+                }
+                else{
+                    setTodayDate(currentDate.toISOString().split('T')[0]);
+                    await AsyncStorage.setItem('setDate', currentDate.toISOString().split('T')[0]+" 00:00:00");
+                    setShowPicker(false);
+                    await fetchDataApi(currentDate.toISOString().split('T')[0]);
+                }
+                // setTodayDate(currentDate.toISOString().split('T')[0]);
+                // await AsyncStorage.setItem('setDate', currentDate.toISOString().split('T')[0]+" 00:00:00");
+                // setShowPicker(false);
+                // await fetchDataApi(currentDate.toISOString().split('T')[0]);
+             }
         }
     } 
 
     const confirmIOSDate = async(date:any) => {
         const currentDate=date;
-        setTodayDate(currentDate.toISOString().split('T')[0]);
-        await AsyncStorage.setItem('setDate', currentDate.toISOString().split('T')[0]+" 00:00:00");
-        setDatePickerVisible(false);
-        await fetchDataApi(currentDate.toISOString().split('T')[0]);
-    }
+        //If user= admin show january data
+        if(await AsyncStorage.getItem('userCode') == 'admin'){
+
+            let Ddata=currentDate.toISOString().split('T')[0]
+            let year=Ddata.split('-')[0]
+            let month=Ddata.split('-')[1]
+            let day =Ddata.split('-')[2]
+            year="2024";
+            month="01";
+            setTodayDate(currentDate.toISOString().split('T')[0])
+            await AsyncStorage.setItem('setDate', year+"-"+month+"-"+day);
+            setDatePickerVisible(false);
+            await fetchDataApi(year+"-"+month+"-"+day);
+        }
+        else{
+            setTodayDate(currentDate.toISOString().split('T')[0]);
+            await AsyncStorage.setItem('setDate', currentDate.toISOString().split('T')[0]+" 00:00:00");
+            setDatePickerVisible(false);
+            await fetchDataApi(currentDate.toISOString().split('T')[0]);
+        }
+        
+        // setTodayDate(currentDate.toISOString().split('T')[0]);
+        // await AsyncStorage.setItem('setDate', currentDate.toISOString().split('T')[0]+" 00:00:00");
+        // setDatePickerVisible(false);
+        // await fetchDataApi(currentDate.toISOString().split('T')[0]);
+   }
 
     const tonggleDatePicker = () => {
         if (Platform.OS === 'android') {
@@ -296,7 +339,7 @@ const PickingListScreen = () => {
                         {showPicker && Platform.OS === 'android' && <DateTimePicker 
                             mode="date"
                             display="calendar"
-                            value={getDate}
+                            value={selectedIOSDate}
                             onChange={onChangeDate}
                             style={datepickerCSS.datePicker}
                         />}        

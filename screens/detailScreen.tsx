@@ -160,7 +160,7 @@ const DetailScreen = () => {
                 {showPicker && Platform.OS === 'android' && <DateTimePicker 
                     mode="date"
                     display="calendar"
-                    value={getDate}
+                    value={selectedIOSDate}
                     onChange={onChangeDate}
                     style={datepickerCSS.datePicker}
                 />}        
