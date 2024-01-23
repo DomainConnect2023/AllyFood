@@ -98,7 +98,6 @@ const DashboardScreen = ({route}: {route: any}) => {
         setDataProcess(true);
         var getIPaddress=await AsyncStorage.getItem('IPaddress');
         var runDate=todayDate.split(' ')[0];
-        console.log("today date "+ todayDate);
         let setURL
 
         if(type=="Receiving"){
@@ -140,7 +139,7 @@ const DashboardScreen = ({route}: {route: any}) => {
 
                 const WeightArray=(response.json().barChart.map(type == "Overall" ? (item: { overallAmount: any; }) => item.overallAmount : (item: { handlingChargesAmount: any; }) => item.handlingChargesAmount));
                 const MaxWeight = Math.max.apply(Math, WeightArray);
-                const MaxWeight_Rounded = Math.ceil(MaxWeight/100) * 100;
+                const MaxWeight_Rounded = Math.ceil(MaxWeight/10) * 10;
                 setMaxChartValue(MaxWeight_Rounded);
 
                 const convertedData: BarData = {

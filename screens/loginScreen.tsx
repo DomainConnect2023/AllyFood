@@ -23,8 +23,8 @@ const LoginScreen = () => {
     const [username, setUserName] = useState('');//admin
     const [password, setPassword] = useState('');//ALLY123
     
-    // const [packageName,setpackageName]=useState('com.AllyFood');
-    const [branch,setbranch]=useState("192.168.1.");
+    const [packageName,setpackageName]=useState('com.AllyFood');
+    const [branch,setbranch]=useState("");
     
     const inputRef = React.createRef<TextInput>();
     const [IPaddress, setIPadress] = useState("");
@@ -51,8 +51,8 @@ const LoginScreen = () => {
 
     useEffect(()=> {
         (async()=> {
-            setIPadress(URLAccess.getLocalIP);
-            // getIPAdd();
+            // setIPadress(URLAccess.getLocalIP);
+            getIPAdd();
 
             if (__DEV__) {
                 setUserName("admin");
@@ -64,42 +64,42 @@ const LoginScreen = () => {
 
 
     const loginAPI = async() => {
-        await AsyncStorage.setItem('IPaddress', IPaddress),
-        await AsyncStorage.setItem('userCode', username);
-        await AsyncStorage.setItem('password', password);
-        setIsSignedIn(true);
-        // await RNFetchBlob.config({
-        //     trusty: true
-        // }).fetch('POST', "https://"+IPaddress+"/App/Login",{
-        //         "Content-Type": "application/json",  
-        // }, JSON.stringify({
-        //         "Code": username as string,
-        //         "Password": password as string,
+        // await AsyncStorage.setItem('IPaddress', IPaddress),
+        // await AsyncStorage.setItem('userCode', username);
+        // await AsyncStorage.setItem('password', password);
+        // setIsSignedIn(true);
+        await RNFetchBlob.config({
+            trusty: true
+        }).fetch('POST', "https://"+IPaddress+"/App/Login",{
+                "Content-Type": "application/json",  
+        }, JSON.stringify({
+                "Code": username as string,
+                "Password": password as string,
                 
-        // }),
-        // ).then(async (response) => {
-        //     if(response.json().isSuccess==true){
-        //         await AsyncStorage.setItem('IPaddress', IPaddress),
-        //         await AsyncStorage.setItem('userCode', username);
-        //         await AsyncStorage.setItem('password', password);
-        //         await AsyncStorage.setItem('userID', response.json().userId.toString()),
-        //         setUserName("");
-        //         setPassword("");
-        //         setIsSignedIn(true);
-        //     }else{
-        //         Snackbar.show({
-        //             text: response.json().message,
-        //             duration: Snackbar.LENGTH_SHORT,
-        //         });
-        //     }
-        // })
-        // .catch(error => {
-        //     console.log(error.message);
-        //     Snackbar.show({
-        //         text: error.message,
-        //         duration: Snackbar.LENGTH_SHORT,
-        //     });
-        // });
+        }),
+        ).then(async (response) => {
+            if(response.json().isSuccess==true){
+                await AsyncStorage.setItem('IPaddress', IPaddress),
+                await AsyncStorage.setItem('userCode', username);
+                await AsyncStorage.setItem('password', password);
+                await AsyncStorage.setItem('userID', response.json().userId.toString()),
+                setUserName("");
+                setPassword("");
+                setIsSignedIn(true);
+            }else{
+                Snackbar.show({
+                    text: response.json().message,
+                    duration: Snackbar.LENGTH_SHORT,
+                });
+            }
+        })
+        .catch(error => {
+            console.log(error.message);
+            Snackbar.show({
+                text: error.message,
+                duration: Snackbar.LENGTH_SHORT,
+            });
+        });
     };
 
     return (

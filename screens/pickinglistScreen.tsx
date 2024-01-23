@@ -13,8 +13,12 @@ import DateTimePickerModal from 'react-native-modal-datetime-picker';
 import { ImagesAssets } from '../objects/images';
 import { LineChart } from 'react-native-gifted-charts';
 import { colorThemeDB } from '../objects/colors';
+import DetailPickingListScreen from './detailPickingList';
+import { useFocusEffect, useNavigation } from '@react-navigation/native';
 
 const PickingListScreen = () => {
+    const navigation = useNavigation();
+    
     const getDate = new Date;
     const [todayDate, setTodayDate] = useState<string | "">(getDate.toISOString().split('T')[0]+" 00:00:00");
 
@@ -42,28 +46,35 @@ const PickingListScreen = () => {
     useEffect(()=> {
         (async()=> {
             setFetchedData([]);
+            setBarData2([]);
             setBarData({ labels: [], datasets: [{ data: [] }] });
             if(await AsyncStorage.getItem('setDate')==null){
                 setTodayDate(await AsyncStorage.getItem('setDate') ?? todayDate);
-                fetchDataApi(todayDate);
+                
             }else{
                 setTodayDate(await AsyncStorage.getItem('setDate') ?? todayDate);
-                fetchDataApi(await AsyncStorage.getItem('setDate'));
             }
+            fetchDataApi();
         })();
     }, []);
 
-    const fetchDataApi = async(todayDate: any) => {
+    useFocusEffect(
+        React.useCallback(() => {
+            fetchDataApi();       
+        }, [])
+    );
+
+    const fetchDataApi = async() => {
         setDataProcess(true);
         
         var getIPaddress=await AsyncStorage.getItem('IPaddress');
+        var todayDate=await AsyncStorage.getItem('setDate');
 
         await RNFetchBlob.config({
             trusty: true,
         }).fetch('GET', "https://"+getIPaddress+"/App/GetPickingList?todayDate="+todayDate,{
             "Content-Type": "application/json",
         }).then(async (response) => {
-            // console.log(response.json());
             if(await response.json().isSuccess==true){
                 setFetchedData(response.json().customerData.map((item: { 
                     customerId: string; 
@@ -82,17 +93,6 @@ const PickingListScreen = () => {
                     isDonePicking: item.isDonePicking,
 
                     datasets: [],
-                    // {
-                    //     productCode: "",
-                    //     productName: "",
-                    //     toPickCartonQuantity: 0,
-                    //     toPickPalletQuantity: 0,
-                    //     locationStockBalances: [{
-                    //         locationDescription: "",
-                    //         cartonBalance: 0,
-                    //         palletBalance: 0,
-                    //     }]
-                    // }
                 })));
 
                 setBarData2(response.json().barChart.map((item: { goodsIssueCount: any; days: any; }) => ({
@@ -134,51 +134,14 @@ const PickingListScreen = () => {
         setDataProcess(false);
     }
 
-    const fetchDetailApi = async(goodsID: any) => {
-        setFetchedData((prevData) =>
-            prevData.map((item) =>
-            item.key === goodsID ? { ...item, datasets: [] } : item
-            )
-        );
-
-        var getIPaddress=await AsyncStorage.getItem('IPaddress');
-
-        await RNFetchBlob.config({
-            trusty: true,
-        }).fetch('GET', "https://"+getIPaddress+"/App/GetPickingListDetail?goodsIssueId="+goodsID,{
-            "Content-Type": "application/json",
-        }).then(async (response) => {
-            // console.log(response.json());
-            if(await response.json().isSuccess==true){
-
-                setFetchedData((prevData) =>
-                    prevData.map((item) =>
-                        item.key === goodsID ? { ...item, datasets: [...item.datasets, ...response.json().pickingListTable] } : item
-                    )
-                );
-            }else{
-                // console.log(response.json().message);
-                Snackbar.show({
-                    text: response.json().message,
-                    duration: Snackbar.LENGTH_SHORT,
-                });
-            }
-        }).catch(error => {
-            console.error(error.message);
-        });
-    }
-
     const FlatListItem = ({ item }: { item: pickingListData }) => {
         return (
             <TouchableOpacity onPress={async () => {
+                // console.log(todayDate.split(' ')[0]);
+                await AsyncStorage.setItem('goodsID', item.key.toString());
+                await AsyncStorage.setItem('setDate', todayDate.split(' ')[0]);
 
-                if (expandedItems.includes(item.key as never)) {
-                    //reset
-                    
-                } else {
-                    await fetchDetailApi(item.key);
-                }
-                toggleItem(item.key);
+                navigation.navigate(DetailPickingListScreen as never);
             }}>
                 <View style={[css.listItem,{padding:5}]} key={parseInt(item.key)}>
                     <View style={[css.cardBody]}>
@@ -216,38 +179,11 @@ const PickingListScreen = () => {
                                 </View>
                             </View>
                         </View>
-                        {expandedItems.includes(item.key as never) && (
-                            <View>
-                                {item.datasets.map((balance, balanceIndex) => (
-                                    <View key={balanceIndex}>
-                                        <View style={{ flex: 1, alignSelf: 'stretch', flexDirection: 'row', borderWidth: 1, margin:5 }}>
-                                            <View style={{ width: "30%", flex: 1, alignSelf: 'stretch', borderWidth: 1}}>
-                                                <Text>{balance.productName}</Text>
-                                            </View>
-                                            <View style={{ width: "30%", flex: 1, alignSelf: 'stretch', borderWidth: 1}}>
-                                                <Text>{balance.toPickCartonQuantity.toString()}</Text>
-                                            </View>
-                                            <View style={{ width: "30%", flex: 1, alignSelf: 'stretch', borderWidth: 1}}>
-                                                <Text>{balance.toPickPalletQuantity.toString()}</Text>
-                                            </View>
-                                        </View>
-                                    </View>
-                                ))}
-                            </View>
-                        )}
                     </View>
                 </View>
                 
             </TouchableOpacity>
         );
-    };
-
-    const toggleItem = (itemId: any) => {
-        if (expandedItems.includes(itemId as never)) {
-          setExpandedItems(expandedItems.filter((id) => id !== itemId));
-        } else {
-          setExpandedItems([...expandedItems, itemId as never]);
-        }
     };
 
     // Date Picker
@@ -260,7 +196,7 @@ const PickingListScreen = () => {
                 setTodayDate(currentDate.toISOString().split('T')[0]);
                 await AsyncStorage.setItem('setDate', currentDate.toISOString().split('T')[0]+" 00:00:00");
                 setShowPicker(false);
-                await fetchDataApi(currentDate.toISOString().split('T')[0]);
+                await fetchDataApi();
             }
         }
     } 
@@ -270,7 +206,7 @@ const PickingListScreen = () => {
         setTodayDate(currentDate.toISOString().split('T')[0]);
         await AsyncStorage.setItem('setDate', currentDate.toISOString().split('T')[0]+" 00:00:00");
         setDatePickerVisible(false);
-        await fetchDataApi(currentDate.toISOString().split('T')[0]);
+        await fetchDataApi();
     }
 
     const tonggleDatePicker = () => {

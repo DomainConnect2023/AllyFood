@@ -10,7 +10,7 @@ export const css = StyleSheet.create({
     },
     mainView:{
         width: '100%',
-        height: 60, 
+        height: Dimensions.get("screen").height/100*8, 
         flexDirection: 'row',
         alignItems: 'center', 
         backgroundColor: colorThemeDB.colors.onPrimary,
@@ -169,6 +169,11 @@ export const css = StyleSheet.create({
     },
     secondContainer: {
         height: '40%',
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+    detailContainer: {
+        height: '30%',
         justifyContent: 'center',
         alignItems: 'center',
     },

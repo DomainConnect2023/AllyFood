@@ -45,6 +45,18 @@ export interface pickingListData {
     }[];
 }
 
+export interface pickingListDetail {
+    key: string;
+    productName: string;
+    toPickCartonQuantity: number;
+    toPickPalletQuantity: number;
+    locationStockBalances: {
+        locationDescription: string;
+        cartonBalance: number;
+        palletBalance: number;
+    }[];
+}
+
 export interface PieData {
     name: string;
     value: number;
@@ -73,7 +85,7 @@ export const CircleColorText = ( {color}: {color: string} ) => {
         <Text style={css.text}></Text>
       </View>
     );
-};
+}
 
 export function currencyFormat(num: number) {
     return num.toFixed(0).replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')
