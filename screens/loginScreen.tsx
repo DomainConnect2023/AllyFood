@@ -82,6 +82,8 @@ const LoginScreen = () => {
                 await AsyncStorage.setItem('IPaddress', IPaddress),
                 await AsyncStorage.setItem('userCode', username);
                 await AsyncStorage.setItem('password', password);
+                await AsyncStorage.setItem('setDate', todayDate);
+
                 await AsyncStorage.setItem('userID', response.json().userId.toString()),
                 setUserName("");
                 setPassword("");
