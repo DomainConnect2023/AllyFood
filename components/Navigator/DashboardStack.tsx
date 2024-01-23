@@ -26,6 +26,7 @@ import DetailPickingListScreen from '../../screens/detailPickingList';
 
   
   export function DashboardStack() {
+    
     return (
       <Stack.Navigator initialRouteName="CustomDrawer" screenOptions={{headerShown: false}}>
       <Stack.Screen name = "CustomDrawer" component={CustomDrawer}/>
