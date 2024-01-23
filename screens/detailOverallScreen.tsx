@@ -18,11 +18,8 @@ const DetailOverallScreen = () => {
 
     const getDate = new Date;
     const [todayDate, setTodayDate] = useState<string | "">(getDate.toISOString().split('T')[0]+" 00:00:00"); // for API
-    const [showPicker, setShowPicker] = useState(false);
-    const [selectedIOSDate, setSelectedIOSDate] = useState(new Date());
 
     // data information
-    const [isSuccess, setIsSuccess] = useState(true);
     const [type, setType] = useState<string | null>("Overall");
     const [customerName, setCustomerName] = useState<string | null>("");
     const [customerCode, setCustomerCode] = useState<string | null>("");
@@ -33,12 +30,6 @@ const DetailOverallScreen = () => {
 
     const [dataProcess, setDataProcess] = useState(false); // check when loading data
 
-    // IOS Date picker modal setup
-    const [datePickerVisible, setDatePickerVisible] = useState(false);
-    const hideIOSDatePicker = () => {
-        setDatePickerVisible(false);
-    };
-
     useEffect(()=> {
         (async()=> {
             setDataProcess(true);
@@ -47,39 +38,6 @@ const DetailOverallScreen = () => {
             await fetchDataApi(await AsyncStorage.getItem('setDate'), await AsyncStorage.getItem('type'));
         })();
     }, [])
-
-    // Date Picker
-    const onChangeDate = async ({type}: any, selectedDate: any) => {
-        if(type=="set"){
-            const currentDate=selectedDate;
-            setSelectedIOSDate(currentDate);
-            if(Platform.OS==="android"){
-                tonggleDatePicker();
-                setTodayDate(currentDate);
-                setShowPicker(false);
-                await fetchDataApi(currentDate, type);
-            }
-        }else{
-            tonggleDatePicker();
-        }
-    }
-
-    const confirmIOSDate = async(date:any) => {
-        const currentDate=date;
-        setTodayDate(currentDate.toISOString().split('T')[0]);
-        // tonggleDatePicker();
-        setDatePickerVisible(false);
-        await fetchDataApi(currentDate.toISOString().split('T')[0], type);
-    }
-    const tonggleDatePicker = () => {
-        if (Platform.OS === 'android') {
-            setShowPicker(!showPicker);
-        }
-        else if (Platform.OS === 'ios') {
-            setDatePickerVisible(true);
-        }
-    }
-    // End Date Picker
 
     const fetchDataApi = async(theDate: any, type: any) => {
         var getIPaddress=await AsyncStorage.getItem('IPaddress');
@@ -103,10 +61,7 @@ const DetailOverallScreen = () => {
                 setTotalGoodsReceivingCharges(response.json().totalGoodsReceivingCharges);
                 setOverallTotal(response.json().overallTotal);
                 setTotalRental(response.json().totalRental);
-                
-                setIsSuccess(true);
             }else{
-                setIsSuccess(false);
                 console.log(response.json().message);
                 Snackbar.show({
                     text: response.json().message,
@@ -140,81 +95,41 @@ const DetailOverallScreen = () => {
                     <Text numberOfLines={2} style={css.PageName}> {type} - {customerName}</Text>
                 </View>
             </View>
-
-            {/* Set Date */}
-            <View style={css.row}>
-                {showPicker && Platform.OS === 'android' && <DateTimePicker 
-                    mode="date"
-                    display="calendar"
-                    value={selectedIOSDate}
-                    onChange={onChangeDate}
-                    style={datepickerCSS.datePicker}
-                />}        
-                <Pressable style={css.pressableCSS} onPress={tonggleDatePicker} >
-                    <TextInput
-                        style={datepickerCSS.textInput}
-                        placeholder="Select Date"
-                        value={todayDate.toString().substring(0,10)}
-                        onChangeText={setTodayDate}
-                        placeholderTextColor="#11182744"
-                        editable={false}
-                        onPressIn={tonggleDatePicker}
-                    />
-                </Pressable>
-            </View>    
-
-            {/* End Select Date */}
-            {Platform.OS === "ios" && (<DateTimePickerModal
-                date={selectedIOSDate}
-                isVisible={datePickerVisible}
-                mode="date"
-                display='inline'
-                onConfirm={confirmIOSDate}
-                onCancel={hideIOSDatePicker}
-            />)}
-
+            
             {dataProcess== true ? (
             <View style={[css.container]}>
                 <ActivityIndicator size="large" />
             </View>
             ) : (
                 <View>
-                    {isSuccess==false ? (
-                        <View style={{alignItems: 'center',justifyContent: 'center'}}>
-                            <Image
-                                source={ImagesAssets.noData}
-                                style={{width: Dimensions.get("window").width/100*80, height: 200}}
-                            />
-                            <Text style={{fontSize:16,margin:30}}>Today No data yet</Text>
-                        </View>
-                    ) : (
-                    <View>
-                        <View style={css.row}>
-                            <Text style={css.Title}>Customer Name:</Text>
-                            <TouchableOpacity style={[css.subTitle]} onPress={async () => {
-                                console.log(customerCode);
-                            }}>
-                                <Text style={css.subTitle}>{customerName}</Text>
-                            </TouchableOpacity>
-                        </View>
-                        <View style={css.row}>
-                            <Text style={css.Title}>Total Rental:</Text>
-                            <Text style={css.subTitle}>{totalRental}</Text>
-                        </View>
-                        <View style={css.row}>
-                            <Text style={css.Title}>Total Goods Receiving Charges:</Text>
-                            <Text style={css.subTitle}>{totalGoodsReceivingCharges}</Text>
-                        </View>
-                        <View style={css.row}>
-                            <Text style={css.Title}>Total Goods Issue Charges:</Text>
-                            <Text style={css.subTitle}>{totalGoodsIssueCharges}</Text>
-                        </View>
-                        <View style={css.row}>
-                            <Text style={css.Title}>Overall Total:</Text>
-                            <Text style={css.subTitle}>{overallTotal}</Text>
-                        </View>
+                    <View style={css.row}>
+                        <Text style={css.Title}>Date:</Text>
+                        <Text style={css.subTitle}>{todayDate.toString().substring(0,10)}</Text>
+                    </View>    
+                    <View style={css.row}>
+                        <Text style={css.Title}>Customer Name:</Text>
+                        <TouchableOpacity style={[css.subTitle]} onPress={async () => {
+                            console.log(customerCode);
+                        }}>
+                            <Text style={css.subTitle}>{customerName}</Text>
+                        </TouchableOpacity>
                     </View>
-                    )}
+                    <View style={css.row}>
+                        <Text style={css.Title}>Total Rental:</Text>
+                        <Text style={css.subTitle}>{totalRental}</Text>
+                    </View>
+                    <View style={css.row}>
+                        <Text style={css.Title}>Total Goods Receiving Charges:</Text>
+                        <Text style={css.subTitle}>{totalGoodsReceivingCharges}</Text>
+                    </View>
+                    <View style={css.row}>
+                        <Text style={css.Title}>Total Goods Issue Charges:</Text>
+                        <Text style={css.subTitle}>{totalGoodsIssueCharges}</Text>
+                    </View>
+                    <View style={css.row}>
+                        <Text style={css.Title}>Overall Total:</Text>
+                        <Text style={css.subTitle}>{overallTotal}</Text>
+                    </View>
                 </View>
             )}
             </KeyboardAvoidWrapper>
