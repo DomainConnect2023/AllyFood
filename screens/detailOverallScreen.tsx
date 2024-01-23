@@ -64,8 +64,8 @@ const DetailOverallScreen = () => {
         }
     }
 
-    const confirmIOSDate = async() => {
-        const currentDate=selectedIOSDate;
+    const confirmIOSDate = async(date:any) => {
+        const currentDate=date;
         setTodayDate(currentDate.toISOString().split('T')[0]);
         // tonggleDatePicker();
         setDatePickerVisible(false);
@@ -146,7 +146,7 @@ const DetailOverallScreen = () => {
                 {showPicker && Platform.OS === 'android' && <DateTimePicker 
                     mode="date"
                     display="calendar"
-                    value={getDate}
+                    value={selectedIOSDate}
                     onChange={onChangeDate}
                     style={datepickerCSS.datePicker}
                 />}        

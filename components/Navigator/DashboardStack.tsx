@@ -18,6 +18,7 @@ import SearchReport from '../../screens/searchReport';
 import SearchReportScreen from '../../screens/searchReportScreen';
 import DetailOverallScreen from '../../screens/detailOverallScreen';
 import PickingListScreen from '../../screens/pickinglistScreen';
+import DetailPickingListScreen from '../../screens/detailPickingList';
 
   const Drawer = createDrawerNavigator();
 
@@ -25,6 +26,7 @@ import PickingListScreen from '../../screens/pickinglistScreen';
 
   
   export function DashboardStack() {
+    
     return (
       <Stack.Navigator initialRouteName="CustomDrawer" screenOptions={{headerShown: false}}>
       <Stack.Screen name = "CustomDrawer" component={CustomDrawer}/>
@@ -40,6 +42,7 @@ import PickingListScreen from '../../screens/pickinglistScreen';
       <Stack.Screen name="PickingList" component={PickingListScreen} />
       <Stack.Screen name="SearchReport" component={SearchReport} />
       <Stack.Screen name="SearchReportScreen" component={SearchReportScreen} />
+      <Stack.Screen name="DetailPickingListScreen" component={DetailPickingListScreen} />
     </Stack.Navigator>
     );
   }

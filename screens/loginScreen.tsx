@@ -1,20 +1,15 @@
-import React, { useContext, useEffect, useState } from 'react';
-import { Alert, Image, PermissionsAndroid, Platform, Pressable } from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { Image, Pressable } from 'react-native';
 import { View, Text, TextInput, StyleSheet } from 'react-native';
 import KeyboardAvoidWrapper from '../components/KeyboardAvoidWrapper';
 import MainContainer from '../components/MainContainer';
-import { useNavigation } from '@react-navigation/native';
-import TabNavigation from './TabNavigation';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import axios from 'axios';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import { ImagesAssets } from '../objects/images';
+import { useAuth } from '../components/Auth_Provider/Auth_Context';
+import RNFetchBlob from 'rn-fetch-blob';
 import Snackbar from 'react-native-snackbar';
 import { URLAccess } from '../objects/URLAccess';
-import { ImagesAssets } from '../objects/images';
-import { Dropdown } from 'react-native-searchable-dropdown-kj';
-import RNFetchBlob from 'rn-fetch-blob';
-import { useAuth } from '../components/Auth_Provider/Auth_Context';
-import { PERMISSIONS, request } from 'react-native-permissions';
 
 
 export const [isLoginSuccess, setLoginStatus] = useState<String | null>("");
@@ -27,8 +22,8 @@ interface ApiResponse{
 const LoginScreen = () => {
     const [username, setUserName] = useState('');//admin
     const [password, setPassword] = useState('');//ALLY123
-    
-    // const [packageName,setpackageName]=useState('com.AllyFood');
+    const [todayDate, setTodayDate] = useState<string | "">(new Date().toISOString().split('T')[0]+" 00:00:00");
+
     const [branch,setbranch]=useState("");
     
     const inputRef = React.createRef<TextInput>();
@@ -52,16 +47,13 @@ const LoginScreen = () => {
         {
             console.error(error);
         }
-
-        
     };
 
     useEffect(()=> {
         (async()=> {
+            // setIPadress(URLAccess.getLocalIP);
             getIPAdd();
-            // if (IPaddress.length === 0) {
-            //     // setIPadress(URLAccess.getLiveSiteIP);
-            // }
+
             if (__DEV__) {
                 setUserName("admin");
                 setPassword("ALLY123");
@@ -72,9 +64,9 @@ const LoginScreen = () => {
 
 
     const loginAPI = async() => {
-        await AsyncStorage.setItem('IPaddress', IPaddress);
-        await AsyncStorage.setItem('userCode', username);
-        await AsyncStorage.setItem('password', password);
+        // await AsyncStorage.setItem('IPaddress', IPaddress),
+        // await AsyncStorage.setItem('userCode', username);
+        // await AsyncStorage.setItem('password', password);
         // setIsSignedIn(true);
         await RNFetchBlob.config({
             trusty: true
@@ -87,8 +79,10 @@ const LoginScreen = () => {
         }),
         ).then(async (response) => {
             if(response.json().isSuccess==true){
-                console.log("logged in")
                 await AsyncStorage.setItem('IPaddress', IPaddress),
+                await AsyncStorage.setItem('userCode', username);
+                await AsyncStorage.setItem('password', password);
+                await AsyncStorage.setItem('setDate' ,todayDate);
                 await AsyncStorage.setItem('userID', response.json().userId.toString()),
                 setUserName("");
                 setPassword("");
