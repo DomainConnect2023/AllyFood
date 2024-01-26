@@ -49,7 +49,6 @@ const DashboardScreen = ({route}: {route: any}) => {
     // END IOS Date Picker modal setup
 
 
-
     useEffect(()=> { // when starting the page
         (async()=> {
             setFetchedData([]);
@@ -63,8 +62,6 @@ const DashboardScreen = ({route}: {route: any}) => {
                 setSelectedIOSDate(moment.utc(await AsyncStorage.getItem('setDate') ?? todayDate).toDate());
                 
             }
-            
-
         })();
     }, []);
 
@@ -83,11 +80,9 @@ const DashboardScreen = ({route}: {route: any}) => {
                 if(await AsyncStorage.getItem('userCode') == 'admin'){
                     
                     let Ddata=currentDate.toISOString().split('T')[0]
-                    let year=Ddata.split('-')[0]
-                    let month=Ddata.split('-')[1]
                     let day =Ddata.split('-')[2]
-                    year="2024";
-                    month="01";
+                    let year="2024";
+                    let month="01";
                     setTodayDate(currentDate.toISOString().split('T')[0])
                     await AsyncStorage.setItem('setDate', year+"-"+month+"-"+day);
                     setShowPicker(false);
@@ -100,10 +95,6 @@ const DashboardScreen = ({route}: {route: any}) => {
                     setShowPicker(false);
                     await fetchDataApi(route.params.stayPage,currentDate.toISOString().split('T')[0]);
                 }
-                // setTodayDate(currentDate.toISOString().split('T')[0]);
-                // await AsyncStorage.setItem('setDate', currentDate.toISOString().split('T')[0]+" 00:00:00");
-                // setShowPicker(false);
-                // await fetchDataApi(route.params.stayPage,currentDate.toISOString().split('T')[0]);
             }
         }
     }  
@@ -114,11 +105,9 @@ const DashboardScreen = ({route}: {route: any}) => {
         //If user= admin show january data
         if(await AsyncStorage.getItem('userCode') == 'admin'){
             let Ddata=currentDate.toISOString().split('T')[0]
-            let year=Ddata.split('-')[0]
-            let month=Ddata.split('-')[1]
             let day =Ddata.split('-')[2]
-            year="2024";
-            month="01";
+            let year="2024";
+            let month="01";
             setTodayDate(currentDate.toISOString().split('T')[0])
             await AsyncStorage.setItem('setDate', year+"-"+month+"-"+day);
             setDatePickerVisible(false);
@@ -250,13 +239,13 @@ const DashboardScreen = ({route}: {route: any}) => {
                                     <ProgressBar
                                         style={{width:200, height: 10}}
                                         progress={0}
-                                        color={colorThemeDB.colors.onPrimary}
+                                        color={colorThemeDB.colors.primary}
                                     />
                                 ) : (
                                     <ProgressBar
                                         style={{width:200, height: 10}}
                                         progress={Math.round(parseInt(item.amount)/totalAmount*100)/100}
-                                        color={colorThemeDB.colors.onPrimary}
+                                        color={colorThemeDB.colors.primary}
                                     />
                                 )}
                                 <Text style={[css.textDescription,{textAlign:"center"}]}>
@@ -322,15 +311,15 @@ const DashboardScreen = ({route}: {route: any}) => {
                         noOfSections={2}
                         maxValue={maxChartValue}
                         areaChart
-                        startFillColor={colorThemeDB.colors.onPrimary}
+                        startFillColor={colorThemeDB.colors.primary}
                         showValuesAsDataPointsText
                         spacing={65}
                         initialSpacing={25}
-                        color1={colorThemeDB.colors.onPrimary}
+                        color1={colorThemeDB.colors.primary}
                         textColor1="black"
                         dataPointsHeight={4}
                         dataPointsWidth={6}
-                        dataPointsColor1={colorThemeDB.colors.onPrimary}
+                        dataPointsColor1={colorThemeDB.colors.primary}
                         textShiftY={0}
                         textShiftX={10}
                         textFontSize={10}
@@ -345,28 +334,6 @@ const DashboardScreen = ({route}: {route: any}) => {
                             });
                         }}
                     />
-                    {/* <LineChart
-                        data={BarData}
-                        width={Dimensions.get("window").width/100*90}
-                        height={160}
-                        yAxisSuffix=""
-                        yAxisLabel=""
-                        chartConfig={{
-                            backgroundColor: '#1cc910',
-                            backgroundGradientFrom: '#eff3ff',
-                            backgroundGradientTo: '#efefef',
-                            decimalPlaces: 0,
-                            color: (opacity = 1) => `rgba(0, 0, 0, ${opacity})`,
-                            style: {
-                                borderRadius: 16,
-                            },
-                        }}
-                        style={{
-                            marginVertical: 8,
-                            borderRadius: 16, 
-                        }}
-                    /> */}
-                    
                     <View style={[css.row,{marginTop:5,marginBottom:5}]}>
                         <Text style={{fontSize:20,fontWeight:'bold',textAlign:"center",fontStyle:"italic"}}>
                             {route.params.stayPage} Amount: {totalAmount}

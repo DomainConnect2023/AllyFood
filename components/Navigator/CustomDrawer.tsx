@@ -23,7 +23,7 @@ export function CustomDrawer() {
     <Drawer.Navigator initialRouteName="Dashboard" screenOptions={{
       headerShown: true,
       headerStyle: {
-        backgroundColor: colorThemeDB.colors.onPrimary,
+        backgroundColor: colorThemeDB.colors.primary,
       },
       headerTitleStyle: {color: "#FFF"},
       headerTintColor: '#fff', 

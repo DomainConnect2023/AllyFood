@@ -13,7 +13,7 @@ export const css = StyleSheet.create({
         height: Dimensions.get("screen").height/100*8, 
         flexDirection: 'row',
         alignItems: 'center', 
-        backgroundColor: colorThemeDB.colors.onPrimary,
+        backgroundColor: colorThemeDB.colors.primary,
     },
     HeaderView :{
         flex: 1, 
@@ -31,7 +31,7 @@ export const css = StyleSheet.create({
     listThing: {
         width: 30,
         height: 40, 
-        backgroundColor: colorThemeDB.colors.onPrimary, 
+        backgroundColor: colorThemeDB.colors.primary, 
         justifyContent: 'center', 
         alignItems: 'center',
         borderRadius: 20,

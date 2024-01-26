@@ -307,15 +307,15 @@ const PickingListScreen = () => {
                         noOfSections={2}
                         maxValue={maxChartValue}
                         areaChart
-                        startFillColor={colorThemeDB.colors.onPrimary}
+                        startFillColor={colorThemeDB.colors.primary}
                         showValuesAsDataPointsText
                         spacing={65}
                         initialSpacing={25}
-                        color1={colorThemeDB.colors.onPrimary}
+                        color1={colorThemeDB.colors.primary}
                         textColor1="black"
                         dataPointsHeight={4}
                         dataPointsWidth={6}
-                        dataPointsColor1={colorThemeDB.colors.onPrimary}
+                        dataPointsColor1={colorThemeDB.colors.primary}
                         textShiftY={0}
                         textShiftX={10}
                         textFontSize={10}
