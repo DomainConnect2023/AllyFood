@@ -223,6 +223,7 @@ const PickingListScreen = () => {
 
     const confirmIOSDate = async(date:any) => {
         const currentDate=date;
+        setSelectedIOSDate(date);
         //If user= admin show january data
         if(await AsyncStorage.getItem('userCode') == 'admin'){
 
