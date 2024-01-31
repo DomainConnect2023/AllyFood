@@ -1,18 +1,14 @@
 import * as React from 'react';
-import { View, Text, TouchableOpacity, ActivityIndicator, Platform, TextInput, Pressable, Image, Dimensions, FlatList } from "react-native";
+import { View, Text, ActivityIndicator, Dimensions, FlatList } from "react-native";
 import MainContainer from '../components/MainContainer';
 import { useEffect, useState } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { useNavigation } from '@react-navigation/native';
 import Snackbar from 'react-native-snackbar';
-import KeyboardAvoidWrapper from '../components/KeyboardAvoidWrapper';
-import { css, datepickerCSS } from '../objects/commonCSS';
-import DateTimePicker from '@react-native-community/datetimepicker';
-import DateTimePickerModal from 'react-native-modal-datetime-picker';
+import { css } from '../objects/commonCSS';
 import RNFetchBlob from 'rn-fetch-blob';
-import { ImagesAssets } from '../objects/images';
-import { previousBillingData, setNumberFormat2, showData } from '../objects/objects';
+import { previousBillingData, setNumberFormat2 } from '../objects/objects';
 
 const DetailPreviousBillingScreen = () => {
     const navigation = useNavigation();

@@ -397,28 +397,41 @@ const DashboardScreen = ({route}: {route: any}) => {
                         }}
                     />
                     <View style={[css.row,{marginTop:5,marginBottom:5}]}>
-                        <View style={{width:"75%"}}>
-                            <Text style={{fontSize:20,fontWeight:'bold',textAlign:"center",fontStyle:"italic"}}>
-                                {route.params.stayPage} Amount: {totalAmount.toFixed(2)}
-                            </Text>
-                        </View>
-                        <View style={{width:"25%",alignItems:'flex-start',justifyContent:'center',margin:5}}>
-                            <View style={css.row}>
-                                <Text style={{fontSize:8,fontWeight:'bold',textAlign:"left",fontStyle:"italic"}}>
-                                    RA: Rental Amount
+                        {route.params.stayPage=="Overall" ? (
+                            <View style={{width:"75%"}}>
+                                <Text style={{fontSize:20,fontWeight:'bold',textAlign:"center",fontStyle:"italic"}}>
+                                    {route.params.stayPage} Amount: {totalAmount.toFixed(2)}
                                 </Text>
                             </View>
-                            <View style={css.row}>
-                                <Text style={{fontSize:8,fontWeight:'bold',textAlign:"left",fontStyle:"italic"}}>
-                                    GR: Goods Receive
+                        ) : (
+                            <View style={{width:"100%"}}>
+                                <Text style={{fontSize:20,fontWeight:'bold',textAlign:"center",fontStyle:"italic"}}>
+                                    {route.params.stayPage} Amount: {totalAmount.toFixed(2)}
                                 </Text>
                             </View>
-                            <View style={css.row}>
-                                <Text style={{fontSize:8,fontWeight:'bold',textAlign:"left",fontStyle:"italic"}}>
-                                    GI: Goods Issue
-                                </Text>
+                        )}
+
+                        {route.params.stayPage=="Overall" ? (
+                            <View style={{width:"25%",alignItems:'flex-start',justifyContent:'center',margin:5}}>
+                                <View style={css.row}>
+                                    <Text style={{fontSize:8,fontWeight:'bold',textAlign:"left",fontStyle:"italic"}}>
+                                        RA: Rental Amount
+                                    </Text>
+                                </View>
+                                <View style={css.row}>
+                                    <Text style={{fontSize:8,fontWeight:'bold',textAlign:"left",fontStyle:"italic"}}>
+                                        GR: Goods Receive
+                                    </Text>
+                                </View>
+                                <View style={css.row}>
+                                    <Text style={{fontSize:8,fontWeight:'bold',textAlign:"left",fontStyle:"italic"}}>
+                                        GI: Goods Issue
+                                    </Text>
+                                </View>
                             </View>
-                        </View>
+                        ) : (
+                            <></>
+                        )}
                     </View>
 
                 </View>

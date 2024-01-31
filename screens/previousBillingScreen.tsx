@@ -97,7 +97,7 @@ const PreviousBillingScreen = () => {
                 const MaxAmount_Rounded = Math.ceil(MaxAmount/5) * 5;
 
                 setMaxChartValue(MaxAmount_Rounded);
-                setTotalAmount(response.json().totalAverageAmount.toFixed(2));
+                setTotalAmount(response.json().totalAverageAmount);
             }else{
                 // console.log(response.json().message);
                 Snackbar.show({
@@ -119,16 +119,16 @@ const PreviousBillingScreen = () => {
 
                 navigation.navigate(DetailPreviousBillingScreen as never);
             }}>
-                <View style={[css.listItem,{padding:5,height:60,}]} key={item.key}>
+                <View style={[css.listItem,{padding:5,height:75,}]} key={item.key}>
                     <View style={[css.cardBody]}>
                         <View style={{alignItems:'flex-start',justifyContent:'center',}}>
                             <View style={{flexDirection:'row'}}>
                                 <View style={{flexDirection:'column',width:"100%"}}>
                                     <View>
-                                        <Text style={css.basicTextHeader} numberOfLines={2}>Customer: {item.name}</Text>
+                                        <Text style={[css.basicTextHeader,{fontSize:16}]} numberOfLines={2}>Customer: {item.name}</Text>
                                     </View>
                                     <View>
-                                        <Text style={css.basicTextDiscription}>Previous Billing Average Amount: {setNumberFormat2(parseInt(item.amount))}</Text>
+                                        <Text style={[css.basicTextDiscription,{fontSize:14}]}>Previous Billing Average Amount: {setNumberFormat2(parseInt(item.amount))}</Text>
                                     </View>
                                 </View>
                             </View>
@@ -202,7 +202,7 @@ const PreviousBillingScreen = () => {
                     <View style={[css.row,{marginTop:5,marginBottom:5,}]}>
                         <View style={{width:"100%"}}>
                             <Text style={{fontSize:20,fontWeight:'bold',textAlign:"center",fontStyle:"italic"}}>
-                                Total Average Amount: {totalAmount}
+                                Total Average Amount: {setNumberFormat2(totalAmount)}
                             </Text>
                         </View>
                     </View>
