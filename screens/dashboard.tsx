@@ -376,6 +376,7 @@ const DashboardScreen = ({route}: {route: any}) => {
                         startFillColor={colorThemeDB.colors.primary}
                         showValuesAsDataPointsText
                         spacing={65}
+                        yAxisLabelWidth={45}
                         initialSpacing={25}
                         color1={colorThemeDB.colors.primary}
                         textColor1="black"

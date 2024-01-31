@@ -10,7 +10,7 @@ import { useAuth } from '../Auth_Provider/Auth_Context';
 import { useState } from 'react';
 import PickingListScreen from '../../screens/pickinglistScreen';
 import { colorThemeDB } from '../../objects/colors';
-import ForceCastScreen from '../../screens/forcecastScreen';
+import ForeCastScreen from '../../screens/forecastScreen';
 import previousBillingScreen from '../../screens/previousBillingScreen';
 
 const Drawer = createDrawerNavigator();
@@ -60,7 +60,7 @@ export function CustomDrawer() {
           </View>
         ),
       }}  />
-      <Drawer.Screen name="Force Cast" component={ForceCastScreen} />
+      <Drawer.Screen name="ForeCast" component={ForeCastScreen} />
       <Drawer.Screen name="Previous Billing" component={previousBillingScreen} />
       
       {/* <Drawer.Screen name="Profile" component={ProfileScreen} />

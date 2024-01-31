@@ -178,7 +178,8 @@ const PreviousBillingScreen = () => {
                         areaChart
                         startFillColor={colorThemeDB.colors.primary}
                         showValuesAsDataPointsText
-                        spacing={52}
+                        yAxisLabelWidth={45}
+                        spacing={50}
                         initialSpacing={20}
                         color1={colorThemeDB.colors.primary}
                         textColor1="black"
@@ -186,7 +187,7 @@ const PreviousBillingScreen = () => {
                         dataPointsWidth={6}
                         dataPointsColor1={colorThemeDB.colors.primary}
                         textShiftY={0}
-                        textShiftX={10}
+                        textShiftX={8}
                         textFontSize={8}
                         adjustToWidth={true}
                         // curved
@@ -199,7 +200,7 @@ const PreviousBillingScreen = () => {
                             });
                         }}
                     />
-                    <View style={[css.row,{marginTop:5,marginBottom:5,}]}>
+                    <View style={[css.row,{marginTop:5,}]}>
                         <View style={{width:"100%"}}>
                             <Text style={{fontSize:20,fontWeight:'bold',textAlign:"center",fontStyle:"italic"}}>
                                 Total Average Amount: {setNumberFormat2(totalAmount)}

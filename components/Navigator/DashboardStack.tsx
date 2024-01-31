@@ -15,7 +15,7 @@ import SearchReportScreen from '../../screens/searchReportScreen';
 import DetailOverallScreen from '../../screens/detailOverallScreen';
 import PickingListScreen from '../../screens/pickinglistScreen';
 import DetailPickingListScreen from '../../screens/detailPickingList';
-import ForceCastScreen from '../../screens/forcecastScreen';
+import ForeCastScreen from '../../screens/forecastScreen';
 import PreviousBillingScreen from '../../screens/previousBillingScreen';
 import DetailPreviousBillingScreen from '../../screens/detailPreviousBilling';
 
@@ -41,7 +41,7 @@ import DetailPreviousBillingScreen from '../../screens/detailPreviousBilling';
       <Stack.Screen name="SearchReport" component={SearchReport} />
       <Stack.Screen name="SearchReportScreen" component={SearchReportScreen} />
       <Stack.Screen name="DetailPickingListScreen" component={DetailPickingListScreen} />
-      <Stack.Screen name="ForceCastScreen" component={ForceCastScreen} />
+      <Stack.Screen name="ForceCastScreen" component={ForeCastScreen} />
       <Stack.Screen name="PreviousBillingScreen" component={PreviousBillingScreen} />
       <Stack.Screen name="DetailPreviousBillingScreen" component={DetailPreviousBillingScreen} />
     </Stack.Navigator>

@@ -22,7 +22,7 @@ import { colorThemeDB } from '../objects/colors';
 import moment from 'moment';
 
 
-const ForceCastScreen = ({route}: {route: any}) => {
+const ForeCastScreen = ({route}: {route: any}) => {
     
     const navigation = useNavigation();
 
@@ -277,4 +277,4 @@ const ForceCastScreen = ({route}: {route: any}) => {
         </MainContainer>
     );
 }
-export default ForceCastScreen;
+export default ForeCastScreen;
