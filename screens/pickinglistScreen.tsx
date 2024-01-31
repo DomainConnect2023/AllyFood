@@ -83,24 +83,30 @@ const PickingListScreen = () => {
                     customerName: string; 
                     goodsIssueId: number;
                     refNo: string;
-                    isDoneLoadingOnTruck: boolean;
+                    isPending: boolean;
+                    isStartPicking: boolean;
                     isDonePicking: boolean;
+                    isStaging: boolean;
+                    isDelivered: boolean;
 
                 }) => ({
                     key: item.goodsIssueId,
                     customerID: item.customerId,
                     customerName: item.customerName,
                     refNo: item.refNo,
-                    isDoneLoadingOnTruck: item.isDoneLoadingOnTruck,
+                    isPending: item.isPending,
+                    isStartPicking: item.isStartPicking,
                     isDonePicking: item.isDonePicking,
+                    isStaging: item.isStaging,
+                    isDelivered: item.isDelivered,
 
                     datasets: [],
                 })));
 
-                setBarData2(response.json().barChart.map((item: { goodsIssueCount: any; days: any; }) => ({
-                    label: item.days.slice(0,-3),
+                setBarData2(response.json().barChart.map((item: { goodsIssueCount: any; days: any; date: any; }) => ({
+                    // label: item.days.slice(0,-3),
+                    label: item.date.substring(2,10),
                     value: item.goodsIssueCount,
-                    // textFontSize: 10
                 })));
                 
                 const WeightArray=(response.json().barChart.map((item: { goodsIssueCount: any; }) => item.goodsIssueCount));
@@ -149,7 +155,7 @@ const PickingListScreen = () => {
                     <View style={[css.cardBody]}>
                         <View style={{alignItems:'flex-start',justifyContent:'center',}}>
                             <View style={{flexDirection:'row'}}>
-                                <View style={{flexDirection:'column',width:"70%"}}>
+                                <View style={{flexDirection:'column',width:"80%"}}>
                                     <View>
                                         <Text style={css.basicTextHeader} numberOfLines={2}>Customer: {item.customerName}</Text>
                                     </View>
@@ -157,23 +163,33 @@ const PickingListScreen = () => {
                                         <Text style={css.basicTextDiscription}>RefNo: {item.refNo}</Text>
                                     </View>
                                 </View>
-                                <View style={{flexDirection:'column',width:"30%"}}>
+                                <View style={{flexDirection:'column',width:"20%"}}>
                                     <View style={{flexDirection:'row'}}>
-                                        <Text style={[css.basicTextHeader,{verticalAlign:"middle"}]}>Status:</Text>
-                                        {(item.isDonePicking==true && item.isDoneLoadingOnTruck==true) ? 
+                                        {/* <Text style={[css.basicTextHeader,{verticalAlign:"middle",textAlign:"right"}]}></Text> */}
+                                        {(item.isPending==true && item.isStartPicking==false) ? 
                                         (
                                             <Pressable
-                                                style={[css.typeButton, { backgroundColor: "green",margin:2, }]}
+                                                style={[css.typeButton, { backgroundColor: "red",width:"100%" }]}
                                                 onPress={async () => []}
                                             ></Pressable>
-                                        ) : (item.isDonePicking==true && item.isDoneLoadingOnTruck==false) ? (
+                                        ) : (item.isStartPicking==true && item.isDonePicking==false) ? (
                                             <Pressable
-                                                style={[css.typeButton, { backgroundColor: "yellow",margin:2, }]}
+                                                style={[css.typeButton, { backgroundColor: "orange",width:"100%" }]}
+                                                onPress={async () => []}
+                                            ></Pressable>
+                                        ) : (item.isDonePicking==true && item.isStaging==false) ? (
+                                            <Pressable
+                                                style={[css.typeButton, { backgroundColor: "yellow",width:"100%" }]}
+                                                onPress={async () => []}
+                                            ></Pressable>
+                                        ) : (item.isStaging==true && item.isDelivered==false) ? (
+                                            <Pressable
+                                                style={[css.typeButton, { backgroundColor: "#9be52a",width:"100%" }]}
                                                 onPress={async () => []}
                                             ></Pressable>
                                         ) : (
                                             <Pressable
-                                                style={[css.typeButton, { backgroundColor: "red",margin:2, }]}
+                                                style={[css.typeButton, { backgroundColor: "green",width:"100%" }]}
                                                 onPress={async () => []}
                                             ></Pressable>
                                         )}
@@ -197,7 +213,6 @@ const PickingListScreen = () => {
             //If user= admin show january data
             if(Platform.OS==="android"){
                 if(await AsyncStorage.getItem('userCode') == 'admin'){
-                    //The oldest way
                     let Ddata=currentDate.toISOString().split('T')[0]
                     let day =Ddata.split('-')[2]
                     let year="2024";
@@ -213,10 +228,6 @@ const PickingListScreen = () => {
                     setShowPicker(false);
                     await fetchDataApi();
                 }
-                // setTodayDate(currentDate.toISOString().split('T')[0]);
-                // await AsyncStorage.setItem('setDate', currentDate.toISOString().split('T')[0]+" 00:00:00");
-                // setShowPicker(false);
-                // await fetchDataApi(currentDate.toISOString().split('T')[0]);
              }
         }
     } 
@@ -242,11 +253,6 @@ const PickingListScreen = () => {
             setDatePickerVisible(false);
             await fetchDataApi();
         }
-        
-        // setTodayDate(currentDate.toISOString().split('T')[0]);
-        // await AsyncStorage.setItem('setDate', currentDate.toISOString().split('T')[0]+" 00:00:00");
-        // setDatePickerVisible(false);
-        // await fetchDataApi(currentDate.toISOString().split('T')[0]);
    }
 
     const tonggleDatePicker = () => {
@@ -333,7 +339,7 @@ const PickingListScreen = () => {
                     <View style={[css.row,{marginTop:5,marginBottom:5,}]}>
                         <View style={{width:"80%"}}>
                             <Text style={{fontSize:20,fontWeight:'bold',textAlign:"center",fontStyle:"italic"}}>
-                                Today Issue Amount: {totalAmount}
+                                Case Issue: {totalAmount}
                             </Text>
                         </View>
                         <View style={{width:"20%",alignItems:'flex-start',justifyContent:'center',margin:5}}>
@@ -345,17 +351,31 @@ const PickingListScreen = () => {
                                 </Text>
                             </View>
                             <View style={css.row}>
-                                <View style={[css.circle, { backgroundColor: "yellow" }]}>
+                                <View style={[css.circle, { backgroundColor: "orange" }]}>
                                 </View>
                                 <Text style={{fontSize:10,fontWeight:'bold',textAlign:"left",fontStyle:"italic"}}>
                                     Picking
                                 </Text>
                             </View>
                             <View style={css.row}>
+                                <View style={[css.circle, { backgroundColor: "yellow" }]}>
+                                </View>
+                                <Text style={{fontSize:10,fontWeight:'bold',textAlign:"left",fontStyle:"italic"}}>
+                                    Picking Done
+                                </Text>
+                            </View>
+                            <View style={css.row}>
+                                <View style={[css.circle, { backgroundColor: "#9be52a" }]}>
+                                </View>
+                                <Text style={{fontSize:10,fontWeight:'bold',textAlign:"left",fontStyle:"italic"}}>
+                                    Staging
+                                </Text>
+                            </View>
+                            <View style={css.row}>
                                 <View style={[css.circle, { backgroundColor: "green" }]}>
                                 </View>
                                 <Text style={{fontSize:10,fontWeight:'bold',textAlign:"left",fontStyle:"italic"}}>
-                                    Completed
+                                    Delivered
                                 </Text>
                             </View>
                         </View>

@@ -155,25 +155,38 @@ const DashboardScreen = ({route}: {route: any}) => {
             "Content-Type": "application/json",  
         }).then((response) => {
             if(response.json().isSuccess==true){
-                setFetchedData(response.json().customerData.map((item: { 
-                    customerId: string; 
-                    customerName: any; 
+                setFetchedData(response.json().customerData.map((item: {
+                    customerId: string;
+                    customerName: any;
                     overallAmount: number;
                     handlingChargesAmount: number;
+                    rentalAmount: number;
+                    palletBalance: string;
+                    cartonBalance: string;
+                    grAmount: number;
+                    giAmount: number;
                 }) => ({
                     key: item.customerId,
                     name: item.customerName,
                     amount: type == "Overall" ? item.overallAmount : item.handlingChargesAmount,
+                    rentalAmount: item.rentalAmount,
+                    palletBalance: item.palletBalance,
+                    cartonBalance: item.cartonBalance,
+                    grAmount: item.grAmount,
+                    giAmount: item.giAmount,
+
                 })));
 
-                setBarData2(response.json().barChart.map(type == "Overall" ? (item: { overallAmount: any; days: any; }) => ({
-                    label: item.days.slice(0,-3),
-                    value: item.overallAmount,
-                    // textFontSize: 10
-                }) : (item: { handlingChargesAmount: any; days: any; }) =>({
-                    label: item.days.slice(0,-3),
-                    value: item.handlingChargesAmount,
-                    // textFontSize: 10
+                setBarData2(response.json().barChart.map(type == "Overall" ? (item: { overallAmount: any; days: any; date: any }) => ({
+                    label: item.date.substring(2,10),
+                    // label: item.days.slice(0,-3),
+                    value: item.overallAmount.toFixed(2),
+                    textFontSize: 8
+                }) : (item: { handlingChargesAmount: any; days: any; date: any; }) =>({
+                    label: item.date.substring(2,10),
+                    // label: item.days.slice(0,-3),
+                    value: item.handlingChargesAmount.toFixed(2),
+                    textFontSize: 8
                 })));
 
                 const WeightArray=(response.json().barChart.map(type == "Overall" ? (item: { overallAmount: any; }) => item.overallAmount : (item: { handlingChargesAmount: any; }) => item.handlingChargesAmount));
@@ -220,18 +233,66 @@ const DashboardScreen = ({route}: {route: any}) => {
                 await AsyncStorage.setItem('customerName', item.name);
                 await AsyncStorage.setItem('setDate', todayDate);
                 if(route.params.stayPage=="Overall"){
-                    navigation.navigate(DetailOverallScreen as never);
+                    // navigation.navigate(DetailOverallScreen as never);
                 }else{
                     navigation.navigate(DetailScreen as never);
                 }
             }}>
                 <View style={css.listItem} key={parseInt(item.key)}>
                     <View style={[css.cardBody]}>
+                        
+                        {route.params.stayPage=="Overall" ? (
                         <View style={{alignItems: 'flex-start',justifyContent: 'center',flex: 1,flexGrow: 1,}}>
                             <View style={{flexDirection: 'row',}}>
                                 <Text style={css.textHeader} numberOfLines={2}>{item.name}</Text>
-                                <Text style={css.textDescription}>
-                                    Amount: {item.amount}
+                                <Text style={[css.textDescription,{textAlign:"right"}]}>
+                                    Amount: {parseInt(item.amount).toFixed(2)}
+                                </Text>
+                            </View>
+                            <View style={{flexDirection: 'row',}}>
+                                {/* {item.amount==null ? (
+                                    <ProgressBar
+                                        style={{width:200, height: 10}}
+                                        progress={0}
+                                        color={colorThemeDB.colors.primary}
+                                    />
+                                ) : (
+                                    <ProgressBar
+                                        style={{width:200, height: 10}}
+                                        progress={Math.round(parseInt(item.amount)/totalAmount*100)/100}
+                                        color={colorThemeDB.colors.primary}
+                                    />
+                                )} */}
+                                <Text style={css.text2ndHeader}>
+                                    {item.rentalAmount.toFixed(2)}(RA) + {item.grAmount.toFixed(2)}(GR) + {item.giAmount.toFixed(2)}(GI) = {parseInt(item.amount).toFixed(2)}
+                                </Text>
+                                <Text style={[css.textDescription,{textAlign:"right"}]}>
+                                    { item.amount==null ? (
+                                        0
+                                    ) : (
+                                        Math.round(parseInt(item.amount)/totalAmount*100)
+                                    )}%
+                                </Text>
+                            </View>
+                            <View style={{flexDirection: 'row',}}>
+                                <Text style={css.text2ndHeader}>
+                                    Pallet Balance: {item.palletBalance}
+                                </Text>
+                                <Text style={[css.textDescription,{textAlign:"right"}]}></Text>
+                            </View>
+                            <View style={{flexDirection: 'row',}}>
+                                <Text style={css.text2ndHeader}>
+                                    Carton Balance: {item.cartonBalance}
+                                </Text>
+                                <Text style={[css.textDescription,{textAlign:"right"}]}></Text>
+                            </View> 
+                        </View>
+                        ) : (
+                        <View style={{alignItems: 'flex-start',justifyContent: 'center',flex: 1,flexGrow: 1,}}>
+                            <View style={{flexDirection: 'row',}}>
+                                <Text style={css.textHeader} numberOfLines={2}>{item.name}</Text>
+                                <Text style={[css.textDescription,{textAlign:"right"}]}>
+                                    Amount: {parseInt(item.amount).toFixed(2)}
                                 </Text>
                             </View>
                             <View style={{flexDirection: 'row',}}>
@@ -257,6 +318,7 @@ const DashboardScreen = ({route}: {route: any}) => {
                                 </Text>
                             </View>
                         </View>
+                        )}
                     </View>
                 </View>
             </TouchableOpacity>
@@ -308,7 +370,7 @@ const DashboardScreen = ({route}: {route: any}) => {
                         data={BarData2}
                         height={160}
                         width={Dimensions.get("screen").width}
-                        noOfSections={2}
+                        noOfSections={4}
                         maxValue={maxChartValue}
                         areaChart
                         startFillColor={colorThemeDB.colors.primary}
@@ -322,7 +384,7 @@ const DashboardScreen = ({route}: {route: any}) => {
                         dataPointsColor1={colorThemeDB.colors.primary}
                         textShiftY={0}
                         textShiftX={10}
-                        textFontSize={10}
+                        textFontSize={8}
                         adjustToWidth={true}
                         // curved
                         // showArrow1
@@ -335,10 +397,30 @@ const DashboardScreen = ({route}: {route: any}) => {
                         }}
                     />
                     <View style={[css.row,{marginTop:5,marginBottom:5}]}>
-                        <Text style={{fontSize:20,fontWeight:'bold',textAlign:"center",fontStyle:"italic"}}>
-                            {route.params.stayPage} Amount: {totalAmount}
-                        </Text>
+                        <View style={{width:"75%"}}>
+                            <Text style={{fontSize:20,fontWeight:'bold',textAlign:"center",fontStyle:"italic"}}>
+                                {route.params.stayPage} Amount: {totalAmount.toFixed(2)}
+                            </Text>
+                        </View>
+                        <View style={{width:"25%",alignItems:'flex-start',justifyContent:'center',margin:5}}>
+                            <View style={css.row}>
+                                <Text style={{fontSize:8,fontWeight:'bold',textAlign:"left",fontStyle:"italic"}}>
+                                    RA: Rental Amount
+                                </Text>
+                            </View>
+                            <View style={css.row}>
+                                <Text style={{fontSize:8,fontWeight:'bold',textAlign:"left",fontStyle:"italic"}}>
+                                    GR: Goods Receive
+                                </Text>
+                            </View>
+                            <View style={css.row}>
+                                <Text style={{fontSize:8,fontWeight:'bold',textAlign:"left",fontStyle:"italic"}}>
+                                    GI: Goods Issue
+                                </Text>
+                            </View>
+                        </View>
                     </View>
+
                 </View>
                 <FlatList
                     data={fetchedData}

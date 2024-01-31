@@ -132,31 +132,31 @@ const DetailScreen = () => {
                     </View>
                     <View style={css.row}>
                         <Text style={css.Title}>Total {type=="Receiving" ? "GR" : "GI"} Amount:</Text>
-                        <Text style={css.subTitle}>{totalAmount}</Text>
+                        <Text style={css.subTitle}>{totalAmount.toFixed(2)}</Text>
                     </View>
                     <View style={css.row}>
                         <Text style={css.Title}>{type=="Receiving" ? "Handling Charges" : "Block Stacking"} Charges:</Text>
-                        <Text style={css.subTitle}>{chargesAmount}</Text>
+                        <Text style={css.subTitle}>{chargesAmount.toFixed(2)}</Text>
                     </View>
                     <View style={css.row}>
                         <Text style={css.Title}>Electricity Charges:</Text>
-                        <Text style={css.subTitle}>{electricityCharges}</Text>
+                        <Text style={css.subTitle}>{electricityCharges.toFixed(2)}</Text>
                     </View>
                     <View style={css.row}>
                         <Text style={css.Title}>Parking Charges:</Text>
-                        <Text style={css.subTitle}>{parkingCharges}</Text>
+                        <Text style={css.subTitle}>{parkingCharges.toFixed(2)}</Text>
                     </View>
                     <View style={css.row}>
                         <Text style={css.Title}>Overtime Charges:</Text>
-                        <Text style={css.subTitle}>{overtimeCharges}</Text>
+                        <Text style={css.subTitle}>{overtimeCharges.toFixed(2)}</Text>
                     </View>
                     <View style={css.row}>
                         <Text style={css.Title}>{type=="Receiving" ? "Unloading" : "Loading"} Amount:</Text>
-                        <Text style={css.subTitle}>{loadingAmount}</Text>
+                        <Text style={css.subTitle}>{loadingAmount.toFixed(2)}</Text>
                     </View>
                     <View style={css.row}>
                         <Text style={css.Title}>Transport Fee:</Text>
-                        <Text style={css.subTitle}>{transportFee}</Text>
+                        <Text style={css.subTitle}>{transportFee.toFixed(2)}</Text>
                     </View>
                 </View>
             )}

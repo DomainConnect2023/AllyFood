@@ -61,6 +61,14 @@ export const css = StyleSheet.create({
         marginBottom: 4,
         width: "60%",
     },
+    text2ndHeader: { 
+        fontStyle: "italic",
+        flex: 1,
+        fontSize: 12,
+        color: '#000000',
+        marginBottom: 4,
+        width: "60%",
+    },
     textDescription: {
         fontStyle: "italic",
         fontSize: 12,

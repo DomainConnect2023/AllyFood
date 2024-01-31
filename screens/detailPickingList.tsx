@@ -10,6 +10,7 @@ import { css } from '../objects/commonCSS';
 import RNFetchBlob from 'rn-fetch-blob';
 import { pickingListDetail } from '../objects/objects';
 import { colorThemeDB } from '../objects/colors';
+import { Checkbox } from 'react-native-paper';
 
 const DetailPickingListScreen = () => {
     const navigation = useNavigation();
@@ -41,23 +42,28 @@ const DetailPickingListScreen = () => {
         .fetch('GET', "https://"+getIPaddress+"/App/GetPickingListDetail?goodsIssueId="+goodsID,{
             "Content-Type": "application/json",  
         }).then((response) => {
-            // console.log(response.json().pickingListTable[0]);
             if(response.json().isSuccess==true){
                 setCustomerName(response.json().customerName);
                 setWarehouse(response.json().warehouse);
-                if(response.json().isDonePicking==true && response.json().isDoneLoadingOnTruck==true){
-                    setStatus("Completed");
-                }else if(response.json().isDonePicking==true && response.json().isDoneLoadingOnTruck==false){
-                    setStatus("Picking");
-                }else{
+
+                if(response.json().isPending==true && response.json().isStartPicking==false){
                     setStatus("Pending");
+                }else if(response.json().isStartPicking==true && response.json().isDonePicking==false){
+                    setStatus("Picking");
+                }else if(response.json().isDonePicking==true && response.json().isStaging==false){
+                    setStatus("Picking Done");
+                }else if(response.json().isStaging==true && response.json().isDelivered==false){
+                    setStatus("Staging");
+                }else{
+                    setStatus("Delivered");
                 }
 
-                setFetchedData(response.json().pickingListTable.map((item: { productCode: string; productName: string; toPickCartonQuantity: number; toPickPalletQuantity: number; locationStockBalances: object}) => ({
+                setFetchedData(response.json().pickingListTable.map((item: { productCode: string; productName: string; toPickCartonQuantity: number; toPickPalletQuantity: number; isDonePicking: boolean; locationStockBalances: object}) => ({
                     key: item.productCode,
                     productName: item.productName,
                     toPickCartonQuantity: item.toPickCartonQuantity,
                     toPickPalletQuantity: item.toPickPalletQuantity,
+                    isDonePicking: item.isDonePicking,
                     locationStockBalances: item.locationStockBalances,
                 })));
 
@@ -78,23 +84,41 @@ const DetailPickingListScreen = () => {
         setDataProcess(false);
     };
 
-    const changeStatusAPI = async(type: string) => {
-        setDataProcess(true);
-
+    const changeStatusAPI = async(type: string, productCode: string) => {
+        // setDataProcess(true);
         var getIPaddress=await AsyncStorage.getItem('IPaddress');
         var goodsID=await AsyncStorage.getItem('goodsID');
         var userID=await AsyncStorage.getItem('userID');
+        let submitType;
+        let setURL;
 
-        await RNFetchBlob.config({
-            trusty: true
-        })
-        .fetch('GET', "https://"+getIPaddress+"/App/UpdatePickingLoading?type="+type+"&goodsIssueId="+goodsID+"&userId="+userID,{
+        if(type=="Picking"){
+            submitType="start_picking";
+        }else if(type=="Picking Done"){
+            submitType="done_picking";
+        }else if(type=="Staging"){
+            submitType="staging";
+        }else if(type=="Delivered"){
+            submitType="delivered";
+        }else if(type=="Pick Product"){
+            submitType="picked_product";
+        }
+
+        if(type=="Pick Product"){
+            setURL="https://"+getIPaddress+"/App/UpdatePickingListStatus?type="+submitType+"&goodsIssueId="+goodsID+"&userId="+userID+"&productCode="+ encodeURIComponent(productCode);
+        }else{
+            setURL="https://"+getIPaddress+"/App/UpdatePickingListStatus?type="+submitType+"&goodsIssueId="+goodsID+"&userId="+userID+"&productCode=";
+        }
+
+        await RNFetchBlob.config({trusty: true}).fetch('GET', setURL,{
             "Content-Type": "application/json",  
         }).then(async (response) => {
-            // console.log(response.json().pickingListTable[0]);
             if(response.json().isSuccess==true){
-                await fetchDataApi();
-
+                if(type!="Pick Product"){
+                    await fetchDataApi();
+                }else{
+                    handleCheckboxChange(productCode);
+                }
             }else{
                 console.log(response.json().message);
                 Snackbar.show({
@@ -102,18 +126,31 @@ const DetailPickingListScreen = () => {
                     duration: Snackbar.LENGTH_SHORT,
                 });
             }
-        })
-        .catch(error => {
+        }).catch(error => {
             Snackbar.show({
                 text: error.message,
                 duration: Snackbar.LENGTH_SHORT,
             });
         });
-        setDataProcess(false);
+        // setDataProcess(false);
+    };
+
+    const handleCheckboxChange = (key: string) => {
+        setFetchedData((prevData: any) =>
+          prevData.map((item: any) =>
+            item.key === key ? { ...item, isDonePicking: !item.isDonePicking } : item
+          )
+        );
     };
 
     const FlatListItem = ({ item }: { item: pickingListDetail }) => {
         return (
+            <TouchableOpacity onPress={async () => {
+                // console.log(item.key+": "+item.isDonePicking.toString());
+                if(status=="Picking" && item.isDonePicking==false){
+                    changeStatusAPI("Pick Product",item.key);
+                }
+            }}>
             <View style={[css.listItem,{padding:5}]} key={parseInt(item.key)}>
                 <View style={[css.cardBody]}>
                     <View style={{alignItems:'flex-start',justifyContent:'center',}}>
@@ -123,9 +160,25 @@ const DetailPickingListScreen = () => {
                                     <View style={{ width: "35%", alignSelf: 'stretch', margin:5}}>
                                         <Text>Product Name</Text>
                                     </View>
-                                    <View style={{ width: "50%", alignSelf: 'stretch', margin:5}}>
-                                        <Text>: {item.productName}</Text>
-                                    </View>
+                                    {status=="Picking" ? (
+                                        <View style={{alignSelf: 'stretch', flexDirection: 'row',width: "50%"}}>
+                                            <View style={{alignSelf: 'stretch', margin:5, width:"90%"}}>
+                                                <Text numberOfLines={2}>: {item.productName}</Text>
+                                            </View>
+                                            <View style={{alignSelf: 'stretch', margin:5, width:"10%"}}>
+                                                <Checkbox
+                                                    status={item.isDonePicking==true ? 'checked' : 'unchecked'}
+                                                    // onPress={() => {
+                                                        
+                                                    // }}
+                                                />
+                                            </View>
+                                        </View>
+                                    ) : (
+                                        <View style={{ width: "50%", alignSelf: 'stretch', margin:5}}>
+                                            <Text numberOfLines={2}>: {item.productName}</Text>
+                                        </View>
+                                    )}
                                 </View>
                                 <View style={{ alignSelf: 'stretch', flexDirection: 'row'}}>
                                     <View style={{ width: "35%", alignSelf: 'stretch', margin:5}}>
@@ -161,6 +214,7 @@ const DetailPickingListScreen = () => {
                     </View>
                 </View>
             </View>
+            </TouchableOpacity>
         );
     };
 
@@ -192,11 +246,11 @@ const DetailPickingListScreen = () => {
                     <View style={css.detailContainer}>
                         <View style={css.row}>
                             <Text style={css.Title}>Customer Name:</Text>
-                            <TouchableOpacity style={[css.subTitle]} onPress={async () => {
+                            {/* <TouchableOpacity style={[css.subTitle]} onPress={async () => {
                                 // console.log(customerCode);
-                            }}>
-                                <Text style={css.subTitle}>{customerName}</Text>
-                            </TouchableOpacity>
+                            }}> */}
+                                <Text style={css.subTitle} numberOfLines={2}>{customerName}</Text>
+                            {/* </TouchableOpacity> */}
                         </View>
                         <View style={css.row}>
                             <Text style={css.Title}>Warehouse:</Text>
@@ -204,11 +258,15 @@ const DetailPickingListScreen = () => {
                         </View>
                         <View style={css.row}>
                             <Text style={css.Title}>Status:</Text>
-                            {(status=="Completed") 
+                            {(status=="Delivered") 
                             ? (<Text style={[css.subTitle,{color:"green"}]}>{status}</Text>) 
+                            : (status=="Staging") 
+                            ? (<Text style={[css.subTitle,{color:"#9be52a"}]}>{status}</Text>)
+                            : (status=="Picking Done") 
+                            ? (<Text style={[css.subTitle,{color:"#B59410"}]}>{status}</Text>)
                             : (status=="Picking") 
-                                ? (<Text style={[css.subTitle,{color:"#DAA520"}]}>{status}</Text>)
-                                : (<Text style={[css.subTitle,{color:"red"}]}>{status}</Text>)
+                            ? (<Text style={[css.subTitle,{color:"orange"}]}>{status}</Text>)
+                            : (<Text style={[css.subTitle,{color:"red"}]}>{status}</Text>)
                             }
                         </View>
                     </View>
@@ -219,34 +277,44 @@ const DetailPickingListScreen = () => {
                         style={{padding: 0}}
                     />
                     <View style={[css.row,]}>
-                        {status=="Pending" 
+                        {(status=="Pending") 
                         ? (<Pressable
-                            style={[css.button,{backgroundColor:"yellow",width:"50%",}]} 
+                            style={[css.button,{backgroundColor:"orange",width:"50%",}]} 
                             onPress={async () => {
-                                changeStatusAPI("picking");
-                                // Snackbar.show({
-                                //     text: "Go to Picking API",
-                                //     duration: Snackbar.LENGTH_SHORT,
-                                // });
+                                changeStatusAPI("Picking","");
                             }}
                         >
                             <Text style={[css.buttonText,{color:"black"}]}>Picking</Text>
                         </Pressable> )
+                        : (status=="Picking") 
+                        ? (<Pressable
+                            style={[css.button,{backgroundColor:"yellow",width:"50%",}]} 
+                            onPress={async () => {
+                                changeStatusAPI("Picking Done","");
+                            }}
+                        >
+                            <Text style={[css.buttonText,{color:"black"}]}>Picking Done</Text>
+                        </Pressable> ) 
+                        : (status=="Picking Done") 
+                        ? (<Pressable
+                            style={[css.button,{backgroundColor:"#9be52a",width:"50%",}]} 
+                            onPress={async () => {
+                                changeStatusAPI("Staging","");
+                            }}
+                        >
+                            <Text style={[css.buttonText,{color:"black"}]}>Staging</Text>
+                        </Pressable> ) 
+                        : (status=="Staging") 
+                        ? (<Pressable
+                            style={[css.button,{backgroundColor:"green",width:"50%",}]} 
+                            onPress={async () => {
+                                changeStatusAPI("Delivered","");
+                            }}
+                        >
+                            <Text style={[css.buttonText,{color:"black"}]}>Delivered</Text>
+                        </Pressable> ) 
                         : (
-                            status=="Picking" 
-                                ?  (<Pressable
-                                    style={[css.button,{backgroundColor:colorThemeDB.colors.primaryContainer,width:"50%",}]} 
-                                    onPress={async () => {
-                                        changeStatusAPI("loading");
-                                        // Snackbar.show({
-                                        //     text: "Go to Completed API",
-                                        //     duration: Snackbar.LENGTH_SHORT,
-                                        // });
-                                    }}
-                                >
-                                    <Text style={[css.buttonText,{color:"white"}]}>Completed</Text>
-                                </Pressable> )
-                                : (<></>)
+                           <></>
                         )}
                     </View>
                 </View>

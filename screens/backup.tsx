@@ -111,7 +111,7 @@
                             </View>
                         )} */}
 
-                        // const toggleItem = (itemId: any) => {
+    // const toggleItem = (itemId: any) => {
     //     if (expandedItems.includes(itemId as never)) {
     //       setExpandedItems(expandedItems.filter((id) => id !== itemId));
     //     } else {

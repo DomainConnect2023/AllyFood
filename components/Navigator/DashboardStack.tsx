@@ -1,12 +1,8 @@
 import * as React from 'react';
-import { View, Text } from 'react-native';
-import { NavigationContainer } from '@react-navigation/native';
 import { createDrawerNavigator } from '@react-navigation/drawer';
-import TabNavigationScreen from '../../screens/TabNavigation';
 import ProfileScreen from '../../screens/profile';
 import DetailScreen from '../../screens/detailScreen';
 import SettingScreen from '../../screens/setting';
-import DashboardScreen from '../../screens/dashboard';
 import PlanningScreen from '../../screens/planning';
 import SearchScreen from '../../screens/searchScreen';
 import SearchCustomerDetail from '../../screens/SearchCustomerDetail';
@@ -19,12 +15,14 @@ import SearchReportScreen from '../../screens/searchReportScreen';
 import DetailOverallScreen from '../../screens/detailOverallScreen';
 import PickingListScreen from '../../screens/pickinglistScreen';
 import DetailPickingListScreen from '../../screens/detailPickingList';
+import ForceCastScreen from '../../screens/forcecastScreen';
+import PreviousBillingScreen from '../../screens/previousBillingScreen';
+import DetailPreviousBillingScreen from '../../screens/detailPreviousBilling';
 
   const Drawer = createDrawerNavigator();
 
   const Stack = createNativeStackNavigator();
 
-  
   export function DashboardStack() {
     
     return (
@@ -43,6 +41,9 @@ import DetailPickingListScreen from '../../screens/detailPickingList';
       <Stack.Screen name="SearchReport" component={SearchReport} />
       <Stack.Screen name="SearchReportScreen" component={SearchReportScreen} />
       <Stack.Screen name="DetailPickingListScreen" component={DetailPickingListScreen} />
+      <Stack.Screen name="ForceCastScreen" component={ForceCastScreen} />
+      <Stack.Screen name="PreviousBillingScreen" component={PreviousBillingScreen} />
+      <Stack.Screen name="DetailPreviousBillingScreen" component={DetailPreviousBillingScreen} />
     </Stack.Navigator>
     );
   }
