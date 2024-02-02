@@ -5,6 +5,7 @@ export interface showData {
     key: string;
     name: string;
     amount: string;
+    currentMonthTotalAmount: number;
     rentalAmount: number;
     palletBalance: string;
     cartonBalance: string;

@@ -33,6 +33,7 @@ const PreviousBillingScreen = () => {
     const [BarData2, setBarData2] = useState<BarData2[]>([]);
     const [AverageData, setAverageData] = useState<BarData2[]>([]);
     const [totalAmount, setTotalAmount] = useState<number>(0);
+    const [averageAmount, setAverageAmount] = useState<number>(0);
 
     const [maxChartValue, setMaxChartValue] = useState<number>(100);
     
@@ -79,11 +80,13 @@ const PreviousBillingScreen = () => {
                 setFetchedData(response.json().customerData.map((item: { 
                     customerId: number; 
                     customerName: string; 
+                    currentMonthTotalAmount: number;
                     previousBillingAverageAmount: number;
 
                 }) => ({
                     key: item.customerId,
                     name: item.customerName,
+                    currentMonthTotalAmount: item.currentMonthTotalAmount.toFixed(2),
                     amount: item.previousBillingAverageAmount.toFixed(2),
                 })));
 
@@ -106,7 +109,8 @@ const PreviousBillingScreen = () => {
                 const MaxAmount_Rounded = Math.ceil(MaxAmount/5000) * 5000;
 
                 setMaxChartValue(MaxAmount_Rounded);
-                setTotalAmount(response.json().totalAverageAmount);
+                setTotalAmount(response.json().currentMonthTotalAmount);
+                setAverageAmount(response.json().totalAverageAmount);
             }else{
                 // console.log(response.json().message);
                 Snackbar.show({
@@ -119,8 +123,6 @@ const PreviousBillingScreen = () => {
         });
         setDataProcess(false);
     }
-
-    
 
     const FlatListItem = ({ item }: { item: showData }) => {
         return (
@@ -139,7 +141,7 @@ const PreviousBillingScreen = () => {
                                         <Text style={[css.basicTextHeader,{fontSize:16}]} numberOfLines={2}>Customer: {item.name}</Text>
                                     </View>
                                     <View>
-                                        <Text style={[css.basicTextDiscription,{fontSize:12,color:"black"}]}>Total {myYear +" "+ monthNumberToName(myMonth)} Amount: </Text>
+                                        <Text style={[css.basicTextDiscription,{fontSize:12,color:"black"}]}>Total {myYear +" "+ monthNumberToName(myMonth)} Amount: {item.currentMonthTotalAmount}</Text>
                                     </View>
                                     <View>
                                         <Text style={[css.basicTextDiscription,{fontSize:12}]}>6 Months Average Amount: {item.amount}</Text>
@@ -236,7 +238,7 @@ const PreviousBillingScreen = () => {
                         focusEnabled={true}
                         highlightedRange={{
                             from: 0,
-                            to: totalAmount-0.01,
+                            to: averageAmount-0.01,
                             color: "red",
                         }}
                         onFocus={async (item: any) => {
@@ -251,10 +253,10 @@ const PreviousBillingScreen = () => {
                     <View style={[css.row,{marginTop:5,}]}>
                         <View style={{width:"100%"}}>
                             <Text style={{fontSize:14,fontWeight:'bold',textAlign:"center",fontStyle:"italic"}}>
-                                Total {myYear +" "+ monthNumberToName(myMonth)} Amount: {}
+                                Total {myYear +" "+ monthNumberToName(myMonth)} Amount: {totalAmount}
                             </Text>
                             <Text style={{fontSize:14,fontWeight:'bold',textAlign:"center",fontStyle:"italic"}}>
-                                6 Months Average Amount: {setNumberFormat2(totalAmount)}
+                                6 Months Average Amount: {setNumberFormat2(averageAmount)}
                             </Text>
                         </View>
                     </View>
