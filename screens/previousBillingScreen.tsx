@@ -253,7 +253,7 @@ const PreviousBillingScreen = () => {
                     <View style={[css.row,{marginTop:5,}]}>
                         <View style={{width:"100%"}}>
                             <Text style={{fontSize:14,fontWeight:'bold',textAlign:"center",fontStyle:"italic"}}>
-                                Total {myYear +" "+ monthNumberToName(myMonth)} Amount: {totalAmount}
+                                Total {myYear +" "+ monthNumberToName(myMonth)} Amount: {setNumberFormat2(totalAmount)}
                             </Text>
                             <Text style={{fontSize:14,fontWeight:'bold',textAlign:"center",fontStyle:"italic"}}>
                                 6 Months Average Amount: {setNumberFormat2(averageAmount)}
