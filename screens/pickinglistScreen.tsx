@@ -16,6 +16,7 @@ import { colorThemeDB } from '../objects/colors';
 import DetailPickingListScreen from './detailPickingList';
 import { useFocusEffect, useNavigation } from '@react-navigation/native';
 import moment from 'moment';
+import { format, parseISO } from 'date-fns';
 
 const PickingListScreen = () => {
     const navigation = useNavigation();
@@ -68,13 +69,13 @@ const PickingListScreen = () => {
 
     const fetchDataApi = async() => {
         setDataProcess(true);
-        
+        setTodayDate(await AsyncStorage.getItem('setDate') ?? todayDate);
         var getIPaddress=await AsyncStorage.getItem('IPaddress');
-        var todayDate=await AsyncStorage.getItem('setDate');
+        var setDate=await AsyncStorage.getItem('setDate');
 
         await RNFetchBlob.config({
             trusty: true,
-        }).fetch('GET', "https://"+getIPaddress+"/App/GetPickingList?todayDate="+todayDate,{
+        }).fetch('GET', "https://"+getIPaddress+"/App/GetPickingList?todayDate="+setDate,{
             "Content-Type": "application/json",
         }).then(async (response) => {
             if(await response.json().isSuccess==true){
@@ -105,7 +106,7 @@ const PickingListScreen = () => {
 
                 setBarData2(response.json().barChart.map((item: { goodsIssueCount: any; days: any; date: any; }) => ({
                     // label: item.days.slice(0,-3),
-                    label: item.date.substring(2,10),
+                    label: format(parseISO(item.date), 'MMM dd'),
                     value: item.goodsIssueCount,
                 })));
                 
@@ -314,7 +315,6 @@ const PickingListScreen = () => {
                         maxValue={maxChartValue}
                         areaChart
                         startFillColor={colorThemeDB.colors.primary}
-                        showValuesAsDataPointsText
                         spacing={65}
                         initialSpacing={25}
                         color1={colorThemeDB.colors.primary}
@@ -325,15 +325,15 @@ const PickingListScreen = () => {
                         textShiftY={0}
                         textShiftX={10}
                         textFontSize={10}
+                        showValuesAsDataPointsText={true}
                         adjustToWidth={true}
+                        focusEnabled={true}
                         // curved
                         // showArrow1
-                        onPress={async (item: any) => {
-                            console.log(item);
-                            Snackbar.show({
-                                text: item.label+": "+item.value.toString(),
-                                duration: Snackbar.LENGTH_SHORT,
-                            });
+                        onFocus={async (item: any) => {
+                            setTodayDate("20"+item.label)
+                            await AsyncStorage.setItem('setDate', "20"+item.label);
+                            fetchDataApi();
                         }}
                     />
                     <View style={[css.row,{marginTop:5,marginBottom:5,}]}>

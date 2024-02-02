@@ -3,7 +3,7 @@ import { View, Text, FlatList, TouchableOpacity, ActivityIndicator, Dimensions, 
 import { useEffect, useState } from 'react';
 // import { LineChart,} from "react-native-chart-kit";
 import Snackbar from 'react-native-snackbar';
-import { useNavigation } from '@react-navigation/native';
+import { useFocusEffect, useNavigation } from '@react-navigation/native';
 import MainContainer from '../components/MainContainer';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { ImagesAssets } from '../objects/images';
@@ -48,17 +48,15 @@ const ForeCastScreen = ({route}: {route: any}) => {
     useEffect(()=> { // when starting the page
         (async()=> {
             setFetchedData([]);
-            if(await AsyncStorage.getItem('setDate')==null){
-                setTodayDate(await AsyncStorage.getItem('setDate') ?? todayDate);
-                fetchDataApi(todayDate);
-            }else{
-                setTodayDate(await AsyncStorage.getItem('setDate') ?? todayDate);
-                fetchDataApi(await AsyncStorage.getItem('setDate'));
-                setSelectedIOSDate(moment.utc(await AsyncStorage.getItem('setDate') ?? todayDate).toDate())
-            }
+            fetchDataApi();
         })();
     }, []);
 
+    useFocusEffect(
+        React.useCallback(() => {
+            fetchDataApi();       
+        }, [])
+    );
 
     // Date Picker
     const onChangeDate = async ({type}: any, selectedDate: any) => {
@@ -78,14 +76,14 @@ const ForeCastScreen = ({route}: {route: any}) => {
                     setTodayDate(currentDate.toISOString().split('T')[0])
                     await AsyncStorage.setItem('setDate', year+"-"+month+"-"+day);
                     setShowPicker(false);
-                    await fetchDataApi(year+"-"+month+"-"+day);
+                    await fetchDataApi();
                     
                 }
                 else{
                     setTodayDate(currentDate.toISOString().split('T')[0]);
                     await AsyncStorage.setItem('setDate', currentDate.toISOString().split('T')[0]+" 00:00:00");
                     setShowPicker(false);
-                    await fetchDataApi(currentDate.toISOString().split('T')[0]);
+                    await fetchDataApi();
                 }
             }
         }
@@ -103,13 +101,13 @@ const ForeCastScreen = ({route}: {route: any}) => {
             setTodayDate(currentDate.toISOString().split('T')[0])
             await AsyncStorage.setItem('setDate', year+"-"+month+"-"+day);
             setDatePickerVisible(false);
-            await fetchDataApi(year+"-"+month+"-"+day);
+            await fetchDataApi();
         }
         else{
             setTodayDate(currentDate.toISOString().split('T')[0]);
             await AsyncStorage.setItem('setDate', currentDate.toISOString().split('T')[0]+" 00:00:00");
             setDatePickerVisible(false);
-            await fetchDataApi(currentDate.toISOString().split('T')[0]);
+            await fetchDataApi();
         }
 
     }
@@ -125,10 +123,13 @@ const ForeCastScreen = ({route}: {route: any}) => {
     // End Date Picker
 
     // get data from database
-    const fetchDataApi = async(todayDate: any) => {
+    const fetchDataApi = async() => {
         setDataProcess(true);
+        setTodayDate(await AsyncStorage.getItem('setDate') ?? todayDate);
         var getIPaddress=await AsyncStorage.getItem('IPaddress');
-        var runDate=todayDate.split(' ')[0];
+        
+        var runDate=await AsyncStorage.getItem('setDate') ?? todayDate;
+
 
         await RNFetchBlob.config({
             trusty: true
@@ -233,7 +234,7 @@ const ForeCastScreen = ({route}: {route: any}) => {
                     <ActivityIndicator size="large" />
                 </View>
             ) : (
-            <View style={{height:Dimensions.get("screen").height/100*77}}>
+            <View style={{height:Dimensions.get("screen").height/100*83}}>
                 <View style={css.firstContainer}>
                     <View style={css.row}>
                         {showPicker && Platform.OS === 'android' && <DateTimePicker 

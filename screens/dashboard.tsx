@@ -3,13 +3,13 @@ import { View, Text, FlatList, TouchableOpacity, ActivityIndicator, Dimensions, 
 import { useEffect, useState } from 'react';
 // import { LineChart,} from "react-native-chart-kit";
 import Snackbar from 'react-native-snackbar';
-import { useNavigation } from '@react-navigation/native';
+import { useFocusEffect, useNavigation } from '@react-navigation/native';
 import MainContainer from '../components/MainContainer';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { ImagesAssets } from '../objects/images';
 import KeyboardAvoidWrapper from '../components/KeyboardAvoidWrapper';
 import { css, datepickerCSS } from '../objects/commonCSS';
-import { showData, BarData, BarData2, currencyFormat } from '../objects/objects';
+import { showData, BarData, BarData2, currencyFormat, setNumberFormat2 } from '../objects/objects';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import RNFetchBlob from 'rn-fetch-blob';
 import 'react-native-gesture-handler';
@@ -20,6 +20,7 @@ import DetailOverallScreen from './detailOverallScreen';
 import { LineChart } from 'react-native-gifted-charts';
 import { colorThemeDB } from '../objects/colors';
 import moment from 'moment';
+import { format, parseISO } from 'date-fns';
 
 
 const DashboardScreen = ({route}: {route: any}) => {
@@ -49,29 +50,24 @@ const DashboardScreen = ({route}: {route: any}) => {
     // END IOS Date Picker modal setup
 
 
-    useEffect(()=> { // when starting the page
+    useEffect(()=> {
         (async()=> {
             setFetchedData([]);
             setBarData({ labels: [], datasets: [{ data: [] }] });
-            if(await AsyncStorage.getItem('setDate')==null){
-                setTodayDate(await AsyncStorage.getItem('setDate') ?? todayDate);
-                fetchDataApi(route.params.stayPage,todayDate);
-            }else{
-                setTodayDate(await AsyncStorage.getItem('setDate') ?? todayDate);
-                fetchDataApi(route.params.stayPage,await AsyncStorage.getItem('setDate'));
-                setSelectedIOSDate(moment.utc(await AsyncStorage.getItem('setDate') ?? todayDate).toDate());
-                
-            }
+            fetchDataApi(route.params.stayPage);
         })();
     }, []);
 
+    useFocusEffect(
+        React.useCallback(() => {
+            fetchDataApi(route.params.stayPage);       
+        }, [])
+    );
 
     // Date Picker
-    const onChangeDate = async ({type}: any, selectedDate: any) => {
-        
+    const onChangeDate = async ({type}: any, selectedDate: any) => {       
         setShowPicker(false);
         if(type=="set"){
-
             const currentDate=selectedDate;
             setSelectedIOSDate(currentDate);
 
@@ -86,14 +82,14 @@ const DashboardScreen = ({route}: {route: any}) => {
                     setTodayDate(currentDate.toISOString().split('T')[0])
                     await AsyncStorage.setItem('setDate', year+"-"+month+"-"+day);
                     setShowPicker(false);
-                    await fetchDataApi(route.params.stayPage,year+"-"+month+"-"+day);
+                    await fetchDataApi(route.params.stayPage);
                     
                 }
                 else{
                     setTodayDate(currentDate.toISOString().split('T')[0]);
                     await AsyncStorage.setItem('setDate', currentDate.toISOString().split('T')[0]+" 00:00:00");
                     setShowPicker(false);
-                    await fetchDataApi(route.params.stayPage,currentDate.toISOString().split('T')[0]);
+                    await fetchDataApi(route.params.stayPage);
                 }
             }
         }
@@ -111,13 +107,13 @@ const DashboardScreen = ({route}: {route: any}) => {
             setTodayDate(currentDate.toISOString().split('T')[0])
             await AsyncStorage.setItem('setDate', year+"-"+month+"-"+day);
             setDatePickerVisible(false);
-            await fetchDataApi(route.params.stayPage,year+"-"+month+"-"+day);
+            await fetchDataApi(route.params.stayPage);
         }
         else{
             setTodayDate(currentDate.toISOString().split('T')[0]);
             await AsyncStorage.setItem('setDate', currentDate.toISOString().split('T')[0]+" 00:00:00");
             setDatePickerVisible(false);
-            await fetchDataApi(route.params.stayPage,currentDate.toISOString().split('T')[0]);
+            await fetchDataApi(route.params.stayPage);
         }
 
     }
@@ -133,11 +129,12 @@ const DashboardScreen = ({route}: {route: any}) => {
     // End Date Picker
 
     // get data from database
-    const fetchDataApi = async(type: any, todayDate: any) => {
+    const fetchDataApi = async(type: any) => {
         setDataProcess(true);
+        setTodayDate(await AsyncStorage.getItem('setDate') ?? todayDate);
         var getIPaddress=await AsyncStorage.getItem('IPaddress');
-        var runDate=todayDate.split(' ')[0];
-        let setURL
+        var runDate=await AsyncStorage.getItem('setDate');
+        let setURL;
 
         if(type=="Receiving"){
             setURL="GetGoodsReceiving";
@@ -178,12 +175,14 @@ const DashboardScreen = ({route}: {route: any}) => {
                 })));
 
                 setBarData2(response.json().barChart.map(type == "Overall" ? (item: { overallAmount: any; days: any; date: any }) => ({
-                    label: item.date.substring(2,10),
+                    label: format(parseISO(item.date), 'MMM dd'),
+                    // label: item.date.substring(2,10),
                     // label: item.days.slice(0,-3),
                     value: item.overallAmount.toFixed(2),
                     textFontSize: 8
                 }) : (item: { handlingChargesAmount: any; days: any; date: any; }) =>({
-                    label: item.date.substring(2,10),
+                    label: format(parseISO(item.date), 'MMM dd'),
+                    // label: item.date.substring(2,10),
                     // label: item.days.slice(0,-3),
                     value: item.handlingChargesAmount.toFixed(2),
                     textFontSize: 8
@@ -191,7 +190,7 @@ const DashboardScreen = ({route}: {route: any}) => {
 
                 const WeightArray=(response.json().barChart.map(type == "Overall" ? (item: { overallAmount: any; }) => item.overallAmount : (item: { handlingChargesAmount: any; }) => item.handlingChargesAmount));
                 const MaxWeight = Math.max.apply(Math, WeightArray);
-                const MaxWeight_Rounded = Math.ceil(MaxWeight/10) * 10;
+                const MaxWeight_Rounded = Math.ceil(MaxWeight/100) * 100;
                 setMaxChartValue(MaxWeight_Rounded);
 
                 const convertedData: BarData = {
@@ -250,19 +249,6 @@ const DashboardScreen = ({route}: {route: any}) => {
                                 </Text>
                             </View>
                             <View style={{flexDirection: 'row',}}>
-                                {/* {item.amount==null ? (
-                                    <ProgressBar
-                                        style={{width:200, height: 10}}
-                                        progress={0}
-                                        color={colorThemeDB.colors.primary}
-                                    />
-                                ) : (
-                                    <ProgressBar
-                                        style={{width:200, height: 10}}
-                                        progress={Math.round(parseInt(item.amount)/totalAmount*100)/100}
-                                        color={colorThemeDB.colors.primary}
-                                    />
-                                )} */}
                                 <Text style={css.text2ndHeader}>
                                     {item.rentalAmount.toFixed(2)}(RA) + {item.grAmount.toFixed(2)}(GR) + {item.giAmount.toFixed(2)}(GI) = {parseInt(item.amount).toFixed(2)}
                                 </Text>
@@ -374,7 +360,6 @@ const DashboardScreen = ({route}: {route: any}) => {
                         maxValue={maxChartValue}
                         areaChart
                         startFillColor={colorThemeDB.colors.primary}
-                        showValuesAsDataPointsText
                         spacing={65}
                         yAxisLabelWidth={45}
                         initialSpacing={25}
@@ -386,28 +371,28 @@ const DashboardScreen = ({route}: {route: any}) => {
                         textShiftY={0}
                         textShiftX={10}
                         textFontSize={8}
+                        showValuesAsDataPointsText={true}
                         adjustToWidth={true}
+                        focusEnabled={true}
                         // curved
                         // showArrow1
-                        onPress={async (item: any) => {
-                            console.log(item);
-                            Snackbar.show({
-                                text: item.label+": "+item.value.toString(),
-                                duration: Snackbar.LENGTH_SHORT,
-                            });
+                        onFocus={async (item: any) => {
+                            setTodayDate("20"+item.label)
+                            await AsyncStorage.setItem('setDate', "20"+item.label);
+                            fetchDataApi(route.params.stayPage);
                         }}
                     />
                     <View style={[css.row,{marginTop:5,marginBottom:5}]}>
                         {route.params.stayPage=="Overall" ? (
                             <View style={{width:"75%"}}>
                                 <Text style={{fontSize:20,fontWeight:'bold',textAlign:"center",fontStyle:"italic"}}>
-                                    {route.params.stayPage} Amount: {totalAmount.toFixed(2)}
+                                    {route.params.stayPage} Amount: {setNumberFormat2(totalAmount)}
                                 </Text>
                             </View>
                         ) : (
                             <View style={{width:"100%"}}>
                                 <Text style={{fontSize:20,fontWeight:'bold',textAlign:"center",fontStyle:"italic"}}>
-                                    {route.params.stayPage} Amount: {totalAmount.toFixed(2)}
+                                    {route.params.stayPage} Amount: {setNumberFormat2(totalAmount)}
                                 </Text>
                             </View>
                         )}

@@ -9,13 +9,10 @@ import Snackbar from 'react-native-snackbar';
 import { css } from '../objects/commonCSS';
 import RNFetchBlob from 'rn-fetch-blob';
 import { pickingListDetail } from '../objects/objects';
-import { colorThemeDB } from '../objects/colors';
 import { Checkbox } from 'react-native-paper';
 
 const DetailPickingListScreen = () => {
     const navigation = useNavigation();
-
-    const [settingDate, setSettingDate] = useState("");
 
     const [dataProcess, setDataProcess] = useState(false); // check when loading data
     const [customerName, setCustomerName] = useState<string | null>("");
@@ -89,22 +86,23 @@ const DetailPickingListScreen = () => {
         var getIPaddress=await AsyncStorage.getItem('IPaddress');
         var goodsID=await AsyncStorage.getItem('goodsID');
         var userID=await AsyncStorage.getItem('userID');
-        let submitType;
-        let setURL;
+        let submitType, setURL;
 
         if(type=="Picking"){
             submitType="start_picking";
         }else if(type=="Picking Done"){
             submitType="done_picking";
-        }else if(type=="Staging"){
-            submitType="staging";
-        }else if(type=="Delivered"){
+        }else if(type=="Staging"){                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         
+            submitType="staging";                                                                                                                                                                                                                                                                                                     
+        }else if(type=="Delivered"){            
             submitType="delivered";
         }else if(type=="Pick Product"){
             submitType="picked_product";
+        }else if (type=="UnPick Product"){
+            submitType="unpicked_product";
         }
 
-        if(type=="Pick Product"){
+        if(type=="Pick Product" || type=="UnPick Product"){
             setURL="https://"+getIPaddress+"/App/UpdatePickingListStatus?type="+submitType+"&goodsIssueId="+goodsID+"&userId="+userID+"&productCode="+ encodeURIComponent(productCode);
         }else{
             setURL="https://"+getIPaddress+"/App/UpdatePickingListStatus?type="+submitType+"&goodsIssueId="+goodsID+"&userId="+userID+"&productCode=";
@@ -114,10 +112,10 @@ const DetailPickingListScreen = () => {
             "Content-Type": "application/json",  
         }).then(async (response) => {
             if(response.json().isSuccess==true){
-                if(type!="Pick Product"){
-                    await fetchDataApi();
-                }else{
+                if(type=="Pick Product" || type=="UnPick Product"){
                     handleCheckboxChange(productCode);
+                }else{
+                    await fetchDataApi();
                 }
             }else{
                 console.log(response.json().message);
@@ -149,6 +147,8 @@ const DetailPickingListScreen = () => {
                 // console.log(item.key+": "+item.isDonePicking.toString());
                 if(status=="Picking" && item.isDonePicking==false){
                     changeStatusAPI("Pick Product",item.key);
+                }else if(status=="Picking" && item.isDonePicking==true){
+                    changeStatusAPI("UnPick Product",item.key);
                 }
             }}>
             <View style={[css.listItem,{padding:5}]} key={parseInt(item.key)}>
@@ -284,7 +284,7 @@ const DetailPickingListScreen = () => {
                                 changeStatusAPI("Picking","");
                             }}
                         >
-                            <Text style={[css.buttonText,{color:"black"}]}>Picking</Text>
+                            <Text style={[css.buttonText,{color:"white"}]}>Picking</Text>
                         </Pressable> )
                         : (status=="Picking") 
                         ? (<Pressable
@@ -302,7 +302,7 @@ const DetailPickingListScreen = () => {
                                 changeStatusAPI("Staging","");
                             }}
                         >
-                            <Text style={[css.buttonText,{color:"black"}]}>Staging</Text>
+                            <Text style={[css.buttonText,{color:"white"}]}>Staging</Text>
                         </Pressable> ) 
                         : (status=="Staging") 
                         ? (<Pressable
@@ -311,7 +311,7 @@ const DetailPickingListScreen = () => {
                                 changeStatusAPI("Delivered","");
                             }}
                         >
-                            <Text style={[css.buttonText,{color:"black"}]}>Delivered</Text>
+                            <Text style={[css.buttonText,{color:"white"}]}>Delivered</Text>
                         </Pressable> ) 
                         : (
                            <></>

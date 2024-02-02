@@ -102,7 +102,9 @@ export interface BarData {
 export interface BarData2 {
     label: string;
     value: number;
+    date: string;
     textFontSize: number;
+    color: string;
 } 
 
 export const CircleColorText = ( {color}: {color: string} ) => {
@@ -120,3 +122,16 @@ export function currencyFormat(num: number) {
 export function setNumberFormat2(num: number) {
     return num.toFixed(2).replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')
 }
+
+export const monthNumberToName = (monthNumber: any) => {
+    // Ensure monthNumber is in the range 1-12
+    const normalizedMonthNumber = Math.min(Math.max(parseInt(monthNumber, 10), 1), 12);
+  
+    // Create a Date object with the year and month set
+    const date = new Date(2000, normalizedMonthNumber - 1, 1); // Subtract 1 because months are zero-indexed
+  
+    // Use toLocaleString to get the month name
+    const monthName = date.toLocaleString('default', { month: 'short' });
+  
+    return monthName;
+};

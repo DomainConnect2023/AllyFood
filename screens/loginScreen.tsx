@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Image, Pressable } from 'react-native';
-import { View, Text, TextInput, StyleSheet } from 'react-native';
+import { View, Text, TextInput as TextInputs, StyleSheet } from 'react-native';
 import KeyboardAvoidWrapper from '../components/KeyboardAvoidWrapper';
 import MainContainer from '../components/MainContainer';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -10,7 +10,7 @@ import { useAuth } from '../components/Auth_Provider/Auth_Context';
 import RNFetchBlob from 'rn-fetch-blob';
 import Snackbar from 'react-native-snackbar';
 import { URLAccess } from '../objects/URLAccess';
-
+import { TextInput } from 'react-native-paper';
 
 export const [isLoginSuccess, setLoginStatus] = useState<String | null>("");
 
@@ -26,7 +26,7 @@ const LoginScreen = () => {
 
     const [branch,setbranch]=useState("");
     
-    const inputRef = React.createRef<TextInput>();
+    const inputRef = React.createRef<TextInputs>();
     const [IPaddress, setIPadress] = useState("");
 
     const { setIsSignedIn } = useAuth();
@@ -117,11 +117,12 @@ const LoginScreen = () => {
                             <Ionicons name={"person-circle-sharp" ?? ""} size={40} color={"#112A08"} />
                         </View>
                         <TextInput
+                            mode='outlined'
                             style={styles.Input}
                             onSubmitEditing={() => inputRef.current?.focus()}
-                            placeholder="User Name"
                             value={username}
                             onChangeText={setUserName}
+                            label="User Name"
                         />
                     </View>
                     <View style={styles.subcontainer}>
@@ -129,12 +130,13 @@ const LoginScreen = () => {
                             <Ionicons name={"key-sharp" ?? ""} size={40} color={"#112A08"} />
                         </View>
                         <TextInput
+                            mode='outlined'
                             style={styles.Input}
                             ref={inputRef}
-                            placeholder="Password"
                             secureTextEntry
                             value={password}
                             onChangeText={setPassword}
+                            label="Password"
                         />
                     </View>
                     
@@ -162,11 +164,9 @@ const styles = StyleSheet.create({
     },
     Input: {
         width: '70%',
-        height: 70,
         marginBottom: 10,
-        padding: 10,
-        borderWidth: 1,
-        borderColor: '#ccc',
+        paddingLeft: 10,
+        borderColor: '#fff',
         color: "#000",
     },
     Icon: {

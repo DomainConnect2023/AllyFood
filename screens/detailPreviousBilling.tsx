@@ -8,7 +8,10 @@ import { useNavigation } from '@react-navigation/native';
 import Snackbar from 'react-native-snackbar';
 import { css } from '../objects/commonCSS';
 import RNFetchBlob from 'rn-fetch-blob';
-import { previousBillingData, setNumberFormat2 } from '../objects/objects';
+import { previousBillingData, setNumberFormat2, BarData2 } from '../objects/objects';
+import { LineChart } from 'react-native-gifted-charts';
+import { colorThemeDB } from '../objects/colors';
+import { parse, format } from 'date-fns';
 
 const DetailPreviousBillingScreen = () => {
     const navigation = useNavigation();
@@ -18,12 +21,14 @@ const DetailPreviousBillingScreen = () => {
     // data information
     const [customerName, setCustomerName] = useState<string | null>("");
     const [fetchedData, setFetchedData] = useState<previousBillingData[]>([]);
+    const [BarData2, setBarData2] = useState<BarData2[]>([]);
+
+    const [maxChartValue, setMaxChartValue] = useState<number>(100);
 
     const [dataProcess, setDataProcess] = useState(false); // check when loading data
 
     useEffect(()=> {
         (async()=> {
-            setTheDate(await AsyncStorage.getItem('setDate') ?? "");
             await fetchDataApi();
         })();
     }, [])
@@ -32,12 +37,14 @@ const DetailPreviousBillingScreen = () => {
         setDataProcess(true);
         var getIPaddress=await AsyncStorage.getItem('IPaddress');
         var customerID=await AsyncStorage.getItem('customerID');
-        var setDate=await AsyncStorage.getItem('setDate');
+        var setYearMonth=await AsyncStorage.getItem('setYearMonth');
+        
+        setTheDate(setYearMonth ?? "");
 
         await RNFetchBlob.config({
             trusty: true
         })
-        .fetch('GET', "https://"+getIPaddress+"/App/GetPreviousBillingDetail?todayDate="+setDate+"&customerId="+customerID,{
+        .fetch('GET', "https://"+getIPaddress+"/App/GetPreviousBillingDetail?todayDate="+setYearMonth+"&customerId="+customerID,{
             "Content-Type": "application/json",  
         }).then((response) => {
             if(response.json().isSuccess==true){
@@ -54,6 +61,18 @@ const DetailPreviousBillingScreen = () => {
                     amount: setNumberFormat2(item.amount),
                 })));
 
+                setBarData2(response.json().previousBillingDetail.map((item: { amount: any; month: any; date: any; }) => ({
+                    label: item.month,
+                    value: item.amount.toFixed(2),
+                    date: item.date,
+                })));
+                
+                const AmountArray=(response.json().previousBillingDetail.map((item: { amount: any; }) => item.amount));
+                const MaxAmount = Math.max.apply(Math, AmountArray);
+                const MaxAmount_Rounded = Math.ceil(MaxAmount/5000) * 5000;
+
+                setMaxChartValue(MaxAmount_Rounded);
+
             }else{
                 console.log(response.json().message);
                 Snackbar.show({
@@ -61,8 +80,7 @@ const DetailPreviousBillingScreen = () => {
                     duration: Snackbar.LENGTH_SHORT,
                 });
             }
-        })
-        .catch(error => {
+        }).catch(error => {
             Snackbar.show({
                 text: error.message,
                 duration: Snackbar.LENGTH_SHORT,
@@ -125,7 +143,7 @@ const DetailPreviousBillingScreen = () => {
                 </View>
                 ) : (
                     <View style={[{height:Dimensions.get("screen").height/100*82,justifyContent: 'center',alignItems: 'center'}]}>
-                        <View style={[css.detailContainer,{height: '15%',}]}>
+                        <View style={[css.firstContainer,{marginTop:15}]}>
                             <View style={css.row}>
                                 <Text style={css.Title}>Date:</Text>
                                 <Text style={css.subTitle}>{theDate}</Text>
@@ -135,11 +153,45 @@ const DetailPreviousBillingScreen = () => {
                                 <Text style={css.subTitle}>{customerName}</Text>
                             </View>
                         </View>
+
+                        <View style={css.secondContainer}>
+                            <LineChart
+                                data={BarData2}
+                                height={160}
+                                width={Dimensions.get("screen").width}
+                                noOfSections={4}
+                                maxValue={maxChartValue}
+                                areaChart
+                                startFillColor={colorThemeDB.colors.primary}
+                                yAxisLabelWidth={45}
+                                spacing={50}
+                                initialSpacing={20}
+                                color1={colorThemeDB.colors.primary}
+                                textColor1="black"
+                                dataPointsColor1={colorThemeDB.colors.primary}
+                                textShiftY={2}
+                                textShiftX={8}
+                                textFontSize={8}
+                                showValuesAsDataPointsText={true}
+                                adjustToWidth={true}
+                                focusEnabled={true}
+                                // curved
+                                // showArrow1
+                                onFocus={async (item: any) => {
+                                    var getYear = item.date.substr(item.date.length - 4);
+                                    var monthNumber = format(parse(item.label, 'MMM', new Date()), 'MM');
+                                    setTheDate(getYear+"-"+monthNumber);
+                                    await AsyncStorage.setItem('setYearMonth', getYear+"-"+monthNumber);
+                                    fetchDataApi();
+                                }}
+                            />
+                        </View>
                     
                         <FlatList
                             data={fetchedData}
                             renderItem={FlatListItem}
                             keyExtractor={(item) => item.key}
+                            style={{marginTop:-10}}
                         />
                     </View>
                 )}
