@@ -132,8 +132,7 @@ const DashboardScreen = ({route}: {route: any}) => {
     const fetchDataApi = async(type: any) => {
         setDataProcess(true);
         setTodayDate(await AsyncStorage.getItem('setDate') ?? todayDate);
-        // var getIPaddress=await AsyncStorage.getItem('IPaddress');
-        var getIPaddress="192.168.1.101:1234";
+        var getIPaddress=await AsyncStorage.getItem('IPaddress');
         var runDate=await AsyncStorage.getItem('setDate');
         let setURL;
 
