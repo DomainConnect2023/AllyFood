@@ -9,7 +9,7 @@ import Snackbar from 'react-native-snackbar';
 import { css } from '../objects/commonCSS';
 import RNFetchBlob from 'rn-fetch-blob';
 import { pickingListDetail } from '../objects/objects';
-import { Checkbox } from 'react-native-paper';
+import { Checkbox, DataTable } from 'react-native-paper';
 
 const DetailPickingListScreen = () => {
     const navigation = useNavigation();
@@ -160,20 +160,19 @@ const DetailPickingListScreen = () => {
                                     <View style={{ width: "35%", alignSelf: 'stretch', margin:5}}>
                                         <Text>Product Name</Text>
                                     </View>
+                                    <View style={{alignSelf: 'stretch', margin:5, width:"40%"}}>
+                                        <Text numberOfLines={2}>: {item.productName}</Text>
+                                    </View>
                                     {status=="Picking" ? (
-                                        <View style={{alignSelf: 'stretch', flexDirection: 'row',width: "50%"}}>
-                                            <View style={{alignSelf: 'stretch', margin:5, width:"90%"}}>
-                                                <Text numberOfLines={2}>: {item.productName}</Text>
-                                            </View>
+                                        // <View style={{alignSelf: 'stretch', flexDirection: 'row',width: "50%"}}>
+
                                             <View style={{alignSelf: 'stretch', margin:5, width:"10%"}}>
                                                 <Checkbox
                                                     status={item.isDonePicking==true ? 'checked' : 'unchecked'}
-                                                    // onPress={() => {
-                                                        
-                                                    // }}
+
                                                 />
                                             </View>
-                                        </View>
+                                        // </View>
                                     ) : (
                                         <View style={{ width: "50%", alignSelf: 'stretch', margin:5}}>
                                             <Text numberOfLines={2}>: {item.productName}</Text>
@@ -276,6 +275,49 @@ const DetailPickingListScreen = () => {
                         keyExtractor={(item) => item.key}
                         style={{padding: 0}}
                     />
+                        {/* <DataTable>
+                            <DataTable.Header>
+                                <DataTable.Title style = {{flex: 1.5}}>Product</DataTable.Title>
+                                <DataTable.Title numberOfLines={2} >Pick Carton</DataTable.Title>
+                                <DataTable.Title numberOfLines={2} >Pick Pallet</DataTable.Title>
+                                <DataTable.Title numberOfLines={2}>Location</DataTable.Title>
+                                <DataTable.Title numberOfLines={2}>Carton balance</DataTable.Title>
+                                <DataTable.Title numberOfLines={2}>Pallet balance</DataTable.Title>
+                                <DataTable.Title>Done</DataTable.Title>
+                            </DataTable.Header>
+                                {fetchedData.map(item =>{
+                                    return(
+                                        <DataTable.Row key = {item.key} >
+                                            <View style = {{flex: 1.5, justifyContent: 'center', alignItems: 'flex-start'}}>
+                                                <Text numberOfLines={2}>{item.productName}</Text>
+                                            </View>
+                                            <DataTable.Cell>{item.toPickCartonQuantity}</DataTable.Cell>
+                                            <DataTable.Cell>{item.toPickPalletQuantity}</DataTable.Cell>
+                                            <DataTable.Cell>  {item.locationStockBalances.map((detail, detailIndex) => (
+                                               <View key = {detailIndex}><Text>{detail.locationDescription}</Text></View>
+                                            ))}
+                                            </DataTable.Cell>
+                                            <DataTable.Cell>  {item.locationStockBalances.map((detail, detailIndex) => (
+                                               <View key = {detailIndex}><Text>{detail.cartonBalance}</Text></View>
+                                            ))}
+                                            </DataTable.Cell>
+                                            <DataTable.Cell>  {item.locationStockBalances.map((detail, detailIndex) => (
+                                               <View key = {detailIndex}><Text>{detail.palletBalance}</Text></View>
+                                            ))}
+                                            </DataTable.Cell>
+                                            <DataTable.Cell onPress={async () => {
+                                                item.isDonePicking == true ?changeStatusAPI("UnPick Product", item.key) : changeStatusAPI("Pick Product",item.key);
+                                            }}>
+                                                <Checkbox
+                                                    status={item.isDonePicking==true ? 'checked' : 'unchecked'}
+                                                />
+                                            </DataTable.Cell>
+                                        </DataTable.Row>
+                                    )
+
+                                })}
+                    </DataTable> */}
+
                     <View style={[css.row,]}>
                         {(status=="Pending") 
                         ? (<Pressable

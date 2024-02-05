@@ -116,19 +116,19 @@ const PickingListScreen = () => {
 
                 setMaxChartValue(MaxWeight_Rounded);
 
-                const convertedData: BarData = {
-                    labels: response.json().barChart.map((item: { days: any; }) => item.days),
-                    datasets: [
-                        {
-                            data: response.json().barChart.map((item: { goodsIssueCount: any; }) => item.goodsIssueCount),
-                        },
-                        {
-                            data: [MaxWeight_Rounded],
-                            withDots: false,
-                        },
-                    ],
-                };
-                setBarData(convertedData);
+                // const convertedData: BarData = {
+                //     labels: response.json().barChart.map((item: { days: any; }) => item.days),
+                //     datasets: [
+                //         {
+                //             data: response.json().barChart.map((item: { goodsIssueCount: any; }) => item.goodsIssueCount),
+                //         },
+                //         {
+                //             data: [MaxWeight_Rounded],
+                //             withDots: false,
+                //         },
+                //     ],
+                // };
+                // setBarData(convertedData);
                 setTotalAmount(response.json().todayIssueAmount);
             }else{
                 // console.log(response.json().message);

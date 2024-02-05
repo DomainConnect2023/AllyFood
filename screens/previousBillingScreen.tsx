@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { useCallback, useEffect, useState } from 'react';
-import { View, ActivityIndicator, Text, Platform, Pressable, TextInput, Dimensions, Image, FlatList, TouchableOpacity } from "react-native";
+import { View, ActivityIndicator, Text, Platform, Pressable, TextInput, Dimensions, Image, FlatList, Button } from "react-native";
 import Snackbar from 'react-native-snackbar';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import MainContainer from '../components/MainContainer';
@@ -17,6 +17,7 @@ import moment from 'moment';
 import DetailPreviousBillingScreen from './detailPreviousBilling';
 import MonthPicker from 'react-native-month-year-picker';
 import { parse, format } from 'date-fns';
+import { BottomSheetModal, TouchableOpacity} from '@gorhom/bottom-sheet';
 
 const PreviousBillingScreen = () => {
     const navigation = useNavigation();
@@ -57,6 +58,19 @@ const PreviousBillingScreen = () => {
         [date, showPicker],
     );
 
+    const bottomSheetModalRef = React.useRef<BottomSheetModal>(null);
+
+    const handlePresentModalPress = useCallback(() => {
+        console.log("pressed");
+        bottomSheetModalRef.current?.present();
+      }, []);
+      const handleSheetChanges = useCallback((index: number) => {
+        console.log('handleSheetChanges', index);
+      }, []);
+
+      const snapPoints = React.useMemo(() => ['25%', '50%'], []);
+
+
     useEffect(()=> {
         (async()=> {
             setFetchedData([]);
@@ -92,7 +106,7 @@ const PreviousBillingScreen = () => {
 
                 setBarData2(response.json().barChart.map((item: { amount: any; month: any; date: any; }) => ({
                     label: item.month,
-                    value: item.amount.toFixed(2),
+                    value: parseFloat(item.amount),
                     date: item.date,
                     textFontSize: 8
                 })));
@@ -164,27 +178,47 @@ const PreviousBillingScreen = () => {
             ) : (
             <View style={{height:Dimensions.get("screen").height/100*83}}>
                 <View style={css.firstContainer}>
-                    <View style={css.row}>
-                        <TouchableOpacity style={css.pressableCSS} onPress={() => showPicker(true)}>
-                            <TextInput
-                                style={datepickerCSS.textInput}
-                                value={myYear +"-"+ myMonth}
-                                placeholderTextColor="#11182744"
-                                editable={false}
-                            />
+                    <View style={{alignItems: 'center', justifyContent: 'center', flexDirection: 'column'}}>
+                        {/* <Button
+                            title = {myYear}
+                            onPress = {() => handlePresentModalPress}
+                        > */}
+                            {/* <View pointerEvents='none'>
+                                <TextInput
+                                    style={datepickerCSS.textInput}
+                                    value={myYear +"-"+ myMonth}
+                                    placeholderTextColor="#11182744"
+                                    editable={false}
+                                />
+                            </View> */}
+                        {/* </Button> */}
+                        <TouchableOpacity style={css.pressableCSS} onPress={() => setShow(true)}>
+                            <View pointerEvents='none'>
+                                <TextInput
+                                    style={datepickerCSS.textInput}
+                                    value={myYear +"-"+ myMonth}
+                                    placeholderTextColor="#11182744"
+                                    editable={false}
+                                />
+                            </View>
                         </TouchableOpacity>
-                        {show && (
-                            <MonthPicker
-                                onChange={onValueChange}
-                                value={date}
-                                locale="en"
-                                mode='number'
-                            />
-                        )}
+                                {/* <BottomSheetModal
+                                    ref={bottomSheetModalRef}
+                                    index={1}
+                                    snapPoints={snapPoints}
+                                    onChange={handleSheetChanges}
+                                >
+                                    <View>
+                                        <Text>Awesome 🎉</Text>
+                                    </View>
+                                </BottomSheetModal> */}
                     </View>    
+                    
                 </View>
+                   
 
                 <View style={css.secondContainer}>
+                         
                     {/* <LineChart
                         data={BarData2}
                         height={160}
@@ -261,12 +295,22 @@ const PreviousBillingScreen = () => {
                         </View>
                     </View>
                 </View>
-                        
+                           
                 <FlatList
                     data={fetchedData}
                     renderItem={FlatListItem}
                     keyExtractor={(item) => item.key}
                 />
+                        <View style={{ alignItems: 'center', justifyContent: 'center', flexDirection: 'row' }}>
+                            {show && (
+                                <MonthPicker
+                                    onChange={onValueChange}
+                                    value={date}
+                                    locale="en"
+                                    mode='number'
+                                />
+                            )}
+                        </View>
             </View>
             )}
         </MainContainer>

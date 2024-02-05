@@ -132,7 +132,8 @@ const DashboardScreen = ({route}: {route: any}) => {
     const fetchDataApi = async(type: any) => {
         setDataProcess(true);
         setTodayDate(await AsyncStorage.getItem('setDate') ?? todayDate);
-        var getIPaddress=await AsyncStorage.getItem('IPaddress');
+        // var getIPaddress=await AsyncStorage.getItem('IPaddress');
+        var getIPaddress="192.168.1.101:1234";
         var runDate=await AsyncStorage.getItem('setDate');
         let setURL;
 
@@ -171,20 +172,18 @@ const DashboardScreen = ({route}: {route: any}) => {
                     cartonBalance: item.cartonBalance,
                     grAmount: item.grAmount,
                     giAmount: item.giAmount,
-
                 })));
-
                 setBarData2(response.json().barChart.map(type == "Overall" ? (item: { overallAmount: any; days: any; date: any }) => ({
                     label: format(parseISO(item.date), 'MMM dd'),
                     // label: item.date.substring(2,10),
                     // label: item.days.slice(0,-3),
-                    value: item.overallAmount.toFixed(2),
+                    value: parseFloat(item.overallAmount),
                     textFontSize: 8
                 }) : (item: { handlingChargesAmount: any; days: any; date: any; }) =>({
                     label: format(parseISO(item.date), 'MMM dd'),
                     // label: item.date.substring(2,10),
                     // label: item.days.slice(0,-3),
-                    value: item.handlingChargesAmount.toFixed(2),
+                    value: parseFloat(item.handlingChargesAmount),
                     textFontSize: 8
                 })));
 
@@ -245,18 +244,18 @@ const DashboardScreen = ({route}: {route: any}) => {
                             <View style={{flexDirection: 'row',}}>
                                 <Text style={css.textHeader} numberOfLines={2}>{item.name}</Text>
                                 <Text style={[css.textDescription,{textAlign:"right"}]}>
-                                    Amount: {parseInt(item.amount).toFixed(2)}
+                                    Amount: {parseFloat(item.amount).toFixed(2)}
                                 </Text>
                             </View>
                             <View style={{flexDirection: 'row',}}>
                                 <Text style={css.text2ndHeader}>
-                                    {item.rentalAmount.toFixed(2)}(RA) + {item.grAmount.toFixed(2)}(GR) + {item.giAmount.toFixed(2)}(GI) = {parseInt(item.amount).toFixed(2)}
+                                    {item.rentalAmount.toFixed(2)}(RA) + {item.grAmount.toFixed(2)}(GR) + {item.giAmount.toFixed(2)}(GI) = {parseFloat(item.amount).toFixed(2)}
                                 </Text>
                                 <Text style={[css.textDescription,{textAlign:"right"}]}>
                                     { item.amount==null ? (
                                         0
                                     ) : (
-                                        Math.round(parseInt(item.amount)/totalAmount*100)
+                                        Math.round(parseFloat(item.amount)/totalAmount*100)
                                     )}%
                                 </Text>
                             </View>
@@ -278,7 +277,7 @@ const DashboardScreen = ({route}: {route: any}) => {
                             <View style={{flexDirection: 'row',}}>
                                 <Text style={css.textHeader} numberOfLines={2}>{item.name}</Text>
                                 <Text style={[css.textDescription,{textAlign:"right"}]}>
-                                    Amount: {parseInt(item.amount).toFixed(2)}
+                                    Amount: {parseFloat(item.amount).toFixed(2)}
                                 </Text>
                             </View>
                             <View style={{flexDirection: 'row',}}>
@@ -291,7 +290,7 @@ const DashboardScreen = ({route}: {route: any}) => {
                                 ) : (
                                     <ProgressBar
                                         style={{width:200, height: 10}}
-                                        progress={Math.round(parseInt(item.amount)/totalAmount*100)/100}
+                                        progress={Math.round(parseFloat(item.amount)/totalAmount*100)/100}
                                         color={colorThemeDB.colors.primary}
                                     />
                                 )}
@@ -299,7 +298,7 @@ const DashboardScreen = ({route}: {route: any}) => {
                                     { item.amount==null ? (
                                         0
                                     ) : (
-                                        Math.round(parseInt(item.amount)/totalAmount*100)
+                                        Math.round(parseFloat(item.amount)/totalAmount*100)
                                     )}%
                                 </Text>
                             </View>

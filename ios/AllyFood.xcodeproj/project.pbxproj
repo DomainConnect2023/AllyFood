@@ -11,9 +11,9 @@
 		13B07FBC1A68108700A75B9A /* AppDelegate.mm in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.mm */; };
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
-		2F8C1B0221C4B89A7B6C0074 /* libPods-AllyFood.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 72E545D58253E0F21B41E397 /* libPods-AllyFood.a */; };
-		52D510DC553131063A921D95 /* libPods-AllyFood-AllyFoodTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0591E242F15689BBF8BA14CB /* libPods-AllyFood-AllyFoodTests.a */; };
+		76F689BF69BA4AE372E32CC0 /* libPods-AllyFood.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 519BE118E01834F829C77A32 /* libPods-AllyFood.a */; };
 		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
+		BFDAC3B5AE752138EA9F9697 /* libPods-AllyFood-AllyFoodTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A2CFF1CCC46BF6610A37D711 /* libPods-AllyFood-AllyFoodTests.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -30,19 +30,19 @@
 		00E356EE1AD99517003FC87E /* AllyFoodTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = AllyFoodTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		00E356F11AD99517003FC87E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		00E356F21AD99517003FC87E /* AllyFoodTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AllyFoodTests.m; sourceTree = "<group>"; };
-		04156FF195F6EC9C20A917A9 /* Pods-AllyFood.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AllyFood.release.xcconfig"; path = "Target Support Files/Pods-AllyFood/Pods-AllyFood.release.xcconfig"; sourceTree = "<group>"; };
-		0591E242F15689BBF8BA14CB /* libPods-AllyFood-AllyFoodTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-AllyFood-AllyFoodTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		13B07F961A680F5B00A75B9A /* AllyFood.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AllyFood.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		13B07FAF1A68108700A75B9A /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = AllyFood/AppDelegate.h; sourceTree = "<group>"; };
 		13B07FB01A68108700A75B9A /* AppDelegate.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = AppDelegate.mm; path = AllyFood/AppDelegate.mm; sourceTree = "<group>"; };
 		13B07FB51A68108700A75B9A /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = AllyFood/Images.xcassets; sourceTree = "<group>"; };
 		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = AllyFood/Info.plist; sourceTree = "<group>"; };
 		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = AllyFood/main.m; sourceTree = "<group>"; };
-		308EB59FA3592C76A06D8BEF /* Pods-AllyFood-AllyFoodTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AllyFood-AllyFoodTests.debug.xcconfig"; path = "Target Support Files/Pods-AllyFood-AllyFoodTests/Pods-AllyFood-AllyFoodTests.debug.xcconfig"; sourceTree = "<group>"; };
-		72E545D58253E0F21B41E397 /* libPods-AllyFood.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-AllyFood.a"; sourceTree = BUILT_PRODUCTS_DIR; };
-		761C829213F0B40D014C7811 /* Pods-AllyFood.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AllyFood.debug.xcconfig"; path = "Target Support Files/Pods-AllyFood/Pods-AllyFood.debug.xcconfig"; sourceTree = "<group>"; };
+		519BE118E01834F829C77A32 /* libPods-AllyFood.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-AllyFood.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		51EF5D1548B9E6306CB5340E /* Pods-AllyFood-AllyFoodTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AllyFood-AllyFoodTests.debug.xcconfig"; path = "Target Support Files/Pods-AllyFood-AllyFoodTests/Pods-AllyFood-AllyFoodTests.debug.xcconfig"; sourceTree = "<group>"; };
 		81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = AllyFood/LaunchScreen.storyboard; sourceTree = "<group>"; };
-		D957A0F9475FBA5E31B1A225 /* Pods-AllyFood-AllyFoodTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AllyFood-AllyFoodTests.release.xcconfig"; path = "Target Support Files/Pods-AllyFood-AllyFoodTests/Pods-AllyFood-AllyFoodTests.release.xcconfig"; sourceTree = "<group>"; };
+		9E4EB023D155937197908A28 /* Pods-AllyFood.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AllyFood.release.xcconfig"; path = "Target Support Files/Pods-AllyFood/Pods-AllyFood.release.xcconfig"; sourceTree = "<group>"; };
+		A2CFF1CCC46BF6610A37D711 /* libPods-AllyFood-AllyFoodTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-AllyFood-AllyFoodTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		A5C446C96982DCCB868D140F /* Pods-AllyFood-AllyFoodTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AllyFood-AllyFoodTests.release.xcconfig"; path = "Target Support Files/Pods-AllyFood-AllyFoodTests/Pods-AllyFood-AllyFoodTests.release.xcconfig"; sourceTree = "<group>"; };
+		E2257E38B169EE29AACC3645 /* Pods-AllyFood.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AllyFood.debug.xcconfig"; path = "Target Support Files/Pods-AllyFood/Pods-AllyFood.debug.xcconfig"; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
@@ -51,7 +51,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				52D510DC553131063A921D95 /* libPods-AllyFood-AllyFoodTests.a in Frameworks */,
+				BFDAC3B5AE752138EA9F9697 /* libPods-AllyFood-AllyFoodTests.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -59,7 +59,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				2F8C1B0221C4B89A7B6C0074 /* libPods-AllyFood.a in Frameworks */,
+				76F689BF69BA4AE372E32CC0 /* libPods-AllyFood.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -100,8 +100,8 @@
 			isa = PBXGroup;
 			children = (
 				ED297162215061F000B7C4FE /* JavaScriptCore.framework */,
-				72E545D58253E0F21B41E397 /* libPods-AllyFood.a */,
-				0591E242F15689BBF8BA14CB /* libPods-AllyFood-AllyFoodTests.a */,
+				519BE118E01834F829C77A32 /* libPods-AllyFood.a */,
+				A2CFF1CCC46BF6610A37D711 /* libPods-AllyFood-AllyFoodTests.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -140,10 +140,10 @@
 		BBD78D7AC51CEA395F1C20DB /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				761C829213F0B40D014C7811 /* Pods-AllyFood.debug.xcconfig */,
-				04156FF195F6EC9C20A917A9 /* Pods-AllyFood.release.xcconfig */,
-				308EB59FA3592C76A06D8BEF /* Pods-AllyFood-AllyFoodTests.debug.xcconfig */,
-				D957A0F9475FBA5E31B1A225 /* Pods-AllyFood-AllyFoodTests.release.xcconfig */,
+				E2257E38B169EE29AACC3645 /* Pods-AllyFood.debug.xcconfig */,
+				9E4EB023D155937197908A28 /* Pods-AllyFood.release.xcconfig */,
+				51EF5D1548B9E6306CB5340E /* Pods-AllyFood-AllyFoodTests.debug.xcconfig */,
+				A5C446C96982DCCB868D140F /* Pods-AllyFood-AllyFoodTests.release.xcconfig */,
 			);
 			path = Pods;
 			sourceTree = "<group>";
@@ -155,12 +155,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 00E357021AD99517003FC87E /* Build configuration list for PBXNativeTarget "AllyFoodTests" */;
 			buildPhases = (
-				3DEB454E31446841C0BA017E /* [CP] Check Pods Manifest.lock */,
+				879B245B768A5A9AEEE5B6C2 /* [CP] Check Pods Manifest.lock */,
 				00E356EA1AD99517003FC87E /* Sources */,
 				00E356EB1AD99517003FC87E /* Frameworks */,
 				00E356EC1AD99517003FC87E /* Resources */,
-				206DDD82FFBBE73E2EC2502F /* [CP] Embed Pods Frameworks */,
-				AC1AE6EE3769A04D5E31E70A /* [CP] Copy Pods Resources */,
+				CA58D2061FF92270FF235205 /* [CP] Embed Pods Frameworks */,
+				040443714373C62CC7CB7932 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -176,14 +176,14 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 13B07F931A680F5B00A75B9A /* Build configuration list for PBXNativeTarget "AllyFood" */;
 			buildPhases = (
-				950C0184C63F46100489317E /* [CP] Check Pods Manifest.lock */,
+				8DDAB88F44A00475D81F3045 /* [CP] Check Pods Manifest.lock */,
 				FD10A7F022414F080027D42C /* Start Packager */,
 				13B07F871A680F5B00A75B9A /* Sources */,
 				13B07F8C1A680F5B00A75B9A /* Frameworks */,
 				13B07F8E1A680F5B00A75B9A /* Resources */,
 				00DD1BFF1BD5951E006B06BC /* Bundle React Native code and images */,
-				028A2215C893E101F8E8B6C2 /* [CP] Embed Pods Frameworks */,
-				FD47DC6CEA7B7C9040660621 /* [CP] Copy Pods Resources */,
+				1D2E04E91C58ADF1C167F361 /* [CP] Embed Pods Frameworks */,
+				D254D24986D219437E12A1EB /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -267,7 +267,24 @@
 			shellPath = /bin/sh;
 			shellScript = "set -e\n\nWITH_ENVIRONMENT=\"../node_modules/react-native/scripts/xcode/with-environment.sh\"\nREACT_NATIVE_XCODE=\"../node_modules/react-native/scripts/react-native-xcode.sh\"\n\n/bin/sh -c \"$WITH_ENVIRONMENT $REACT_NATIVE_XCODE\"\n";
 		};
-		028A2215C893E101F8E8B6C2 /* [CP] Embed Pods Frameworks */ = {
+		040443714373C62CC7CB7932 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-AllyFood-AllyFoodTests/Pods-AllyFood-AllyFoodTests-resources-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Copy Pods Resources";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-AllyFood-AllyFoodTests/Pods-AllyFood-AllyFoodTests-resources-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-AllyFood-AllyFoodTests/Pods-AllyFood-AllyFoodTests-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		1D2E04E91C58ADF1C167F361 /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -284,24 +301,7 @@
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-AllyFood/Pods-AllyFood-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		206DDD82FFBBE73E2EC2502F /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-AllyFood-AllyFoodTests/Pods-AllyFood-AllyFoodTests-frameworks-${CONFIGURATION}-input-files.xcfilelist",
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-AllyFood-AllyFoodTests/Pods-AllyFood-AllyFoodTests-frameworks-${CONFIGURATION}-output-files.xcfilelist",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-AllyFood-AllyFoodTests/Pods-AllyFood-AllyFoodTests-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		3DEB454E31446841C0BA017E /* [CP] Check Pods Manifest.lock */ = {
+		879B245B768A5A9AEEE5B6C2 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -323,7 +323,7 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
-		950C0184C63F46100489317E /* [CP] Check Pods Manifest.lock */ = {
+		8DDAB88F44A00475D81F3045 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -345,21 +345,38 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
-		AC1AE6EE3769A04D5E31E70A /* [CP] Copy Pods Resources */ = {
+		CA58D2061FF92270FF235205 /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-AllyFood-AllyFoodTests/Pods-AllyFood-AllyFoodTests-resources-${CONFIGURATION}-input-files.xcfilelist",
+				"${PODS_ROOT}/Target Support Files/Pods-AllyFood-AllyFoodTests/Pods-AllyFood-AllyFoodTests-frameworks-${CONFIGURATION}-input-files.xcfilelist",
 			);
-			name = "[CP] Copy Pods Resources";
+			name = "[CP] Embed Pods Frameworks";
 			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-AllyFood-AllyFoodTests/Pods-AllyFood-AllyFoodTests-resources-${CONFIGURATION}-output-files.xcfilelist",
+				"${PODS_ROOT}/Target Support Files/Pods-AllyFood-AllyFoodTests/Pods-AllyFood-AllyFoodTests-frameworks-${CONFIGURATION}-output-files.xcfilelist",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-AllyFood-AllyFoodTests/Pods-AllyFood-AllyFoodTests-resources.sh\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-AllyFood-AllyFoodTests/Pods-AllyFood-AllyFoodTests-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		D254D24986D219437E12A1EB /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-AllyFood/Pods-AllyFood-resources-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Copy Pods Resources";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-AllyFood/Pods-AllyFood-resources-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-AllyFood/Pods-AllyFood-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		FD10A7F022414F080027D42C /* Start Packager */ = {
@@ -379,23 +396,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "export RCT_METRO_PORT=\"${RCT_METRO_PORT:=8081}\"\necho \"export RCT_METRO_PORT=${RCT_METRO_PORT}\" > \"${SRCROOT}/../node_modules/react-native/scripts/.packager.env\"\nif [ -z \"${RCT_NO_LAUNCH_PACKAGER+xxx}\" ] ; then\n  if nc -w 5 -z localhost ${RCT_METRO_PORT} ; then\n    if ! curl -s \"http://localhost:${RCT_METRO_PORT}/status\" | grep -q \"packager-status:running\" ; then\n      echo \"Port ${RCT_METRO_PORT} already in use, packager is either not running or not running correctly\"\n      exit 2\n    fi\n  else\n    open \"$SRCROOT/../node_modules/react-native/scripts/launchPackager.command\" || echo \"Can't start packager automatically\"\n  fi\nfi\n";
-			showEnvVarsInLog = 0;
-		};
-		FD47DC6CEA7B7C9040660621 /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-AllyFood/Pods-AllyFood-resources-${CONFIGURATION}-input-files.xcfilelist",
-			);
-			name = "[CP] Copy Pods Resources";
-			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-AllyFood/Pods-AllyFood-resources-${CONFIGURATION}-output-files.xcfilelist",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-AllyFood/Pods-AllyFood-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
@@ -431,7 +431,7 @@
 /* Begin XCBuildConfiguration section */
 		00E356F61AD99517003FC87E /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 308EB59FA3592C76A06D8BEF /* Pods-AllyFood-AllyFoodTests.debug.xcconfig */;
+			baseConfigurationReference = 51EF5D1548B9E6306CB5340E /* Pods-AllyFood-AllyFoodTests.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
@@ -459,7 +459,7 @@
 		};
 		00E356F71AD99517003FC87E /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = D957A0F9475FBA5E31B1A225 /* Pods-AllyFood-AllyFoodTests.release.xcconfig */;
+			baseConfigurationReference = A5C446C96982DCCB868D140F /* Pods-AllyFood-AllyFoodTests.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
@@ -484,7 +484,7 @@
 		};
 		13B07F941A680F5B00A75B9A /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 761C829213F0B40D014C7811 /* Pods-AllyFood.debug.xcconfig */;
+			baseConfigurationReference = E2257E38B169EE29AACC3645 /* Pods-AllyFood.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
@@ -515,7 +515,7 @@
 		};
 		13B07F951A680F5B00A75B9A /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 04156FF195F6EC9C20A917A9 /* Pods-AllyFood.release.xcconfig */;
+			baseConfigurationReference = 9E4EB023D155937197908A28 /* Pods-AllyFood.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
