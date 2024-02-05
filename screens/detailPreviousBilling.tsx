@@ -63,7 +63,7 @@ const DetailPreviousBillingScreen = () => {
 
                 setBarData2(response.json().previousBillingDetail.map((item: { amount: any; month: any; date: any; }) => ({
                     label: item.month,
-                    value: item.amount.toFixed(2),
+                    value: item.amount,
                     date: item.date,
                 })));
                 
