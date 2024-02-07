@@ -25,6 +25,7 @@ import { format, parseISO } from 'date-fns';
 
 const DashboardScreen = ({route}: {route: any}) => {
     
+    
     const navigation = useNavigation();
 
     const getDate = new Date;
@@ -48,6 +49,8 @@ const DashboardScreen = ({route}: {route: any}) => {
         setDatePickerVisible(false);
     };
     // END IOS Date Picker modal setup
+
+    
 
 
     useEffect(()=> {
@@ -135,7 +138,7 @@ const DashboardScreen = ({route}: {route: any}) => {
         var getIPaddress=await AsyncStorage.getItem('IPaddress');
         var runDate=await AsyncStorage.getItem('setDate');
         let setURL;
-
+        console.log(runDate)
         if(type=="Receiving"){
             setURL="GetGoodsReceiving";
         }else if(type=="Outgoing"){

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Image, Pressable } from 'react-native';
+import { Image, Pressable, NativeModules } from 'react-native';
 import { View, Text, TextInput as TextInputs, StyleSheet } from 'react-native';
 import KeyboardAvoidWrapper from '../components/KeyboardAvoidWrapper';
 import MainContainer from '../components/MainContainer';
@@ -35,8 +35,7 @@ const LoginScreen = () => {
 
     const getIPAdd = async() =>{
         try{
-            let url =(URLAccess.getIPAddress+"&branch="+branch);
-            
+            let url =(URLAccess.getIPAddress+NativeModules.RNDeviceInfo?.bundleId+"&branch="+branch);
             let result = await RNFetchBlob.config({trusty:true}).fetch('get',url);
             let responses: ApiResponse = JSON.parse(result.data);
             

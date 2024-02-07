@@ -20,12 +20,22 @@ const DetailPickingListScreen = () => {
     const [status, setStatus] = useState<string | null>("");
     const [fetchedData, setFetchedData] = useState<pickingListDetail[]>([]);
 
+    // const [sortAscending, setSortAscending] = React.useState<boolean>(true);
+    const [page, setPage] = React.useState<number>(0);
+    const [numberOfItemsPerPageList] = React.useState([5, 10]);
+    const [itemsPerPage, onItemsPerPageChange] = React.useState(
+        numberOfItemsPerPageList[0]
+    );
+    const from = page * itemsPerPage;
+    const to = Math.min((page + 1) * itemsPerPage, fetchedData.length);
+
     useEffect(()=> {
         (async()=> {
             // console.log(await AsyncStorage.getItem('goodsID'));
             await fetchDataApi();
         })();
-    }, []);
+        setPage(0);
+    }, [numberOfItemsPerPageList]);
 
     const fetchDataApi = async() => {
         setDataProcess(true);
@@ -160,7 +170,7 @@ const DetailPickingListScreen = () => {
                                     <View style={{ width: "35%", alignSelf: 'stretch', margin:5}}>
                                         <Text>Product Name</Text>
                                     </View>
-                                    <View style={{alignSelf: 'stretch', margin:5, width:"40%"}}>
+                                    <View style={{alignSelf: 'stretch', margin:5, width:"35%"}}>
                                         <Text numberOfLines={2}>: {item.productName}</Text>
                                     </View>
                                     {status=="Picking" ? (
@@ -269,15 +279,15 @@ const DetailPickingListScreen = () => {
                             }
                         </View>
                     </View>
-                    <FlatList
+                    {/* <FlatList
                         data={fetchedData}
                         renderItem={FlatListItem}
                         keyExtractor={(item) => item.key}
                         style={{padding: 0}}
-                    />
-                        {/* <DataTable>
+                    /> */}
+                        <DataTable>
                             <DataTable.Header>
-                                <DataTable.Title style = {{flex: 1.5}}>Product</DataTable.Title>
+                                <DataTable.Title style = {{flex: 1.5}} >Product</DataTable.Title>
                                 <DataTable.Title numberOfLines={2} >Pick Carton</DataTable.Title>
                                 <DataTable.Title numberOfLines={2} >Pick Pallet</DataTable.Title>
                                 <DataTable.Title numberOfLines={2}>Location</DataTable.Title>
@@ -285,7 +295,7 @@ const DetailPickingListScreen = () => {
                                 <DataTable.Title numberOfLines={2}>Pallet balance</DataTable.Title>
                                 <DataTable.Title>Done</DataTable.Title>
                             </DataTable.Header>
-                                {fetchedData.map(item =>{
+                                {fetchedData.slice(from, to).map(item =>{
                                     return(
                                         <DataTable.Row key = {item.key} >
                                             <View style = {{flex: 1.5, justifyContent: 'center', alignItems: 'flex-start'}}>
@@ -314,9 +324,20 @@ const DetailPickingListScreen = () => {
                                             </DataTable.Cell>
                                         </DataTable.Row>
                                     )
-
                                 })}
-                    </DataTable> */}
+                            <DataTable.Pagination
+                                page={page}
+                                numberOfPages={Math.ceil(fetchedData.length / itemsPerPage)}
+                                onPageChange={(page) => setPage(page)}
+                                label={`${from + 1}-${to} of ${fetchedData.length}`}
+                                numberOfItemsPerPageList={numberOfItemsPerPageList}
+                                numberOfItemsPerPage={itemsPerPage}
+                                onItemsPerPageChange={onItemsPerPageChange}
+                                showFastPaginationControls
+                                selectPageDropdownLabel={'Rows per page'}
+      />
+
+                    </DataTable>
 
                     <View style={[css.row,]}>
                         {(status=="Pending") 
