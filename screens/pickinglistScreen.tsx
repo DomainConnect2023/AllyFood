@@ -9,7 +9,6 @@ import RNFetchBlob from 'rn-fetch-blob';
 import { BarData, BarData2, pickingListData } from '../objects/objects';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import DateTimePickerModal from 'react-native-modal-datetime-picker';
-// import { LineChart } from 'react-native-chart-kit';
 import { ImagesAssets } from '../objects/images';
 import { LineChart } from 'react-native-gifted-charts';
 import { colorThemeDB } from '../objects/colors';
@@ -29,8 +28,7 @@ const PickingListScreen = () => {
     const [showPicker, setShowPicker] = useState(false);
     const [selectedIOSDate, setSelectedIOSDate] = useState(new Date());
 
-    const [fetchedData, setFetchedData] = useState<pickingListData[]>([]); // Flatlist with Pie
-    const [BarData, setBarData] = useState<BarData>({ labels: [], datasets: [{ data: [] }] });
+    const [fetchedData, setFetchedData] = useState<pickingListData[]>([]);
     const [BarData2, setBarData2] = useState<BarData2[]>([]);
     const [totalAmount, setTotalAmount] = useState<number>(0); // total
 
@@ -50,7 +48,6 @@ const PickingListScreen = () => {
         (async()=> {
             setFetchedData([]);
             setBarData2([]);
-            setBarData({ labels: [], datasets: [{ data: [] }] });
             if(await AsyncStorage.getItem('setDate')==null){
                 setTodayDate(await AsyncStorage.getItem('setDate') ?? todayDate);
                 
@@ -108,9 +105,9 @@ const PickingListScreen = () => {
                 })));
 
                 setBarData2(response.json().barChart.map((item: { goodsIssueCount: any; days: any; date: any; }) => ({
-                    // label: item.days.slice(0,-3),
                     label: format(parseISO(item.date), 'MMM dd'),
                     value: item.goodsIssueCount,
+                    date: item.date,
                 })));
                 
                 const WeightArray=(response.json().barChart.map((item: { goodsIssueCount: any; }) => item.goodsIssueCount));

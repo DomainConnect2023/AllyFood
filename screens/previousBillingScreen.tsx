@@ -42,7 +42,7 @@ const PreviousBillingScreen = () => {
 
     const showPicker = useCallback((value: any) => setShow(value), []);
 
-    const onValueChange = useCallback( (event: any, newDate: any) => {
+    const onValueChange = useCallback( async (event: any, newDate: any) => {
         showPicker(false);
         const selectedDate = newDate || date;
 
@@ -53,7 +53,8 @@ const PreviousBillingScreen = () => {
         setMyMonth(formattedMonth);
 
         setDate(selectedDate);
-        fetchDataApi(formattedYear,formattedMonth);
+        await AsyncStorage.setItem('setYearMonth', formattedYear+"-"+formattedMonth);
+        fetchDataApi();
         },
         [date, showPicker],
     );
@@ -63,27 +64,34 @@ const PreviousBillingScreen = () => {
     const handlePresentModalPress = useCallback(() => {
         console.log("pressed");
         bottomSheetModalRef.current?.present();
-      }, []);
-      const handleSheetChanges = useCallback((index: number) => {
+    }, []);
+    
+    const handleSheetChanges = useCallback((index: number) => {
         console.log('handleSheetChanges', index);
-      }, []);
+    }, []);
 
-      const snapPoints = React.useMemo(() => ['25%', '50%'], []);
+    const snapPoints = React.useMemo(() => ['25%', '50%'], []);
 
 
     useEffect(()=> {
         (async()=> {
-            setFetchedData([]);
-            setBarData2([]);
-            fetchDataApi(myYear,myMonth);
+            fetchDataApi();
         })();
     }, []);
 
-    const fetchDataApi = async(theYear: string, theMonth: string) => {
+    useFocusEffect(
+        React.useCallback(() => {
+            fetchDataApi();       
+        }, [])
+    );
+
+    const fetchDataApi = async() => {
         setDataProcess(true);
+        setFetchedData([]);
+        setBarData2([]);
         
         var getIPaddress=await AsyncStorage.getItem('IPaddress');
-        var theDate=theYear+"-"+theMonth;
+        var theDate=await AsyncStorage.getItem('setYearMonth');
 
         await RNFetchBlob.config({
             trusty: true,
@@ -91,19 +99,22 @@ const PreviousBillingScreen = () => {
             "Content-Type": "application/json",
         }).then(async (response) => {
             if(await response.json().isSuccess==true){
-                setFetchedData(response.json().customerData.map((item: { 
-                    customerId: number; 
-                    customerName: string; 
-                    currentMonthTotalAmount: number;
-                    previousBillingAverageAmount: number;
 
-                }) => ({
-                    key: item.customerId,
-                    name: item.customerName,
-                    currentMonthTotalAmount: item.currentMonthTotalAmount.toFixed(2),
-                    amount: item.previousBillingAverageAmount.toFixed(2),
-                })));
-
+                if(response.json().customerData.length!=0){
+                    setFetchedData(response.json().customerData.map((item: { 
+                        customerId: number; 
+                        customerName: string; 
+                        currentMonthTotalAmount: number;
+                        previousBillingAverageAmount: number;
+    
+                    }) => ({
+                        key: item.customerId,
+                        name: item.customerName,
+                        currentMonthTotalAmount: item.currentMonthTotalAmount.toFixed(2),
+                        amount: item.previousBillingAverageAmount.toFixed(2),
+                    })));
+                }
+                
                 setBarData2(response.json().barChart.map((item: { amount: any; month: any; date: any; }) => ({
                     label: item.month,
                     value: parseFloat(item.amount),
@@ -122,7 +133,12 @@ const PreviousBillingScreen = () => {
                 const MaxAmount = Math.max.apply(Math, AmountArray);
                 const MaxAmount_Rounded = Math.ceil(MaxAmount/5000) * 5000;
 
-                setMaxChartValue(MaxAmount_Rounded);
+                if(MaxAmount_Rounded==0){
+                    setMaxChartValue(10);
+                }else{
+                    setMaxChartValue(MaxAmount_Rounded);
+                }
+
                 setTotalAmount(response.json().currentMonthTotalAmount);
                 setAverageAmount(response.json().totalAverageAmount);
             }else{
@@ -249,7 +265,7 @@ const PreviousBillingScreen = () => {
                             setMyYear(getYear);
                             setMyMonth(monthNumber);
                             await AsyncStorage.setItem('setYearMonth', getYear+"-"+monthNumber);
-                            fetchDataApi(getYear,monthNumber);
+                            fetchDataApi();
                         }}
                     />
                     <View style={[css.row,{marginTop:5,}]}>

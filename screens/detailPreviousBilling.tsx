@@ -71,7 +71,11 @@ const DetailPreviousBillingScreen = () => {
                 const MaxAmount = Math.max.apply(Math, AmountArray);
                 const MaxAmount_Rounded = Math.ceil(MaxAmount/5000) * 5000;
 
-                setMaxChartValue(MaxAmount_Rounded);
+                if(MaxAmount_Rounded==0){
+                    setMaxChartValue(10);
+                }else{
+                    setMaxChartValue(MaxAmount_Rounded);
+                }
 
             }else{
                 console.log(response.json().message);
