@@ -91,7 +91,9 @@ const PreviousBillingScreen = () => {
         setBarData2([]);
         
         var getIPaddress=await AsyncStorage.getItem('IPaddress');
-        var theDate=await AsyncStorage.getItem('setYearMonth');
+        let theDate=await AsyncStorage.getItem('setYearMonth') ?? "";
+        setMyYear(theDate.substr(0, 4));
+        setMyMonth(theDate.substr(5, 7));
 
         await RNFetchBlob.config({
             trusty: true,

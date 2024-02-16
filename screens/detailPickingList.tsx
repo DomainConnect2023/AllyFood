@@ -251,7 +251,7 @@ const DetailPickingListScreen = () => {
                 <ActivityIndicator size="large" />
             </View>
             ) : (
-                <View style={[{height:Dimensions.get("screen").height/100*82,justifyContent: 'center',alignItems: 'center', marginTop:-20}]}>
+                <View style={[{height:Dimensions.get("screen").height/100*82,justifyContent: 'flex-start',alignItems: 'center', marginTop:-20}]}>
                     <View style={css.detailContainer}>
                         <View style={css.row}>
                             <Text style={css.Title}>Customer Name:</Text>
