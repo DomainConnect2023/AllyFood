@@ -180,7 +180,7 @@ const DashboardScreen = ({route}: {route: any}) => {
                 const WeightArray=(response.json().barChart.map(type == "Overall" ? (item: { overallAmount: any; }) => item.overallAmount : (item: { handlingChargesAmount: any; }) => item.handlingChargesAmount));
                 const MaxWeight = Math.max.apply(Math, WeightArray);
                 const MaxWeight_Rounded = Math.ceil(MaxWeight/100) * 100;
-                
+
                 if(MaxWeight_Rounded==0){
                     setMaxChartValue(10);
                 }else{
@@ -357,8 +357,11 @@ const DashboardScreen = ({route}: {route: any}) => {
                         adjustToWidth={true}
                         focusEnabled={true}
                         onFocus={async (item: any) => {
-                            setTodayDate("20"+item.label)
-                            await AsyncStorage.setItem('setDate', "20"+item.label);
+                            const parsedDate = moment(item.label, "MMM DD");
+                            const formattedDate = parsedDate.format("YYYY-MM-DD");
+                            
+                            setTodayDate(formattedDate)
+                            await AsyncStorage.setItem('setDate', formattedDate+" 00:00:00");
                             fetchDataApi(route.params.stayPage);
                         }}
                         // curved
