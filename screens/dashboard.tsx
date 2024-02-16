@@ -128,6 +128,9 @@ const DashboardScreen = ({route}: {route: any}) => {
     // get data from database
     const fetchDataApi = async(type: any) => {
         setDataProcess(true);
+        setFetchedData([]);
+        setBarData2([]);
+
         setTodayDate(await AsyncStorage.getItem('setDate') ?? todayDate);
         var getIPaddress=await AsyncStorage.getItem('IPaddress');
         var runDate=await AsyncStorage.getItem('setDate');
