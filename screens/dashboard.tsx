@@ -180,6 +180,7 @@ const DashboardScreen = ({route}: {route: any}) => {
                 const WeightArray=(response.json().barChart.map(type == "Overall" ? (item: { overallAmount: any; }) => item.overallAmount : (item: { handlingChargesAmount: any; }) => item.handlingChargesAmount));
                 const MaxWeight = Math.max.apply(Math, WeightArray);
                 const MaxWeight_Rounded = Math.ceil(MaxWeight/100) * 100;
+                
                 if(MaxWeight_Rounded==0){
                     setMaxChartValue(10);
                 }else{
