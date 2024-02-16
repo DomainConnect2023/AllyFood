@@ -239,10 +239,10 @@ const DashboardScreen = ({route}: {route: any}) => {
                                 </Text>
                                 <Text style={[css.textDescription,{textAlign:"right"}]}>
                                     { (item.amount==null || item.amount=="Infinity") ? (
-                                        "0%"
+                                        0
                                     ) : (
                                         totalAmount==0 ? (
-                                            "100%"
+                                            100
                                         ) : (
                                             Math.round(parseInt(item.amount)/totalAmount*100)
                                         )
@@ -294,10 +294,10 @@ const DashboardScreen = ({route}: {route: any}) => {
                                 )}
                                 <Text style={[css.textDescription,{textAlign:"center"}]}>
                                     { (item.amount==null || item.amount=="Infinity") ? (
-                                        "0%"
+                                        0
                                     ) : (
                                         totalAmount==0 ? (
-                                            "100%"
+                                            100
                                         ) : (
                                             Math.round(parseInt(item.amount)/totalAmount*100)
                                         )
