@@ -133,7 +133,7 @@ const SerachProductDetail = () => {
                                     <CircleColorText color={item.color} />
                                 </Text>
                             </View>
-                            <Text style={css.textHeader}>Weight: {currencyFormat(parseInt(item.weight))}</Text>
+                            <Text style={css.textHeader}>Weight: {currencyFormat(parseInt(item.amount))}</Text>
                         </View>
                     </View>
                 </View>

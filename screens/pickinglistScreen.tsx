@@ -79,6 +79,8 @@ const PickingListScreen = () => {
             "Content-Type": "application/json",
         }).then(async (response) => {
             if(await response.json().isSuccess==true){
+                // console.log(await response.json().barChart);
+
                 setFetchedData(response.json().customerData.map((item: { 
                     customerId: string; 
                     customerName: string; 
@@ -306,6 +308,15 @@ const PickingListScreen = () => {
                     />)}
                 </View>
 
+                {fetchedData.length==0 ? (
+                    <View style={{alignItems: 'center',justifyContent: 'center'}}>
+                        <Image
+                            source={ImagesAssets.noData}
+                            style={{width: Dimensions.get("window").width/100*80, height: 200}}
+                        />
+                        <Text style={{fontSize:16,margin:30}}>No data</Text>
+                    </View>
+                ) : (
                 <View style={css.secondContainer}>
                     <LineChart
                         data={BarData2}
@@ -381,6 +392,7 @@ const PickingListScreen = () => {
                         </View>
                     </View>
                 </View>
+                )}
                         
                 <FlatList
                     data={fetchedData}

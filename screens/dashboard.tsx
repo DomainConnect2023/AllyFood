@@ -35,8 +35,7 @@ const DashboardScreen = ({route}: {route: any}) => {
     const [showPicker, setShowPicker] = useState(false);
     const [selectedIOSDate, setSelectedIOSDate] = useState(new Date());
 
-    const [fetchedData, setFetchedData] = useState<showData[]>([]); // Flatlist with Pie
-    const [BarData, setBarData] = useState<BarData>({ labels: [], datasets: [{ data: [] }] });
+    const [fetchedData, setFetchedData] = useState<showData[]>([]);
     const [BarData2, setBarData2] = useState<BarData2[]>([]);
     const [totalAmount, setTotalAmount] = useState<number>(0); // total
     const [maxChartValue, setMaxChartValue] = useState<number>(100);
@@ -50,14 +49,10 @@ const DashboardScreen = ({route}: {route: any}) => {
     };
     // END IOS Date Picker modal setup
 
-    
-
-
     useEffect(()=> {
         (async()=> {
             setFetchedData([]);
-            setBarData({ labels: [], datasets: [{ data: [] }] });
-            fetchDataApi(route.params.stayPage);
+            setBarData2([]);
         })();
     }, []);
 
@@ -87,8 +82,7 @@ const DashboardScreen = ({route}: {route: any}) => {
                     setShowPicker(false);
                     await fetchDataApi(route.params.stayPage);
                     
-                }
-                else{
+                }else{
                     setTodayDate(currentDate.toISOString().split('T')[0]);
                     await AsyncStorage.setItem('setDate', currentDate.toISOString().split('T')[0]+" 00:00:00");
                     setShowPicker(false);
@@ -111,8 +105,7 @@ const DashboardScreen = ({route}: {route: any}) => {
             await AsyncStorage.setItem('setDate', year+"-"+month+"-"+day);
             setDatePickerVisible(false);
             await fetchDataApi(route.params.stayPage);
-        }
-        else{
+        }else{
             setTodayDate(currentDate.toISOString().split('T')[0]);
             await AsyncStorage.setItem('setDate', currentDate.toISOString().split('T')[0]+" 00:00:00");
             setDatePickerVisible(false);
@@ -138,7 +131,6 @@ const DashboardScreen = ({route}: {route: any}) => {
         var getIPaddress=await AsyncStorage.getItem('IPaddress');
         var runDate=await AsyncStorage.getItem('setDate');
         let setURL;
-        console.log(runDate)
         if(type=="Receiving"){
             setURL="GetGoodsReceiving";
         }else if(type=="Outgoing"){
@@ -147,67 +139,56 @@ const DashboardScreen = ({route}: {route: any}) => {
             setURL="GetOverall";
         }
 
-        // console.log(getIPaddress+" "+setURL+" "+runDate);
-
         await RNFetchBlob.config({
             trusty: true
         }).fetch('GET', "https://"+getIPaddress+"/App/"+setURL+"?todayDate="+runDate,{
             "Content-Type": "application/json",  
-        }).then((response) => {
+        }).then(async (response) => {
             if(response.json().isSuccess==true){
-                setFetchedData(response.json().customerData.map((item: {
-                    customerId: string;
-                    customerName: any;
-                    overallAmount: number;
-                    handlingChargesAmount: number;
-                    rentalAmount: number;
-                    palletBalance: string;
-                    cartonBalance: string;
-                    grAmount: number;
-                    giAmount: number;
-                }) => ({
-                    key: item.customerId,
-                    name: item.customerName,
-                    amount: type == "Overall" ? item.overallAmount : item.handlingChargesAmount,
-                    rentalAmount: item.rentalAmount,
-                    palletBalance: item.palletBalance,
-                    cartonBalance: item.cartonBalance,
-                    grAmount: item.grAmount,
-                    giAmount: item.giAmount,
-                })));
-                setBarData2(response.json().barChart.map(type == "Overall" ? (item: { overallAmount: any; days: any; date: any }) => ({
+
+                if(response.json().customerData.length!=0){
+                    setFetchedData(response.json().customerData.map((item: {
+                        customerId: string;
+                        customerName: any;
+                        overallAmount: number;
+                        handlingChargesAmount: number;
+                        rentalAmount: number;
+                        palletBalance: string;
+                        cartonBalance: string;
+                        grAmount: number;
+                        giAmount: number;
+                    }) => ({
+                        key: item.customerId,
+                        name: item.customerName,
+                        amount: type == "Overall" ? item.overallAmount : item.handlingChargesAmount,
+                        rentalAmount: item.rentalAmount,
+                        palletBalance: item.palletBalance,
+                        cartonBalance: item.cartonBalance,
+                        grAmount: item.grAmount,
+                        giAmount: item.giAmount,
+                    })));
+                }
+
+                setBarData2(response.json().barChart.map(type == "Overall" ? (item: { overallAmount: number; days: any; date: any }) => ({
                     label: format(parseISO(item.date), 'MMM dd'),
-                    // label: item.date.substring(2,10),
-                    // label: item.days.slice(0,-3),
-                    value: parseFloat(item.overallAmount),
-                    textFontSize: 8
-                }) : (item: { handlingChargesAmount: any; days: any; date: any; }) =>({
+                    value: item.overallAmount,
+                }) : (item: { handlingChargesAmount: number; days: any; date: any; }) =>({
                     label: format(parseISO(item.date), 'MMM dd'),
-                    // label: item.date.substring(2,10),
-                    // label: item.days.slice(0,-3),
-                    value: parseFloat(item.handlingChargesAmount),
-                    textFontSize: 8
+                    value: item.handlingChargesAmount,
                 })));
 
                 const WeightArray=(response.json().barChart.map(type == "Overall" ? (item: { overallAmount: any; }) => item.overallAmount : (item: { handlingChargesAmount: any; }) => item.handlingChargesAmount));
                 const MaxWeight = Math.max.apply(Math, WeightArray);
                 const MaxWeight_Rounded = Math.ceil(MaxWeight/100) * 100;
-                setMaxChartValue(MaxWeight_Rounded);
+                if(MaxWeight_Rounded==0){
+                    setMaxChartValue(10);
+                }else{
+                    setMaxChartValue(MaxWeight_Rounded);
+                }
 
-                const convertedData: BarData = {
-                    labels: response.json().barChart.map((item: { days: any; }) => item.days),
-                    datasets: [
-                        {
-                            data: response.json().barChart.map( type == "Overall" ? (item: { overallAmount: any; }) => item.overallAmount : (item: { handlingChargesAmount: any; }) => item.handlingChargesAmount),
-                        },
-                        {
-                            data: [MaxWeight_Rounded],
-                            withDots: false,
-                        },
-                    ],
-                };
-                setBarData(convertedData);
                 setTotalAmount(response.json().todayTotalAmount);
+                
+                setDataProcess(false);
             }else{
                 Snackbar.show({
                     text: response.json().message,
@@ -222,7 +203,6 @@ const DashboardScreen = ({route}: {route: any}) => {
                 duration: Snackbar.LENGTH_SHORT,
             });
         });
-        setDataProcess(false);
     };
 
     const FlatListItem = ({ item }: { item: showData }) => {
@@ -348,11 +328,11 @@ const DashboardScreen = ({route}: {route: any}) => {
                         mode="date"
                         display='inline'
                         onConfirm={confirmIOSDate}
-                        onCancel={hideIOSDatePicker}
+                        onCancel={hideIOSDatePicker} 
                     />)}
                 </View>
 
-                <View style={css.secondContainer}>
+                <View style={css.secondContainer}>              
                     <LineChart
                         data={BarData2}
                         height={160}
@@ -375,13 +355,13 @@ const DashboardScreen = ({route}: {route: any}) => {
                         showValuesAsDataPointsText={true}
                         adjustToWidth={true}
                         focusEnabled={true}
-                        // curved
-                        // showArrow1
                         onFocus={async (item: any) => {
                             setTodayDate("20"+item.label)
                             await AsyncStorage.setItem('setDate', "20"+item.label);
                             fetchDataApi(route.params.stayPage);
                         }}
+                        // curved
+                        // showArrow1
                     />
                     <View style={[css.row,{marginTop:5,marginBottom:5}]}>
                         {route.params.stayPage=="Overall" ? (
@@ -420,14 +400,13 @@ const DashboardScreen = ({route}: {route: any}) => {
                             <></>
                         )}
                     </View>
-
                 </View>
+                
                 <FlatList
                     data={fetchedData}
                     renderItem={FlatListItem}
                     keyExtractor={(item) => item.key}
                 />
-                
             </View>
             )}
         </MainContainer>

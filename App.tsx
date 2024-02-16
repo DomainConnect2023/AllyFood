@@ -12,19 +12,19 @@ import { SafeAreaView } from "react-native-safe-area-context";
 const Stack = createNativeStackNavigator();
 
 function App(): JSX.Element {
-  LogBox.ignoreAllLogs();
+  // LogBox.ignoreAllLogs();
 
   return (
     <SafeAreaView style={{ flex: 1 }} edges={['bottom', 'left', 'right']}>
-      <PaperProvider>
-        <BottomSheetModalProvider>
+      {/* <PaperProvider> */}
+        {/* <BottomSheetModalProvider> */}
           <AuthProvider>
             <NavigationContainer>
               <StackNavigator />
             </NavigationContainer>
           </AuthProvider>
-        </BottomSheetModalProvider>
-      </PaperProvider>
+        {/* </BottomSheetModalProvider> */}
+      {/* </PaperProvider> */}
     </SafeAreaView>
   );
 }
