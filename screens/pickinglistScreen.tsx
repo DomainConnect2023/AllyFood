@@ -23,6 +23,7 @@ const PickingListScreen = () => {
     
     const getDate = new Date;
     const [todayDate, setTodayDate] = useState<string | "">(getDate.toISOString().split('T')[0]+" 00:00:00");
+    const [myYear, setMyYear] = useState<string>(getDate.getFullYear().toString());
 
     // DatePicker
     const [showPicker, setShowPicker] = useState(false);
@@ -324,11 +325,14 @@ const PickingListScreen = () => {
                         // curved
                         // showArrow1
                         onFocus={async (item: any) => {
+                            var getYear = item.date.split(' ')[0].substr(0, 4);
+                            setMyYear(getYear);
+
                             const parsedDate = moment(item.label, "MMM DD");
-                            const formattedDate = parsedDate.format("YYYY-MM-DD");
+                            const formattedDate = parsedDate.format("MM-DD");
                             
-                            setTodayDate(formattedDate)
-                            await AsyncStorage.setItem('setDate', formattedDate+" 00:00:00");
+                            setTodayDate(getYear+"-"+formattedDate)
+                            await AsyncStorage.setItem('setDate', getYear+"-"+formattedDate+" 00:00:00");
                             fetchDataApi();
                         }}
                     />

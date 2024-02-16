@@ -30,6 +30,7 @@ const DashboardScreen = ({route}: {route: any}) => {
 
     const getDate = new Date;
     const [todayDate, setTodayDate] = useState<string | "">(getDate.toISOString().split('T')[0]+" 00:00:00");
+    const [myYear, setMyYear] = useState<string>(getDate.getFullYear().toString());
 
     // DatePicker
     const [showPicker, setShowPicker] = useState(false);
@@ -172,9 +173,11 @@ const DashboardScreen = ({route}: {route: any}) => {
                 setBarData2(response.json().barChart.map(type == "Overall" ? (item: { overallAmount: number; days: any; date: any }) => ({
                     label: format(parseISO(item.date), 'MMM dd'),
                     value: item.overallAmount,
+                    date: item.date,
                 }) : (item: { handlingChargesAmount: number; days: any; date: any; }) =>({
                     label: format(parseISO(item.date), 'MMM dd'),
                     value: item.handlingChargesAmount,
+                    date: item.date,
                 })));
 
                 const WeightArray=(response.json().barChart.map(type == "Overall" ? (item: { overallAmount: any; }) => item.overallAmount : (item: { handlingChargesAmount: any; }) => item.handlingChargesAmount));
@@ -235,10 +238,14 @@ const DashboardScreen = ({route}: {route: any}) => {
                                     {item.rentalAmount.toFixed(2)}(RA) + {item.grAmount.toFixed(2)}(GR) + {item.giAmount.toFixed(2)}(GI) = {parseFloat(item.amount).toFixed(2)}
                                 </Text>
                                 <Text style={[css.textDescription,{textAlign:"right"}]}>
-                                    { item.amount==null ? (
-                                        0
+                                    { (item.amount==null || item.amount=="Infinity") ? (
+                                        "0%"
                                     ) : (
-                                        Math.round(parseFloat(item.amount)/totalAmount*100)
+                                        totalAmount==0 ? (
+                                            "100%"
+                                        ) : (
+                                            Math.round(parseInt(item.amount)/totalAmount*100)
+                                        )
                                     )}%
                                 </Text>
                             </View>
@@ -260,28 +267,40 @@ const DashboardScreen = ({route}: {route: any}) => {
                             <View style={{flexDirection: 'row',}}>
                                 <Text style={css.textHeader} numberOfLines={2}>{item.name}</Text>
                                 <Text style={[css.textDescription,{textAlign:"right"}]}>
-                                    Amount: {parseFloat(item.amount).toFixed(2)}
+                                    Amount: {parseInt(item.amount).toFixed(2)}
                                 </Text>
                             </View>
                             <View style={{flexDirection: 'row',}}>
-                                {item.amount==null ? (
+                                { (item.amount==null || item.amount=="0") ? (
                                     <ProgressBar
                                         style={{width:200, height: 10}}
                                         progress={0}
                                         color={colorThemeDB.colors.primary}
                                     />
                                 ) : (
-                                    <ProgressBar
-                                        style={{width:200, height: 10}}
-                                        progress={Math.round(parseFloat(item.amount)/totalAmount*100)/100}
-                                        color={colorThemeDB.colors.primary}
-                                    />
+                                    totalAmount==0 ? (
+                                        <ProgressBar
+                                            style={{width:200, height: 10}}
+                                            progress={100}
+                                            color={colorThemeDB.colors.primary}
+                                        />
+                                    ) : (
+                                        <ProgressBar
+                                            style={{width:200, height: 10}}
+                                            progress={Math.round(parseInt(item.amount)/totalAmount*100)/100}
+                                            color={colorThemeDB.colors.primary}
+                                        />
+                                    )
                                 )}
                                 <Text style={[css.textDescription,{textAlign:"center"}]}>
-                                    { item.amount==null ? (
-                                        0
+                                    { (item.amount==null || item.amount=="Infinity") ? (
+                                        "0%"
                                     ) : (
-                                        Math.round(parseFloat(item.amount)/totalAmount*100)
+                                        totalAmount==0 ? (
+                                            "100%"
+                                        ) : (
+                                            Math.round(parseInt(item.amount)/totalAmount*100)
+                                        )
                                     )}%
                                 </Text>
                             </View>
@@ -357,11 +376,14 @@ const DashboardScreen = ({route}: {route: any}) => {
                         adjustToWidth={true}
                         focusEnabled={true}
                         onFocus={async (item: any) => {
+                            var getYear = item.date.split(' ')[0].substr(0, 4);
+                            setMyYear(getYear);
+
                             const parsedDate = moment(item.label, "MMM DD");
-                            const formattedDate = parsedDate.format("YYYY-MM-DD");
+                            const formattedDate = parsedDate.format("MM-DD");
                             
-                            setTodayDate(formattedDate)
-                            await AsyncStorage.setItem('setDate', formattedDate+" 00:00:00");
+                            setTodayDate(getYear+"-"+formattedDate)
+                            await AsyncStorage.setItem('setDate', getYear+"-"+formattedDate+" 00:00:00");
                             fetchDataApi(route.params.stayPage);
                         }}
                         // curved

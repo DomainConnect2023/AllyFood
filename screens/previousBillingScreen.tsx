@@ -218,38 +218,6 @@ const PreviousBillingScreen = () => {
                    
 
                 <View style={css.secondContainer}>
-                         
-                    {/* <LineChart
-                        data={BarData2}
-                        height={160}
-                        width={Dimensions.get("screen").width}
-                        noOfSections={4}
-                        maxValue={maxChartValue}
-                        areaChart
-                        startFillColor={colorThemeDB.colors.primary}
-                        yAxisLabelWidth={45}
-                        spacing={50}
-                        initialSpacing={20}
-                        color1={colorThemeDB.colors.primary}
-                        textColor1="black"
-                        dataPointsColor1={colorThemeDB.colors.primary}
-                        textShiftY={2}
-                        textShiftX={8}
-                        textFontSize={8}
-                        showValuesAsDataPointsText={true}
-                        adjustToWidth={true}
-                        focusEnabled={true}
-                        // curved
-                        // showArrow1
-                        onFocus={async (item: any) => {
-                            var getYear = item.date.substr(item.date.length - 4);
-                            var monthNumber = format(parse(item.label, 'MMM', new Date()), 'MM');
-                            setMyYear(getYear);
-                            setMyMonth(monthNumber);
-                            await AsyncStorage.setItem('setYearMonth', getYear+"-"+monthNumber);
-                            fetchDataApi(getYear,monthNumber);
-                        }}
-                    /> */}
                     <LineChart
                         data={BarData2}
                         data2={AverageData}
