@@ -146,7 +146,7 @@ const DetailPreviousBillingScreen = () => {
                     <ActivityIndicator size="large" />
                 </View>
                 ) : (
-                    <View style={[{height:Dimensions.get("screen").height/100*82,justifyContent: 'center',alignItems: 'center'}]}>
+                    <View style={[{height:Dimensions.get("screen").height/100*82,justifyContent: 'flex-start',alignItems: 'center'}]}>
                         <View style={[css.firstContainer,{marginTop:15}]}>
                             <View style={css.row}>
                                 <Text style={css.Title}>Date:</Text>
