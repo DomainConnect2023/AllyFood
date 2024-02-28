@@ -1,0 +1,122 @@
+{
+    "Language": "中文",
+    "Language-Update": "语言更新",
+    "Update": "语言更新为中文",
+    "SettingPage": {
+        "Setting": "设置",
+        "UserName": "用户名",
+        "Company-Name": "公司名",
+        "Preference": "偏好设置",
+        "Language": "语言",
+        "Dark-Mode": "深色模式",
+        "LogOut": "登出"
+    },
+    "Left-Navigation": {
+        "Dashboard": "仪表盘",
+        "Picking-List": "拣货清单",
+        "ForeCast": "预测",
+        "Previous-Billing": "前账单",
+        "Setting": "设置",
+        "LogOut": "登出"
+    },
+    "Bottom-Navigation": {
+        "Overall": "总体",
+        "Receiving": "收货",
+        "Outgoing": "发货"
+    },
+    "Login": {
+        "Login": "登录",
+        "UserName": "用户名",
+        "Password": "密码"
+    },
+    "Dashboard-Overall": {
+        "Overall": "全面",
+        "Amount": "金额",
+        "Pallet": "托盘余额",
+        "Carton": "纸盒余额",
+        "Rental-Amount": "租金金额",
+        "Good-Receive": "收货",
+        "Good-Issue": "出货"
+    },
+    "Picking-List": {
+        "Case-Issue": "订单问题",
+        "Pending": "待办",
+        "Picking": "拣货",
+        "Picking-Done": "拣货完成",
+        "Staging": "暂存",
+        "Delivered": "已交付"
+    },
+    "ForeCast": {
+        "Yesterday-Amount": "昨日总额",
+        "Today-Rental": "今日出租",
+        "Today-GR": "今日收货",
+        "Today-GI": "今日出货",
+        "Total-Amount": "今日总金额",
+        "Month-Amount": "月尾总金额"
+    },
+    "Previous-Billing-Detail": {
+        "Title": "前帐单详细信息",
+        "Date": "日期",
+        "Customer-Name": "客户名",
+        "Month": "月份",
+        "Amount": "金额"
+    },
+    "Previous-Billing": {
+        "Customer": "客户",
+        "Total": "总数",
+        "Amount": "金额",
+        "Month-Average": "6 个月平均金额"
+    },
+    "Detail-Customer": {
+        "Produt": "产品",
+        "Weight": "重量",
+        "Day-of-Total-Weight": "总重量（日）",
+        "Customer": "客户",
+        "Cancel": "取消",
+        "Confirm": "确认",
+        "Total-Weight": "总重量",
+        "No-Data": "今天还没有数据",
+        "Net-Weight-List": "净重清单",
+        "Last-4-Day-Review": "过去 4 天回顾"
+    },
+    "Detail-Overall-Screen": {
+        "Date": "日期",
+        "Customer-Name": "客户姓名",
+        "Total-Rental": "总租金",
+        "Total-GR-Charges": "总收货费用",
+        "Total-GI-Charges": "总发货费用",
+        "Overall-Total": "总体总计"
+    },
+    "Detail-Picking-List": {
+        "Product-Name": "产品名称",
+        "Pick-Carton-Quantity": "拣选纸箱数量",
+        "Pick-Pallet-Quantity": "拣选托盘数量",
+        "Location-Description": "地点描述",
+        "Carton-Balance": "纸箱余额",
+        "Pallet-Balance": "托盘余额",
+        "Picking-Detail": "拣货细节",
+        "Customer-Name": "客户姓名",
+        "Warehouse": "仓库",
+        "Status": "状态",
+        "Product": "产品",
+        "Pick-Carton": "拣选纸箱",
+        "Pick-Pallet": "拣选托盘",
+        "Location": "地点",
+        "Done": "完成",
+        "Picking": "拣选",
+        "Picking-Done": "拣选完成",
+        "Staging": "暂存",
+        "Delivered": "已交付"
+    },
+    "Detail-Screen": {
+        "Date": "日期",
+        "Customer-Name": "客户姓名",
+        "Total": "总数",
+        "Amount": "金额",
+        "Charges": "收费",
+        "Electricity-Charges": "电费",
+        "Parking-Charges": "停车费",
+        "Overtime-Charges": "加班费",
+        "Transport-Fee": "运输费"
+    }
+}

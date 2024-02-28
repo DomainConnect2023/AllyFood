@@ -1,0 +1,121 @@
+{
+    "Language": "Malay",
+    "Language-Update": "Kemas Kini Bahasa",
+    "Update": "Bahasa dikemas kini kepada bahasa Melayu",
+    "SettingPage": {
+        "Setting": "Tetapan",
+        "UserName": "Nama Pengguna",
+        "Company-Name": "Nama Syarikat",
+        "Preference": "Keutamaan",
+        "Language": "Bahasa",
+        "Dark-Mode": "Mod Gelap",
+        "LogOut": "Log Keluar"
+    },
+    "Left-Navigation": {
+        "Dashboard": "Papan pemuka",
+        "Picking-List": "Bil Muatan",
+        "ForeCast": "Ramalan",
+        "Previous-Billing": "Pengebilan Sebelumnya",
+        "Setting": "Tetapan",
+        "LogOut": "Log Keluar"
+    },
+    "Bottom-Navigation": {
+        "Overall": "Keseluruhan",
+        "Receiving": "Menerima",
+        "Outgoing": "Keluar"
+    },
+    "Login": {
+        "Login": "Log Masuk",
+        "UserName": "Nama Pengguna",
+        "Password": "Kata Laluan"
+    },
+    "Dashboard-Overall": {
+        "Amount": "Jumlah",
+        "Pallet": "Baki Pallet",
+        "Carton": "Baki Karton",
+        "Rental-Amount": "Amaun Sewa",
+        "Good-Receive": "Barang Diterima",
+        "Good-Issue": "Barang Dikeluar"
+    },
+    "Picking-List": {
+        "Case-Issue": "Isu Kes",
+        "Pending": " Belum Selesai",
+        "Picking": "Memilih",
+        "Picking-Done": "Selesai Memilih",
+        "Staging": "Pementasan",
+        "Delivered": "Dihantar"
+    },
+    "ForeCast": {
+        "Yesterday-Amount": "Jumlah Semalam",
+        "Today-Rental": "Sewa Hari Ini",
+        "Today-GR": "GR Hari Ini",
+        "Today-GI": "GI Hari Ini",
+        "Total-Amount": "Jumlah Hari Ini",
+        "Month-Amount": "Jumlah Akhir Bulan"
+    },
+    "Previous-Billing-Detail": {
+        "Title": "Butiran Pengebilan Sebelumnya",
+        "Date": "Tarikh",
+        "Customer-Name": "Nama Pelanggan",
+        "Month": "Bulan",
+        "Amount": "Jumlah"
+    },
+    "Previous-Billing": {
+        "Customer": "Pelanggan",
+        "Total": "Jumlah",
+        "Amount": "Jumlah",
+        "Month-Average": "Jumlah Purata 6 Bulan"
+    },
+    "Detail-Customer": {
+        "Produt": "Produk",
+        "Weight": "Berat Badan",
+        "Day-of-Total-Weight": "Hari Jumlah Berat",
+        "Customer": "Pelanggan",
+        "Cancel": "Batal",
+        "Confirm": "Sahkan",
+        "Total-Weight": "Berat Keseluruhan",
+        "No-Data": "Hari ini tiada data lagi",
+        "Net-Weight-List": "Senarai Berat Bersih",
+        "Last-4-Day-Review": "Semakan 4 Hari Terakhir"
+    },
+    "Detail-Overall-Screen": {
+        "Date": "Tarikh",
+        "Customer-Name": "Nama Pelanggan",
+        "Total-Rental": "Jumlah Sewa",
+        "Total-GR-Charges": "Jumlah Barangan Menerima Caj",
+        "Total-GI-Charges": "Jumlah Caj Keluaran Barang",
+        "Overall-Total": "Keseluruhan Jumlah"
+    },
+    "Detail-Picking-List": {
+        "Product-Name": "Nama Produk",
+        "Pick-Carton-Quantity": "Pilih Kuantiti Karton",
+        "Pick-Pallet-Quantity": "Pilih Kuantiti Pallet",
+        "Location-Description": "Penerangan Lokasi",
+        "Carton-Balance": "Baki Karton",
+        "Pallet-Balance": "Baki Pallet",
+        "Picking-Detail": "Memilih Butiran",
+        "Customer-Name": "Nama Pelanggan",
+        "Warehouse": "Gudang",
+        "Status": "Status",
+        "Product": "Produk",
+        "Pick-Carton": "Pilih Karton",
+        "Pick-Pallet": "Pilih Pallet",
+        "Location": "Lokasi",
+        "Done": "Selesai",
+        "Picking": "Memilih",
+        "Picking-Done": "Memilih Selesai",
+        "Staging": "Pementasan",
+        "Delivered": "Dihantar"
+    },
+    "Detail-Screen": {
+        "Date": "Tarikh",
+        "Customer-Name": "Nama Pelanggan",
+        "Total": "Jumlah",
+        "Amount": "Jumlah",
+        "Charges": "Caj",
+        "Electricity-Charges": "Caj Elektrik",
+        "Parking-Charges": "Caj Tempat Letak Kereta",
+        "Overtime-Charges": "Caj Lebih Masa",
+        "Transport-Fee": "Bayaran Pengangkutan"
+    }
+}

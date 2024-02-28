@@ -16,12 +16,13 @@ import DetailPickingListScreen from './detailPickingList';
 import { useFocusEffect, useNavigation } from '@react-navigation/native';
 import moment from 'moment';
 import { format, parseISO } from 'date-fns';
+import i18n from '../language/i18n';
 
 const PickingListScreen = () => {
     const navigation = useNavigation();
-    
+
     const getDate = new Date;
-    const [todayDate, setTodayDate] = useState<string | "">(getDate.toISOString().split('T')[0]+" 00:00:00");
+    const [todayDate, setTodayDate] = useState<string | "">(getDate.toISOString().split('T')[0] + " 00:00:00");
     const [myYear, setMyYear] = useState<string>(getDate.getFullYear().toString());
 
     // DatePicker
@@ -33,7 +34,7 @@ const PickingListScreen = () => {
     const [totalAmount, setTotalAmount] = useState<number>(0); // total
 
     const [maxChartValue, setMaxChartValue] = useState<number>(100);
-    
+
     const [dataProcess, setDataProcess] = useState(false);
     const [expandedItems, setExpandedItems] = useState([]);
 
@@ -44,14 +45,14 @@ const PickingListScreen = () => {
     };
     // END IOS Date Picker modal setup
 
-    useEffect(()=> {
-        (async()=> {
+    useEffect(() => {
+        (async () => {
             setFetchedData([]);
             setBarData2([]);
-            if(await AsyncStorage.getItem('setDate')==null){
+            if (await AsyncStorage.getItem('setDate') == null) {
                 setTodayDate(await AsyncStorage.getItem('setDate') ?? todayDate);
-                
-            }else{
+
+            } else {
                 setTodayDate(await AsyncStorage.getItem('setDate') ?? todayDate);
                 setSelectedIOSDate(moment.utc(await AsyncStorage.getItem('setDate') ?? todayDate).toDate());
             }
@@ -61,27 +62,27 @@ const PickingListScreen = () => {
 
     useFocusEffect(
         React.useCallback(() => {
-            fetchDataApi();       
+            fetchDataApi();
         }, [])
     );
 
-    const fetchDataApi = async() => {
+    const fetchDataApi = async () => {
         setDataProcess(true);
         setTodayDate(await AsyncStorage.getItem('setDate') ?? todayDate);
-        var getIPaddress=await AsyncStorage.getItem('IPaddress');
-        var setDate=await AsyncStorage.getItem('setDate');
+        var getIPaddress = await AsyncStorage.getItem('IPaddress');
+        var setDate = await AsyncStorage.getItem('setDate');
 
         await RNFetchBlob.config({
             trusty: true,
-        }).fetch('GET', "https://"+getIPaddress+"/App/GetPickingList?todayDate="+setDate,{
+        }).fetch('GET', "https://" + getIPaddress + "/App/GetPickingList?todayDate=" + setDate, {
             "Content-Type": "application/json",
         }).then(async (response) => {
-            if(await response.json().isSuccess==true){
+            if (await response.json().isSuccess == true) {
                 // console.log(await response.json().barChart);
 
-                setFetchedData(response.json().customerData.map((item: { 
-                    customerId: string; 
-                    customerName: string; 
+                setFetchedData(response.json().customerData.map((item: {
+                    customerId: string;
+                    customerName: string;
                     goodsIssueId: number;
                     refNo: string;
                     isPending: boolean;
@@ -109,19 +110,19 @@ const PickingListScreen = () => {
                     value: item.goodsIssueCount,
                     date: item.date,
                 })));
-                
-                const WeightArray=(response.json().barChart.map((item: { goodsIssueCount: any; }) => item.goodsIssueCount));
-                const MaxWeight = Math.max.apply(Math, WeightArray);
-                const MaxWeight_Rounded = Math.ceil(MaxWeight/5) * 5;
 
-                if(MaxWeight_Rounded==0){
+                const WeightArray = (response.json().barChart.map((item: { goodsIssueCount: any; }) => item.goodsIssueCount));
+                const MaxWeight = Math.max.apply(Math, WeightArray);
+                const MaxWeight_Rounded = Math.ceil(MaxWeight / 5) * 5;
+
+                if (MaxWeight_Rounded == 0) {
                     setMaxChartValue(10);
-                }else{
+                } else {
                     setMaxChartValue(MaxWeight_Rounded);
                 }
 
                 setTotalAmount(response.json().todayIssueAmount);
-            }else{
+            } else {
                 // console.log(response.json().message);
                 Snackbar.show({
                     text: response.json().message,
@@ -143,11 +144,11 @@ const PickingListScreen = () => {
 
                 navigation.navigate(DetailPickingListScreen as never);
             }}>
-                <View style={[css.listItem,{padding:5}]} key={parseInt(item.key)}>
+                <View style={[css.listItem, { padding: 5 }]} key={parseInt(item.key)}>
                     <View style={[css.cardBody]}>
-                        <View style={{alignItems:'flex-start',justifyContent:'center',}}>
-                            <View style={{flexDirection:'row'}}>
-                                <View style={{flexDirection:'column',width:"80%"}}>
+                        <View style={{ alignItems: 'flex-start', justifyContent: 'center', }}>
+                            <View style={{ flexDirection: 'row' }}>
+                                <View style={{ flexDirection: 'column', width: "80%" }}>
                                     <View>
                                         <Text style={css.basicTextHeader} numberOfLines={2}>Customer: {item.customerName}</Text>
                                     </View>
@@ -155,97 +156,97 @@ const PickingListScreen = () => {
                                         <Text style={css.basicTextDiscription}>RefNo: {item.refNo}</Text>
                                     </View>
                                 </View>
-                                <View style={{flexDirection:'column',width:"20%"}}>
-                                    <View style={{flexDirection:'row'}}>
+                                <View style={{ flexDirection: 'column', width: "20%" }}>
+                                    <View style={{ flexDirection: 'row' }}>
                                         {/* <Text style={[css.basicTextHeader,{verticalAlign:"middle",textAlign:"right"}]}></Text> */}
-                                        {(item.isPending==true && item.isStartPicking==false) ? 
-                                        (
-                                            <Pressable
-                                                style={[css.typeButton, { backgroundColor: "red",width:"100%" }]}
-                                                onPress={async () => []}
-                                            ></Pressable>
-                                        ) : (item.isStartPicking==true && item.isDonePicking==false) ? (
-                                            <Pressable
-                                                style={[css.typeButton, { backgroundColor: "orange",width:"100%" }]}
-                                                onPress={async () => []}
-                                            ></Pressable>
-                                        ) : (item.isDonePicking==true && item.isStaging==false) ? (
-                                            <Pressable
-                                                style={[css.typeButton, { backgroundColor: "yellow",width:"100%" }]}
-                                                onPress={async () => []}
-                                            ></Pressable>
-                                        ) : (item.isStaging==true && item.isDelivered==false) ? (
-                                            <Pressable
-                                                style={[css.typeButton, { backgroundColor: "#9be52a",width:"100%" }]}
-                                                onPress={async () => []}
-                                            ></Pressable>
-                                        ) : (
-                                            <Pressable
-                                                style={[css.typeButton, { backgroundColor: "green",width:"100%" }]}
-                                                onPress={async () => []}
-                                            ></Pressable>
-                                        )}
+                                        {(item.isPending == true && item.isStartPicking == false) ?
+                                            (
+                                                <Pressable
+                                                    style={[css.typeButton, { backgroundColor: "red", width: "100%" }]}
+                                                    onPress={async () => []}
+                                                ></Pressable>
+                                            ) : (item.isStartPicking == true && item.isDonePicking == false) ? (
+                                                <Pressable
+                                                    style={[css.typeButton, { backgroundColor: "orange", width: "100%" }]}
+                                                    onPress={async () => []}
+                                                ></Pressable>
+                                            ) : (item.isDonePicking == true && item.isStaging == false) ? (
+                                                <Pressable
+                                                    style={[css.typeButton, { backgroundColor: "yellow", width: "100%" }]}
+                                                    onPress={async () => []}
+                                                ></Pressable>
+                                            ) : (item.isStaging == true && item.isDelivered == false) ? (
+                                                <Pressable
+                                                    style={[css.typeButton, { backgroundColor: "#9be52a", width: "100%" }]}
+                                                    onPress={async () => []}
+                                                ></Pressable>
+                                            ) : (
+                                                <Pressable
+                                                    style={[css.typeButton, { backgroundColor: "green", width: "100%" }]}
+                                                    onPress={async () => []}
+                                                ></Pressable>
+                                            )}
                                     </View>
                                 </View>
                             </View>
                         </View>
                     </View>
                 </View>
-                
+
             </TouchableOpacity>
         );
     };
 
     // Date Picker
-    const onChangeDate = async ({type}: any, selectedDate: any) => {
+    const onChangeDate = async ({ type }: any, selectedDate: any) => {
         setShowPicker(false);
-        if(type=="set"){
-            const currentDate=selectedDate;
-            setSelectedIOSDate(currentDate); 
+        if (type == "set") {
+            const currentDate = selectedDate;
+            setSelectedIOSDate(currentDate);
             //If user= admin show january data
-            if(Platform.OS==="android"){
-                if(await AsyncStorage.getItem('userCode') == 'admin'){
-                    let Ddata=currentDate.toISOString().split('T')[0]
-                    let day =Ddata.split('-')[2]
-                    let year="2024";
-                    let month="01";
+            if (Platform.OS === "android") {
+                if (await AsyncStorage.getItem('userCode') == 'admin') {
+                    let Ddata = currentDate.toISOString().split('T')[0]
+                    let day = Ddata.split('-')[2]
+                    let year = "2024";
+                    let month = "01";
                     setTodayDate(currentDate.toISOString().split('T')[0])
-                    await AsyncStorage.setItem('setDate', year+"-"+month+"-"+day);
+                    await AsyncStorage.setItem('setDate', year + "-" + month + "-" + day);
                     setShowPicker(false);
                     await fetchDataApi();
                 }
-                else{
+                else {
                     setTodayDate(currentDate.toISOString().split('T')[0]);
-                    await AsyncStorage.setItem('setDate', currentDate.toISOString().split('T')[0]+" 00:00:00");
+                    await AsyncStorage.setItem('setDate', currentDate.toISOString().split('T')[0] + " 00:00:00");
                     setShowPicker(false);
                     await fetchDataApi();
                 }
-             }
+            }
         }
-    } 
+    }
 
-    const confirmIOSDate = async(date:any) => {
-        const currentDate=date;
+    const confirmIOSDate = async (date: any) => {
+        const currentDate = date;
         setSelectedIOSDate(date);
         //If user= admin show january data
-        if(await AsyncStorage.getItem('userCode') == 'admin'){
+        if (await AsyncStorage.getItem('userCode') == 'admin') {
 
-            let Ddata=currentDate.toISOString().split('T')[0]
-            let day =Ddata.split('-')[2]
-            let year="2024";
-            let month="01";
+            let Ddata = currentDate.toISOString().split('T')[0]
+            let day = Ddata.split('-')[2]
+            let year = "2024";
+            let month = "01";
             setTodayDate(currentDate.toISOString().split('T')[0])
-            await AsyncStorage.setItem('setDate', year+"-"+month+"-"+day);
+            await AsyncStorage.setItem('setDate', year + "-" + month + "-" + day);
             setDatePickerVisible(false);
             await fetchDataApi();
         }
-        else{
+        else {
             setTodayDate(currentDate.toISOString().split('T')[0]);
-            await AsyncStorage.setItem('setDate', currentDate.toISOString().split('T')[0]+" 00:00:00");
+            await AsyncStorage.setItem('setDate', currentDate.toISOString().split('T')[0] + " 00:00:00");
             setDatePickerVisible(false);
             await fetchDataApi();
         }
-   }
+    }
 
     const tonggleDatePicker = () => {
         if (Platform.OS === 'android') {
@@ -259,132 +260,132 @@ const PickingListScreen = () => {
 
     return (
         <MainContainer>
-            {(dataProcess==true) ? (
+            {(dataProcess == true) ? (
                 <View style={[css.container]}>
                     <ActivityIndicator size="large" />
                 </View>
             ) : (
-            <View style={{height:Dimensions.get("screen").height/100*83}}>
-                <View style={css.firstContainer}>
-                    <View style={css.row}>
-                        {showPicker && Platform.OS === 'android' && <DateTimePicker 
-                            mode="date"
-                            display="calendar"
-                            value={selectedIOSDate}
-                            onChange={onChangeDate}
-                            style={datepickerCSS.datePicker}
-                        />}        
-                        <Pressable style={css.pressableCSS} onPress={tonggleDatePicker} >
-                            <TextInput
-                                style={datepickerCSS.textInput}
-                                placeholder="Select Date"
-                                value={todayDate.toString().substring(0,10)}
-                                onChangeText={setTodayDate}
-                                placeholderTextColor="#11182744"
-                                editable={false}
-                                onPressIn={tonggleDatePicker}
-                            />
-                        </Pressable>
-                    </View>    
-
-                    {Platform.OS === "ios" && (<DateTimePickerModal
-                        date={selectedIOSDate}
-                        isVisible={datePickerVisible}
-                        mode="date"
-                        display='inline'
-                        onConfirm={confirmIOSDate}
-                        onCancel={hideIOSDatePicker}
-                    />)}
-                </View>
-
-                <View style={css.secondContainer}>
-                    <LineChart
-                        data={BarData2}
-                        height={160}
-                        width={Dimensions.get("screen").width}
-                        noOfSections={2}
-                        maxValue={maxChartValue}
-                        areaChart
-                        startFillColor={colorThemeDB.colors.primary}
-                        spacing={65}
-                        initialSpacing={25}
-                        color1={colorThemeDB.colors.primary}
-                        textColor1="black"
-                        dataPointsHeight={4}
-                        dataPointsWidth={6}
-                        dataPointsColor1={colorThemeDB.colors.primary}
-                        textShiftY={0}
-                        textShiftX={10}
-                        textFontSize={10}
-                        showValuesAsDataPointsText={true}
-                        adjustToWidth={true}
-                        focusEnabled={true}
-                        // curved
-                        // showArrow1
-                        onFocus={async (item: any) => {
-                            var getYear = item.date.split(' ')[0].substr(0, 4);
-                            setMyYear(getYear);
-
-                            const parsedDate = moment(item.label, "MMM DD");
-                            const formattedDate = parsedDate.format("MM-DD");
-                            
-                            setTodayDate(getYear+"-"+formattedDate)
-                            await AsyncStorage.setItem('setDate', getYear+"-"+formattedDate+" 00:00:00");
-                            fetchDataApi();
-                        }}
-                    />
-                    <View style={[css.row,{marginTop:5,marginBottom:5,}]}>
-                        <View style={{width:"80%"}}>
-                            <Text style={{fontSize:20,fontWeight:'bold',textAlign:"center",fontStyle:"italic"}}>
-                                Case Issue: {totalAmount}
-                            </Text>
+                <View style={{ height: Dimensions.get("screen").height / 100 * 83 }}>
+                    <View style={css.firstContainer}>
+                        <View style={css.row}>
+                            {showPicker && Platform.OS === 'android' && <DateTimePicker
+                                mode="date"
+                                display="calendar"
+                                value={selectedIOSDate}
+                                onChange={onChangeDate}
+                                style={datepickerCSS.datePicker}
+                            />}
+                            <Pressable style={css.pressableCSS} onPress={tonggleDatePicker} >
+                                <TextInput
+                                    style={datepickerCSS.textInput}
+                                    placeholder="Select Date"
+                                    value={todayDate.toString().substring(0, 10)}
+                                    onChangeText={setTodayDate}
+                                    placeholderTextColor="#11182744"
+                                    editable={false}
+                                    onPressIn={tonggleDatePicker}
+                                />
+                            </Pressable>
                         </View>
-                        <View style={{width:"20%",alignItems:'flex-start',justifyContent:'center',margin:5}}>
-                            <View style={css.row}>
-                                <View style={[css.circle, { backgroundColor: "red" }]}>
-                                </View>
-                                <Text style={{fontSize:10,fontWeight:'bold',textAlign:"left",fontStyle:"italic"}}>
-                                    Pending
+
+                        {Platform.OS === "ios" && (<DateTimePickerModal
+                            date={selectedIOSDate}
+                            isVisible={datePickerVisible}
+                            mode="date"
+                            display='inline'
+                            onConfirm={confirmIOSDate}
+                            onCancel={hideIOSDatePicker}
+                        />)}
+                    </View>
+
+                    <View style={css.secondContainer}>
+                        <LineChart
+                            data={BarData2}
+                            height={160}
+                            width={Dimensions.get("screen").width}
+                            noOfSections={2}
+                            maxValue={maxChartValue}
+                            areaChart
+                            startFillColor={colorThemeDB.colors.primary}
+                            spacing={65}
+                            initialSpacing={25}
+                            color1={colorThemeDB.colors.primary}
+                            textColor1="black"
+                            dataPointsHeight={4}
+                            dataPointsWidth={6}
+                            dataPointsColor1={colorThemeDB.colors.primary}
+                            textShiftY={0}
+                            textShiftX={10}
+                            textFontSize={10}
+                            showValuesAsDataPointsText={true}
+                            adjustToWidth={true}
+                            focusEnabled={true}
+                            // curved
+                            // showArrow1
+                            onFocus={async (item: any) => {
+                                var getYear = item.date.split(' ')[0].substr(0, 4);
+                                setMyYear(getYear);
+
+                                const parsedDate = moment(item.label, "MMM DD");
+                                const formattedDate = parsedDate.format("MM-DD");
+
+                                setTodayDate(getYear + "-" + formattedDate)
+                                await AsyncStorage.setItem('setDate', getYear + "-" + formattedDate + " 00:00:00");
+                                fetchDataApi();
+                            }}
+                        />
+                        <View style={[css.row, { marginTop: 5, marginBottom: 5, }]}>
+                            <View style={{ width: "80%" }}>
+                                <Text style={{ fontSize: 20, fontWeight: 'bold', textAlign: "center", fontStyle: "italic" }}>
+                                    {i18n.t('Picking-List.Case-Issue')}: {totalAmount}
                                 </Text>
                             </View>
-                            <View style={css.row}>
-                                <View style={[css.circle, { backgroundColor: "orange" }]}>
+                            <View style={{ width: "20%", alignItems: 'flex-start', justifyContent: 'center', margin: 5 }}>
+                                <View style={css.row}>
+                                    <View style={[css.circle, { backgroundColor: "red" }]}>
+                                    </View>
+                                    <Text style={{ fontSize: 10, fontWeight: 'bold', textAlign: "left", fontStyle: "italic" }}>
+                                        {i18n.t('Picking-List.Pending')}
+                                    </Text>
                                 </View>
-                                <Text style={{fontSize:10,fontWeight:'bold',textAlign:"left",fontStyle:"italic"}}>
-                                    Picking
-                                </Text>
-                            </View>
-                            <View style={css.row}>
-                                <View style={[css.circle, { backgroundColor: "yellow" }]}>
+                                <View style={css.row}>
+                                    <View style={[css.circle, { backgroundColor: "orange" }]}>
+                                    </View>
+                                    <Text style={{ fontSize: 10, fontWeight: 'bold', textAlign: "left", fontStyle: "italic" }}>
+                                        {i18n.t('Picking-List.Picking')}
+                                    </Text>
                                 </View>
-                                <Text style={{fontSize:10,fontWeight:'bold',textAlign:"left",fontStyle:"italic"}}>
-                                    Picking Done
-                                </Text>
-                            </View>
-                            <View style={css.row}>
-                                <View style={[css.circle, { backgroundColor: "#9be52a" }]}>
+                                <View style={css.row}>
+                                    <View style={[css.circle, { backgroundColor: "yellow" }]}>
+                                    </View>
+                                    <Text style={{ fontSize: 10, fontWeight: 'bold', textAlign: "left", fontStyle: "italic" }}>
+                                        {i18n.t('Picking-List.Picking-Done')}
+                                    </Text>
                                 </View>
-                                <Text style={{fontSize:10,fontWeight:'bold',textAlign:"left",fontStyle:"italic"}}>
-                                    Staging
-                                </Text>
-                            </View>
-                            <View style={css.row}>
-                                <View style={[css.circle, { backgroundColor: "green" }]}>
+                                <View style={css.row}>
+                                    <View style={[css.circle, { backgroundColor: "#9be52a" }]}>
+                                    </View>
+                                    <Text style={{ fontSize: 10, fontWeight: 'bold', textAlign: "left", fontStyle: "italic" }}>
+                                        {i18n.t('Picking-List.Staging')}
+                                    </Text>
                                 </View>
-                                <Text style={{fontSize:10,fontWeight:'bold',textAlign:"left",fontStyle:"italic"}}>
-                                    Delivered
-                                </Text>
+                                <View style={css.row}>
+                                    <View style={[css.circle, { backgroundColor: "green" }]}>
+                                    </View>
+                                    <Text style={{ fontSize: 10, fontWeight: 'bold', textAlign: "left", fontStyle: "italic" }}>
+                                        {i18n.t('Picking-List.Delivered')}
+                                    </Text>
+                                </View>
                             </View>
                         </View>
                     </View>
+
+                    <FlatList
+                        data={fetchedData}
+                        renderItem={FlatListItem}
+                        keyExtractor={(item) => item.key}
+                    />
                 </View>
-                        
-                <FlatList
-                    data={fetchedData}
-                    renderItem={FlatListItem}
-                    keyExtractor={(item) => item.key}
-                />
-            </View>
             )}
         </MainContainer>
     );

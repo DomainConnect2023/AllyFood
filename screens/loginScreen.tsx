@@ -11,45 +11,67 @@ import RNFetchBlob from 'rn-fetch-blob';
 import Snackbar from 'react-native-snackbar';
 import { URLAccess } from '../objects/URLAccess';
 import { TextInput } from 'react-native-paper';
+import i18n from '../language/i18n';
+import { useFocusEffect } from '@react-navigation/native';
 
+const STORAGE_KEY = '@app_language';
 export const [isLoginSuccess, setLoginStatus] = useState<String | null>("");
-
-interface ApiResponse{
-    ipAddress:string;
-    isSuccess:string;
+interface ApiResponse {
+    ipAddress: string;
+    isSuccess: string;
 }
 
 const LoginScreen = () => {
     const [username, setUserName] = useState('');//admin
     const [password, setPassword] = useState('');//ALLY123
-    const [todayDate, setTodayDate] = useState<string | "">(new Date().toISOString().split('T')[0]+" 00:00:00");
+    const [todayDate, setTodayDate] = useState<string | "">(new Date().toISOString().split('T')[0] + " 00:00:00");
 
-    const [branch,setbranch]=useState("");
-    
+    const [branch, setbranch] = useState("");
+
     const inputRef = React.createRef<TextInputs>();
     const [IPaddress, setIPadress] = useState("");
 
     const { setIsSignedIn } = useAuth();
     // const { isSignedIn } = useAuth();
+    const [locale, setLocale] = React.useState(i18n.locale);
+    useFocusEffect(
+        React.useCallback(() => {
+            setLocale(i18n.locale);
+        }, [])
+    );
 
+    useEffect(() => {
+        const loadLanguage = async () => {
+            try {
+                const language = await AsyncStorage.getItem(STORAGE_KEY);
+                if (language) {
+                    i18n.locale = language;
+                    setLocale(language);
+                }
+            } catch (error) {
+                console.error('Failed to load language', error);
+            }
+        };
 
-    const getIPAdd = async() =>{
-        try{
-            let url =(URLAccess.getIPAddress+NativeModules.RNDeviceInfo?.bundleId+"&branch="+branch);
-            let result = await RNFetchBlob.config({trusty:true}).fetch('get',url);
+        loadLanguage();
+    }, []);
+    
+    const getIPAdd = async () => {
+        try {
+            let url = (URLAccess.getIPAddress + NativeModules.RNDeviceInfo?.bundleId + "&branch=" + branch);
+            let result = await RNFetchBlob.config({ trusty: true }).fetch('get', url);
             let responses: ApiResponse = JSON.parse(result.data);
-            
-            console.log("Login API: "+responses.ipAddress);
+
+            console.log("Login API: " + responses.ipAddress);
             setIPadress(responses.ipAddress);
         }
-        catch(error)
-        {
+        catch (error) {
             console.error(error);
         }
     };
 
-    useEffect(()=> {
-        (async()=> {
+    useEffect(() => {
+        (async () => {
             // setIPadress(URLAccess.getLocalIP);
             getIPAdd();
 
@@ -59,49 +81,49 @@ const LoginScreen = () => {
             }
         })();
     }, [])
-    
 
 
-    const loginAPI = async() => {
+
+    const loginAPI = async () => {
         // await AsyncStorage.setItem('IPaddress', IPaddress),
         // await AsyncStorage.setItem('userCode', username);
         // await AsyncStorage.setItem('password', password);
         // setIsSignedIn(true);
         await RNFetchBlob.config({
             trusty: true
-        }).fetch('POST', "https://"+IPaddress+"/App/Login",{
-                "Content-Type": "application/json",  
+        }).fetch('POST', "https://" + IPaddress + "/App/Login", {
+            "Content-Type": "application/json",
         }, JSON.stringify({
-                "Code": username as string,
-                "Password": password as string,
-                
+            "Code": username as string,
+            "Password": password as string,
+
         }),
         ).then(async (response) => {
-            if(response.json().isSuccess==true){
+            if (response.json().isSuccess == true) {
                 await AsyncStorage.setItem('IPaddress', IPaddress),
-                await AsyncStorage.setItem('userCode', username);
+                    await AsyncStorage.setItem('userCode', username);
                 await AsyncStorage.setItem('password', password);
                 await AsyncStorage.setItem('setDate', todayDate);
                 await AsyncStorage.setItem('setYearMonth', todayDate.substr(0, 7));
 
                 await AsyncStorage.setItem('userID', response.json().userId.toString()),
-                setUserName("");
+                    setUserName("");
                 setPassword("");
                 setIsSignedIn(true);
-            }else{
+            } else {
                 Snackbar.show({
                     text: response.json().message,
                     duration: Snackbar.LENGTH_SHORT,
                 });
             }
         })
-        .catch(error => {
-            console.log(error.message);
-            Snackbar.show({
-                text: error.message,
-                duration: Snackbar.LENGTH_SHORT,
+            .catch(error => {
+                console.log(error.message);
+                Snackbar.show({
+                    text: error.message,
+                    duration: Snackbar.LENGTH_SHORT,
+                });
             });
-        });
     };
 
     return (
@@ -109,8 +131,8 @@ const LoginScreen = () => {
             <KeyboardAvoidWrapper>
                 <View style={styles.container}>
                     <Image
-                    source={ImagesAssets.logoImage}
-                    style={{width: 250, height: 250, margin:50, borderRadius:20}}
+                        source={ImagesAssets.logoImage}
+                        style={{ width: 250, height: 250, margin: 50, borderRadius: 20 }}
                     />
                     <View style={styles.subcontainer}>
                         <View style={styles.Icon}>
@@ -122,7 +144,7 @@ const LoginScreen = () => {
                             onSubmitEditing={() => inputRef.current?.focus()}
                             value={username}
                             onChangeText={setUserName}
-                            label="User Name"
+                            label={i18n.t('Login.Login')}
                         />
                     </View>
                     <View style={styles.subcontainer}>
@@ -136,15 +158,15 @@ const LoginScreen = () => {
                             secureTextEntry
                             value={password}
                             onChangeText={setPassword}
-                            label="Password"
+                            label={i18n.t('Login.Password')}
                         />
                     </View>
-                    
-                    <Pressable style={styles.button} onPress={()=>loginAPI()}>
-                        <Text style={styles.bttnText}>Login</Text>
+
+                    <Pressable style={styles.button} onPress={() => loginAPI()}>
+                        <Text style={styles.bttnText}>{i18n.t('Login.Login')}</Text>
                     </Pressable>
                 </View>
-                
+
             </KeyboardAvoidWrapper>
         </MainContainer>
     );
@@ -170,9 +192,9 @@ const styles = StyleSheet.create({
         color: "#000",
     },
     Icon: {
-        width:"15%",
-        padding:5,
-        alignItems:"flex-end",
+        width: "15%",
+        padding: 5,
+        alignItems: "flex-end",
         marginBottom: 10
     },
     button: {
@@ -193,14 +215,14 @@ const styles = StyleSheet.create({
         letterSpacing: 0.25,
         color: 'white',
     },
-    textInput: { 
-        width: "80%", 
-        borderRadius: 5, 
-        paddingVertical: 8, 
-        paddingHorizontal: 16, 
-        borderColor: "rgba(0, 0, 0, 0.2)", 
-        borderWidth: 1, 
-    }, 
+    textInput: {
+        width: "80%",
+        borderRadius: 5,
+        paddingVertical: 8,
+        paddingHorizontal: 16,
+        borderColor: "rgba(0, 0, 0, 0.2)",
+        borderWidth: 1,
+    },
     row: {
         flex: 1,
         flexDirection: "row",
