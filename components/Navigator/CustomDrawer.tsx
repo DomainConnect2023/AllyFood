@@ -12,17 +12,18 @@ import PickingListScreen from '../../screens/pickinglistScreen';
 import { colorThemeDB } from '../../objects/colors';
 import ForeCastScreen from '../../screens/forecastScreen';
 import previousBillingScreen from '../../screens/previousBillingScreen';
-
+import SettingScreen from '../../screens/setting';
 const Drawer = createDrawerNavigator();
 const { setIsSignedIn } = useAuth();
+import i18n from '../../language/i18n';
 
 function CustomDrawerContent(props: any) {
   return (
-    <DrawerContentScrollView {...props} 
+    <DrawerContentScrollView {...props}
     // style={{backgroundColor:colorThemeDB.colors.primaryContainer}}
     >
       <DrawerItemList {...props} />
-      <DrawerItem label="Logout" onPress={() => setIsSignedIn(false)} />
+      <DrawerItem label={i18n.t('Left-Navigation.LogOut')} onPress={() => setIsSignedIn(false)} />
     </DrawerContentScrollView>
   );
 }
@@ -31,40 +32,43 @@ export function CustomDrawer() {
 
   const navigation = useNavigation();
   const [refreshKey, setRefreshKey] = useState(0);
-  
+  const [initialRoute, setInitialRoute] = React.useState(i18n.t('Left-Navigation.Dashboard'))
+  React.useEffect(() => {
+    setInitialRoute(i18n.t('Left-Navigation.Dashboard'));
+  }, [i18n.locale]);
+
   return (
-    <Drawer.Navigator initialRouteName="Dashboard" screenOptions={{
+    <Drawer.Navigator initialRouteName={initialRoute} screenOptions={{
       headerShown: true,
       headerStyle: {
         backgroundColor: colorThemeDB.colors.primary,
       },
-      headerTitleStyle: {color: "#FFF"},
-      headerTintColor: '#fff', 
+      headerTitleStyle: { color: "#FFF" },
+      headerTintColor: '#fff',
       headerTitleAlign: 'center',
     }}
-    drawerContent={props => <CustomDrawerContent {...props} />}
+      drawerContent={props => <CustomDrawerContent {...props} />}
     >
-      <Drawer.Screen name="Dashboard" component={TabNavigation} options={{
-        headerTitle: 'Dashboard',
+      <Drawer.Screen name={i18n.t('Left-Navigation.Dashboard')} component={TabNavigation} options={{
+        headerTitle: i18n.t('Left-Navigation.Dashboard'),
         headerRight: () => (
           <View style={css.row}>
             {/* <Ionicons name="log-out-outline" size={35} color="#FFF" style={{marginLeft:5,marginRight:10}} onPress={() => setIsSignedIn(false)} /> */}
           </View>
         ),
       }} />
-      <Drawer.Screen name="Picking List" component={PickingListScreen} options={{
-        headerTitle: 'Picking List',
+      <Drawer.Screen name={i18n.t('Left-Navigation.Picking-List')} component={PickingListScreen} options={{
+        headerTitle: i18n.t('Left-Navigation.Picking-List'),
         headerRight: () => (
           <View style={css.row}>
             {/* <Ionicons name="log-out-outline" size={35} color="#FFF" style={{marginLeft:5,marginRight:10}} onPress={() => setIsSignedIn(false)} /> */}
           </View>
         ),
-      }}  />
-      <Drawer.Screen name="ForeCast" component={ForeCastScreen} />
-      <Drawer.Screen name="Previous Billing" component={previousBillingScreen} />
-      
-      {/* <Drawer.Screen name="Profile" component={ProfileScreen} />
-      <Drawer.Screen name="Setting" component={SettingScreen} /> */}
+      }} />
+      <Drawer.Screen name={i18n.t('Left-Navigation.ForeCast')} component={ForeCastScreen} />
+      <Drawer.Screen name={i18n.t('Left-Navigation.Previous-Billing')} component={previousBillingScreen} />
+      {/* <Drawer.Screen name="Profile" component={ProfileScreen} /> */}
+      <Drawer.Screen name={i18n.t('Left-Navigation.Setting')} component={SettingScreen} />
       {/* <Drawer.Screen name="PreviosDashboard" component={DashboardScreen} options={{
         headerTitle: 'Dashboard',
         headerRight: () => (
