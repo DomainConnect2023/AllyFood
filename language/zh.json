@@ -14,13 +14,13 @@
     "Left-Navigation": {
         "Dashboard": "主页",
         "Picking-List": "拣货清单",
-        "ForeCast": "预测",
-        "Previous-Billing": "前账单",
+        "ForeCast": "预测分析",
+        "Previous-Billing": "上期账单",
         "Setting": "设置",
         "LogOut": "登出"
     },
     "Bottom-Navigation": {
-        "Overall": "总体",
+        "Overall": "总体情况",
         "Receiving": "收货",
         "Outgoing": "发货"
     },
@@ -30,20 +30,20 @@
         "Password": "密码"
     },
     "Dashboard-Overall": {
-        "Overall": "全面",
+        "Overall": "总体情况",
         "Amount": "金额",
         "Pallet": "托盘余额",
         "Carton": "纸盒余额",
         "Rental-Amount": "租金金额",
-        "Good-Receive": "收货",
-        "Good-Issue": "出货"
+        "Good-Receive": "收货单",
+        "Good-Issue": "出货单"
     },
     "Picking-List": {
-        "Case-Issue": "订单问题",
-        "Pending": "待办",
-        "Picking": "拣货",
+        "Case-Issue": "案例问题",
+        "Pending": "待处理",
+        "Picking": "拣选中",
         "Picking-Done": "拣货完成",
-        "Staging": "暂存",
+        "Staging": "分拣",
         "Delivered": "已交付"
     },
     "ForeCast": {
@@ -55,7 +55,7 @@
         "Month-Amount": "月尾总金额"
     },
     "Previous-Billing-Detail": {
-        "Title": "前帐单详细信息",
+        "Title": "上期帐单详细信息",
         "Date": "日期",
         "Customer-Name": "客户名",
         "Month": "月份",
@@ -91,10 +91,10 @@
         "Product-Name": "产品名称",
         "Pick-Carton-Quantity": "拣选纸箱数量",
         "Pick-Pallet-Quantity": "拣选托盘数量",
-        "Location-Description": "地点描述",
+        "Location-Description": "地点信息",
         "Carton-Balance": "纸箱余额",
         "Pallet-Balance": "托盘余额",
-        "Picking-Detail": "拣货细节",
+        "Picking-Detail": "拣货信息",
         "Customer-Name": "客户姓名",
         "Warehouse": "仓库",
         "Status": "状态",
@@ -103,9 +103,9 @@
         "Pick-Pallet": "拣选托盘",
         "Location": "地点",
         "Done": "完成",
-        "Picking": "拣选",
+        "Picking": "拣选中",
         "Picking-Done": "拣选完成",
-        "Staging": "暂存",
+        "Staging": "分拣",
         "Delivered": "已交付"
     },
     "Detail-Screen": {
