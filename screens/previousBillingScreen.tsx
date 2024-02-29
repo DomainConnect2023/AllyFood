@@ -113,8 +113,8 @@ const PreviousBillingScreen = () => {
                     }) => ({
                         key: item.customerId,
                         name: item.customerName,
-                        currentMonthTotalAmount: item.currentMonthTotalAmount.toFixed(2),
-                        amount: item.previousBillingAverageAmount.toFixed(2),
+                        currentMonthTotalAmount: setNumberFormat2(item.currentMonthTotalAmount),
+                        amount: setNumberFormat2(item.previousBillingAverageAmount),
                     })));
                 }
 
