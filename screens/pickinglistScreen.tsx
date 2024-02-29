@@ -150,7 +150,7 @@ const PickingListScreen = () => {
                             <View style={{ flexDirection: 'row' }}>
                                 <View style={{ flexDirection: 'column', width: "80%" }}>
                                     <View>
-                                        <Text style={css.basicTextHeader} numberOfLines={2}>Customer: {item.customerName}</Text>
+                                        <Text style={css.basicTextHeader} numberOfLines={2}> {i18n.t('Picking-List.Customer')}: {item.customerName}</Text>
                                     </View>
                                     <View>
                                         <Text style={css.basicTextDiscription}>RefNo: {item.refNo}</Text>

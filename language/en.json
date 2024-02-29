@@ -43,7 +43,8 @@
         "Picking": "Picking",
         "Picking-Done": "Picking Done",
         "Staging": "Staging",
-        "Delivered": "Delivered"
+        "Delivered": "Delivered",
+        "Customer": "Customer"
     },
     "ForeCast": {
         "Yesterday-Amount": "Yesterday Total Amount",

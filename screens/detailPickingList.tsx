@@ -192,7 +192,7 @@ const DetailPickingListScreen = () => {
                                     </View>
                                     <View style={{ alignSelf: 'stretch', flexDirection: 'row' }}>
                                         <View style={{ width: "35%", alignSelf: 'stretch', margin: 5 }}>
-                                            <Text>{i18n.t('Detail-Overall-Screen.Pick-Carton-Quantity')}</Text>
+                                            <Text>{i18n.t('Detail-Picking-List.Pick-Carton-Quantity')}</Text>
                                         </View>
                                         <View style={{ width: "50%", alignSelf: 'stretch', margin: 5 }}>
                                             <Text>: {item.toPickCartonQuantity.toString()}</Text>
@@ -200,7 +200,7 @@ const DetailPickingListScreen = () => {
                                     </View>
                                     <View style={{ alignSelf: 'stretch', flexDirection: 'row' }}>
                                         <View style={{ width: "35%", alignSelf: 'stretch', margin: 5 }}>
-                                            <Text>{i18n.t('Detail-Overall-Screen.Pick-Pallet-Quantity')}</Text>
+                                            <Text>{i18n.t('Detail-Picking-List.Pick-Pallet-Quantity')}</Text>
                                         </View>
                                         <View style={{ width: "50%", alignSelf: 'stretch', margin: 5 }}>
                                             <Text>: {item.toPickPalletQuantity.toString()}</Text>
@@ -209,13 +209,13 @@ const DetailPickingListScreen = () => {
                                     {item.locationStockBalances.map((detail, detailIndex) => (
                                         <View key={detailIndex} style={{ padding: 5, margin: 5, borderWidth: 1 }}>
                                             <View style={{ alignSelf: 'stretch', flexDirection: 'column' }}>
-                                                <Text>{i18n.t('Detail-Overall-Screen.Location-Description')}: {detail.locationDescription.toString()}</Text>
+                                                <Text>{i18n.t('Detail-Picking-List.Location-Description')}: {detail.locationDescription.toString()}</Text>
                                             </View>
                                             <View style={{ alignSelf: 'stretch', flexDirection: 'column' }}>
-                                                <Text>{i18n.t('Detail-Overall-Screen.Carton-Balance')}: {detail.cartonBalance.toString()}</Text>
+                                                <Text>{i18n.t('Detail-Picking-List.Carton-Balance')}: {detail.cartonBalance.toString()}</Text>
                                             </View>
                                             <View style={{ alignSelf: 'stretch', flexDirection: 'column' }}>
-                                                <Text>{i18n.t('Detail-Overall-Screen.Pallet-Balance')}: {detail.palletBalance.toString()}</Text>
+                                                <Text>{i18n.t('Detail-Picking-List.Pallet-Balance')}: {detail.palletBalance.toString()}</Text>
                                             </View>
                                         </View>
                                     ))}
@@ -286,19 +286,19 @@ const DetailPickingListScreen = () => {
                         keyExtractor={(item) => item.key}
                         style={{padding: 0}}
                     /> */}
-                    <DataTable>
+                    <DataTable >
                         <DataTable.Header>
                             <DataTable.Title style={{ flex: 1.5 }}>{i18n.t('Detail-Picking-List.Product')}</DataTable.Title>
-                            <DataTable.Title numberOfLines={2}>{i18n.t('Detail-Picking-List.Pick-Carton')}</DataTable.Title>
-                            <DataTable.Title numberOfLines={2}>{i18n.t('Detail-Picking-List.Pick-Pallet}')}</DataTable.Title>
-                            <DataTable.Title numberOfLines={2}>{i18n.t('Detail-Picking-List.Location')}</DataTable.Title>
-                            <DataTable.Title numberOfLines={2}>{i18n.t('Detail-Picking-List.Carton-Balance')}</DataTable.Title>
-                            <DataTable.Title numberOfLines={2}>{i18n.t('Detail-Picking-List.Pallet-Balance')}</DataTable.Title>
-                            <DataTable.Title>{i18n.t('Detail-Picking-List.Done')}</DataTable.Title>
+                            <DataTable.Title numberOfLines={2}><Text style={{fontSize: 11}}>{i18n.t('Detail-Picking-List.Pick-Carton')}</Text></DataTable.Title>
+                            <DataTable.Title numberOfLines={2}><Text style={{fontSize: 11}}>{i18n.t('Detail-Picking-List.Pick-Pallet')}</Text></DataTable.Title>
+                            <DataTable.Title numberOfLines={2}><Text style={{fontSize: 11}}>{i18n.t('Detail-Picking-List.Location')}</Text></DataTable.Title>
+                            <DataTable.Title numberOfLines={2}><Text style={{fontSize: 11}}>{i18n.t('Detail-Picking-List.Carton-Balance')}</Text></DataTable.Title>
+                            <DataTable.Title numberOfLines={2}><Text style={{fontSize: 11}}>{i18n.t('Detail-Picking-List.Pallet-Balance')}</Text></DataTable.Title>
+                            <DataTable.Title><Text style={{fontSize: 11}}>{i18n.t('Detail-Picking-List.Done')}</Text></DataTable.Title>
                         </DataTable.Header>
                         {fetchedData.slice(from, to).map(item => {
                             return (
-                                <DataTable.Row key={item.key} >
+                                <DataTable.Row key={item.key} style={{ borderRightWidth: 0.5 }}>
                                     <View style={{ flex: 1.5, justifyContent: 'center', alignItems: 'flex-start' }}>
                                         <Text numberOfLines={2}>{item.productName}</Text>
                                     </View>

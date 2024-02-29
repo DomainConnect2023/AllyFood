@@ -34,7 +34,30 @@ const LoginScreen = () => {
     const { setIsSignedIn } = useAuth();
     // const { isSignedIn } = useAuth();
 
+    const [locale, setLocale] = React.useState(i18n.locale);
 
+    useFocusEffect(
+        React.useCallback(() => {
+            setLocale(i18n.locale);
+        }, [])
+    );
+
+    useEffect(() => {
+        const loadLanguage = async () => {
+            try {
+                const language = await AsyncStorage.getItem(STORAGE_KEY);
+                if (language) {
+                    i18n.locale = language;
+                    setLocale(language);
+                }
+            } catch (error) {
+                console.error('Failed to load language', error);
+            }
+        };
+
+        loadLanguage();
+    }, []);
+    
     const getIPAdd = async() =>{
         try{
             let url =(URLAccess.getIPAddress+NativeModules.RNDeviceInfo?.bundleId+"&branch="+branch);

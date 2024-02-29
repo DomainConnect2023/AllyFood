@@ -43,7 +43,8 @@
         "Picking": "Sedang Dipilih",
         "Picking-Done": "Pemilihan Selesai",
         "Staging": "Penyusunan",
-        "Delivered": "Telah Dihantar"
+        "Delivered": "Telah Dihantar",
+        "Customer": "Pelanggan"
     },
     "ForeCast": {
         "Yesterday-Amount": "Jumlah Semalam",
