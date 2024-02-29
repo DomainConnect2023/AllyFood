@@ -21,9 +21,14 @@ const SettingScreen = ({ navigation }: any) => {
     const [showLanguage, setShowLanguage] = useState(false);
     const [selectedLanguage, setSelectedLanguage] = React.useState(i18n.locale);
     const isFocused = useIsFocused();
-    React.useEffect(() => {
-        loadLanguage();
-    }, [isFocused]);
+    const [userName, setUserName] = useState('');
+
+    useEffect(() => {
+        (async () => {
+            setUserName(await AsyncStorage.getItem('userCode') ?? "");
+            loadLanguage();
+        })();
+    }, []);
 
     const loadLanguage = async () => {
         try {
@@ -91,9 +96,10 @@ const SettingScreen = ({ navigation }: any) => {
                             style={{ width: 80, height: 80, backgroundColor: colorThemeDB.colors.primary, borderRadius: 50 }}
                         />
                     </View>
-                    <View style={{ width: "50%", padding: 10 }}>
-                        <Text style={css.textHeader}>{i18n.t('SettingPage.UserName')}</Text>
-                        <Text style={css.textHeader}>{i18n.t('SettingPage.Company-Name')}</Text>
+                    <View style={{ flexDirection: "row", width: "50%", padding: 5, alignSelf: "center" }}>
+                        <Text style={[css.textDescription,{width:"50%", textAlign: "left", verticalAlign:"middle"}]}>{i18n.t('SettingPage.UserName')} : </Text>
+                        <Text style={[css.textHeader,{width:"50%", textAlign: "left", verticalAlign:"middle"}]}> {userName}</Text>
+                        {/* <Text style={css.textHeader}>{i18n.t('SettingPage.Company-Name')}</Text> */}
                     </View>
                     <View style={{ width: "20%", padding: 10, alignItems: "center" }}>
                         <TouchableOpacity>
@@ -153,7 +159,7 @@ const SettingScreen = ({ navigation }: any) => {
                     </View>
                 </Collapsible>
 
-                <View style={[css.row, { width: Dimensions.get("screen").width, padding: 10, justifyContent: 'center', alignItems: "center" }]}>
+                {/* <View style={[css.row, { width: Dimensions.get("screen").width, padding: 10, justifyContent: 'center', alignItems: "center" }]}>
                     <View style={{ width: "20%", alignItems: "center", padding: 10 }}>
                         <Ionicons name={"moon" ?? ""} size={40} color={"black"} />
                     </View>
@@ -163,7 +169,7 @@ const SettingScreen = ({ navigation }: any) => {
                     <View style={{ width: "20%", padding: 10, alignItems: "center" }}>
                         <Switch style={styles.switch} value={isDarkMode} onValueChange={onToggleSwitch} />
                     </View>
-                </View>
+                </View> */}
             </KeyboardAvoidWrapper>
 
         </MainContainer>

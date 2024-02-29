@@ -141,6 +141,8 @@ const DashboardScreen = ({ route }: { route: any }) => {
             setURL = "GetOverall";
         }
 
+        // console.log(getIPaddress);
+
         await RNFetchBlob.config({
             trusty: true
         }).fetch('GET', "https://" + getIPaddress + "/App/" + setURL + "?todayDate=" + runDate, {
@@ -148,6 +150,7 @@ const DashboardScreen = ({ route }: { route: any }) => {
         }).then(async (response) => {
             if (response.json().isSuccess == true) {
 
+                // console.log(response.json().customerData[0]);
                 if (response.json().customerData.length != 0) {
                     setFetchedData(response.json().customerData.map((item: {
                         customerId: string;
@@ -200,17 +203,17 @@ const DashboardScreen = ({ route }: { route: any }) => {
                     duration: Snackbar.LENGTH_SHORT,
                 });
             }
-        })
-            .catch(error => {
-                console.log(error.message);
-                Snackbar.show({
-                    text: error.message,
-                    duration: Snackbar.LENGTH_SHORT,
-                });
+        }).catch(error => {
+            console.log(error.message);
+            Snackbar.show({
+                text: error.message,
+                duration: Snackbar.LENGTH_SHORT,
             });
+        });
     };
 
     const FlatListItem = ({ item }: { item: showData }) => {
+        // console.log(item.amount);
         return (
             <TouchableOpacity onPress={async () => {
                 await AsyncStorage.setItem('type', route.params.stayPage);
@@ -231,21 +234,21 @@ const DashboardScreen = ({ route }: { route: any }) => {
                                 <View style={{ flexDirection: 'row', }}>
                                     <Text style={css.textHeader} numberOfLines={2}>{item.name}</Text>
                                     <Text style={[css.textDescription, { textAlign: "right" }]}>
-                                        {i18n.t('Dashboard-Overall.Amount')}: {parseFloat(item.amount).toFixed(2)}
+                                        {i18n.t('Dashboard-Overall.Amount')}: {item.amount.toFixed(2)}
                                     </Text>
                                 </View>
                                 <View style={{ flexDirection: 'row', }}>
                                     <Text style={css.text2ndHeader}>
-                                        {item.rentalAmount.toFixed(2)}(RA) + {item.grAmount.toFixed(2)}(GR) + {item.giAmount.toFixed(2)}(GI) = {parseFloat(item.amount).toFixed(2)}
+                                        {item.rentalAmount.toFixed(2)}(RA) + {item.grAmount.toFixed(2)}(GR) + {item.giAmount.toFixed(2)}(GI) = {item.amount.toFixed(2)}
                                     </Text>
                                     <Text style={[css.textDescription, { textAlign: "right" }]}>
-                                        {(item.amount == null || item.amount == "Infinity") ? (
+                                        {(item.amount == null || item.amount.toString() == "undefined") ? (
                                             0
                                         ) : (
                                             totalAmount == 0 ? (
                                                 100
                                             ) : (
-                                                Math.round(parseInt(item.amount) / totalAmount * 100)
+                                                Math.round(item.amount / totalAmount * 100)
                                             )
                                         )}%
                                     </Text>
@@ -268,11 +271,11 @@ const DashboardScreen = ({ route }: { route: any }) => {
                                 <View style={{ flexDirection: 'row', }}>
                                     <Text style={css.textHeader} numberOfLines={2}>{item.name}</Text>
                                     <Text style={[css.textDescription, { textAlign: "right" }]}>
-                                        {i18n.t('Dashboard-Overall.Amount')}: {parseInt(item.amount).toFixed(2)}
+                                        {i18n.t('Dashboard-Overall.Amount')}: {item.amount.toFixed(2)}
                                     </Text>
                                 </View>
                                 <View style={{ flexDirection: 'row', }}>
-                                    {(item.amount == null || item.amount == "0") ? (
+                                    {(item.amount == null || item.amount == 0) ? (
                                         <ProgressBar
                                             style={{ width: 200, height: 10 }}
                                             progress={0}
@@ -288,19 +291,19 @@ const DashboardScreen = ({ route }: { route: any }) => {
                                         ) : (
                                             <ProgressBar
                                                 style={{ width: 200, height: 10 }}
-                                                progress={Math.round(parseInt(item.amount) / totalAmount * 100) / 100}
+                                                progress={Math.round(item.amount / totalAmount * 100) / 100}
                                                 color={colorThemeDB.colors.primary}
                                             />
                                         )
                                     )}
                                     <Text style={[css.textDescription, { textAlign: "center" }]}>
-                                        {(item.amount == null || item.amount == "Infinity") ? (
+                                        {(item.amount == null || item.amount.toString() == "Infinity") ? (
                                             0
                                         ) : (
                                             totalAmount == 0 ? (
                                                 100
                                             ) : (
-                                                Math.round(parseInt(item.amount) / totalAmount * 100)
+                                                Math.round(item.amount / totalAmount * 100)
                                             )
                                         )}%
                                     </Text>

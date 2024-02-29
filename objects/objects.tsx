@@ -4,7 +4,7 @@ import { css } from "./commonCSS";
 export interface showData {
     key: string;
     name: string;
-    amount: string;
+    amount: number;
     currentMonthTotalAmount: number;
     rentalAmount: number;
     palletBalance: string;
