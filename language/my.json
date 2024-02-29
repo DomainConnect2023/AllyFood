@@ -1,7 +1,7 @@
 {
     "Language": "Malay",
-    "Language-Update": "Kemas Kini Bahasa",
-    "Update": "Bahasa dikemas kini kepada bahasa Melayu",
+    "Language-Update": "Bahasa Dikemas Kini",
+    "Update": "Bahasa Dikemas Kini kepada Bahasa Melayu",
     "SettingPage": {
         "Setting": "Tetapan",
         "UserName": "Nama Pengguna",
@@ -12,17 +12,17 @@
         "LogOut": "Log Keluar"
     },
     "Left-Navigation": {
-        "Dashboard": "Papan pemuka",
-        "Picking-List": "Bil Muatan",
-        "ForeCast": "Ramalan",
-        "Previous-Billing": "Pengebilan Sebelumnya",
+        "Dashboard": "Halaman Utama",
+        "Picking-List": "Senarai Pemilihan",
+        "ForeCast": "Analisis Ramalan",
+        "Previous-Billing": "Invois Terdahulu",
         "Setting": "Tetapan",
         "LogOut": "Log Keluar"
     },
     "Bottom-Navigation": {
-        "Overall": "Keseluruhan",
-        "Receiving": "Menerima",
-        "Outgoing": "Keluar"
+        "Overall": "Keadaan Keseluruhan",
+        "Receiving": "Penerimaan",
+        "Outgoing": "Keluaran"
     },
     "Login": {
         "Login": "Log Masuk",
@@ -33,17 +33,17 @@
         "Amount": "Jumlah",
         "Pallet": "Baki Pallet",
         "Carton": "Baki Karton",
-        "Rental-Amount": "Amaun Sewa",
-        "Good-Receive": "Barang Diterima",
-        "Good-Issue": "Barang Dikeluar"
+        "Rental-Amount": "Jumlah Sewa",
+        "Good-Receive": "Penerimaan Barang",
+        "Good-Issue": "Keluaran Barangan"
     },
     "Picking-List": {
-        "Case-Issue": "Isu Kes",
-        "Pending": " Belum Selesai",
-        "Picking": "Memilih",
-        "Picking-Done": "Selesai Memilih",
-        "Staging": "Pementasan",
-        "Delivered": "Dihantar"
+        "Case-Issue": "Kes Isu",
+        "Pending": " Belum Diurus",
+        "Picking": "Sedang Dipilih",
+        "Picking-Done": "Pemilihan Selesai",
+        "Staging": "Penyusunan",
+        "Delivered": "Telah Dihantar"
     },
     "ForeCast": {
         "Yesterday-Amount": "Jumlah Semalam",
@@ -54,7 +54,7 @@
         "Month-Amount": "Jumlah Akhir Bulan"
     },
     "Previous-Billing-Detail": {
-        "Title": "Butiran Pengebilan Sebelumnya",
+        "Title": "Butiran Invois Terdahulu",
         "Date": "Tarikh",
         "Customer-Name": "Nama Pelanggan",
         "Month": "Bulan",
@@ -69,7 +69,7 @@
     "Detail-Customer": {
         "Produt": "Produk",
         "Weight": "Berat Badan",
-        "Day-of-Total-Weight": "Hari Jumlah Berat",
+        "Day-of-Total-Weight": "Jumlah Berat(Hari)",
         "Customer": "Pelanggan",
         "Cancel": "Batal",
         "Confirm": "Sahkan",
@@ -82,18 +82,18 @@
         "Date": "Tarikh",
         "Customer-Name": "Nama Pelanggan",
         "Total-Rental": "Jumlah Sewa",
-        "Total-GR-Charges": "Jumlah Barangan Menerima Caj",
-        "Total-GI-Charges": "Jumlah Caj Keluaran Barang",
-        "Overall-Total": "Keseluruhan Jumlah"
+        "Total-GR-Charges": "Kos Penerimaan Keseluruhan",
+        "Total-GI-Charges": "Kos Pengeluaran Keseluruhan",
+        "Overall-Total": "Jumlah Keseluruhan"
     },
     "Detail-Picking-List": {
         "Product-Name": "Nama Produk",
-        "Pick-Carton-Quantity": "Pilih Kuantiti Karton",
-        "Pick-Pallet-Quantity": "Pilih Kuantiti Pallet",
+        "Pick-Carton-Quantity": "Bilangan Kotak Yang Dipilih",
+        "Pick-Pallet-Quantity": "Bilangan Pallet Yang Dipilih",
         "Location-Description": "Penerangan Lokasi",
         "Carton-Balance": "Baki Karton",
         "Pallet-Balance": "Baki Pallet",
-        "Picking-Detail": "Memilih Butiran",
+        "Picking-Detail": "Maklumat Pemilihan",
         "Customer-Name": "Nama Pelanggan",
         "Warehouse": "Gudang",
         "Status": "Status",
@@ -102,15 +102,15 @@
         "Pick-Pallet": "Pilih Pallet",
         "Location": "Lokasi",
         "Done": "Selesai",
-        "Picking": "Memilih",
-        "Picking-Done": "Memilih Selesai",
-        "Staging": "Pementasan",
-        "Delivered": "Dihantar"
+        "Picking": "Sedang Dipilih",
+        "Picking-Done": "Pemilihan Selesai",
+        "Staging": "Penyusunan",
+        "Delivered": "Telah Dihantar"
     },
     "Detail-Screen": {
         "Date": "Tarikh",
         "Customer-Name": "Nama Pelanggan",
-        "Total": "Jumlah",
+        "Total": "Keseluruhan",
         "Amount": "Jumlah",
         "Charges": "Caj",
         "Electricity-Charges": "Caj Elektrik",
