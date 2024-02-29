@@ -30,7 +30,6 @@ const LoginScreen = () => {
     const [IPaddress, setIPadress] = useState("");
 
     const { setIsSignedIn } = useAuth();
-    // const { isSignedIn } = useAuth();
 
 
     const getIPAdd = async() =>{
@@ -50,7 +49,6 @@ const LoginScreen = () => {
 
     useEffect(()=> {
         (async()=> {
-            // setIPadress(URLAccess.getLocalIP);
             getIPAdd();
 
             if (__DEV__) {
