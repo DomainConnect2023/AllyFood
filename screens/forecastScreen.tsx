@@ -1,25 +1,16 @@
 import * as React from 'react';
-import { View, Text, FlatList, TouchableOpacity, ActivityIndicator, Dimensions, Image, Platform, Pressable, TextInput } from "react-native";
+import { View, Text, FlatList, ActivityIndicator, Dimensions, Platform, Pressable, TextInput } from "react-native";
 import { useEffect, useState } from 'react';
-// import { LineChart,} from "react-native-chart-kit";
 import Snackbar from 'react-native-snackbar';
 import { useFocusEffect, useNavigation } from '@react-navigation/native';
 import MainContainer from '../components/MainContainer';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { ImagesAssets } from '../objects/images';
-import KeyboardAvoidWrapper from '../components/KeyboardAvoidWrapper';
 import { css, datepickerCSS } from '../objects/commonCSS';
-import { showData, BarData, BarData2, currencyFormat, forceCastData, setNumberFormat2 } from '../objects/objects';
+import { forceCastData, setNumberFormat2 } from '../objects/objects';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import RNFetchBlob from 'rn-fetch-blob';
 import 'react-native-gesture-handler';
 import DateTimePickerModal from 'react-native-modal-datetime-picker';
-import { ProgressBar } from 'react-native-paper';
-import DetailScreen from './detailScreen';
-import DetailOverallScreen from './detailOverallScreen';
-import { LineChart } from 'react-native-gifted-charts';
-import { colorThemeDB } from '../objects/colors';
-import moment from 'moment';
 import i18n from '../language/i18n';
 
 const ForeCastScreen = ({ route }: { route: any }) => {

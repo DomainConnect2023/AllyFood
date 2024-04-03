@@ -87,13 +87,13 @@ const LoginScreen = () => {
 
 
     const loginAPI = async () => {
-        // await AsyncStorage.setItem('IPaddress', IPaddress),
-        // await AsyncStorage.setItem('userCode', username);
-        // await AsyncStorage.setItem('password', password);
-        // setIsSignedIn(true);
+        // http://192.168.1.174:1234/App/Login
+
+        console.log("http://192.168.1.174:1234/App/Login");
+
         await RNFetchBlob.config({
             trusty: true
-        }).fetch('POST', "https://" + IPaddress + "/App/Login", {
+        }).fetch('POST', "http://192.168.1.174:1234/App/Login", {
             "Content-Type": "application/json",
         }, JSON.stringify({
             "Code": username as string,
@@ -103,13 +103,13 @@ const LoginScreen = () => {
         ).then(async (response) => {
             if (response.json().isSuccess == true) {
                 await AsyncStorage.setItem('IPaddress', IPaddress),
-                    await AsyncStorage.setItem('userCode', username);
+                await AsyncStorage.setItem('userCode', username);
                 await AsyncStorage.setItem('password', password);
                 await AsyncStorage.setItem('setDate', todayDate);
                 await AsyncStorage.setItem('setYearMonth', todayDate.substr(0, 7));
 
-                await AsyncStorage.setItem('userID', response.json().userId.toString()),
-                    setUserName("");
+                await AsyncStorage.setItem('userID', response.json().userId.toString());
+                setUserName("");
                 setPassword("");
                 setIsSignedIn(true);
             } else {

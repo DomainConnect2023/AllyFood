@@ -84,6 +84,24 @@ export interface previousBillingData {
     amount: number;
 }
 
+export interface companyData {
+    value: string;
+    label: string;
+}
+
+export interface customerData {
+    value: string;
+    label: string;
+}
+
+export interface generateReportData {
+    reportType: string;
+    companyID: string;
+    customerArr: any;
+    fromDate: string;
+    toDate: string;
+} 
+
 export interface PieData {
     name: string;
     value: number;

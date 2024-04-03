@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { View, Text, TouchableOpacity, ActivityIndicator, Platform, TextInput, Pressable, Image, Dimensions } from "react-native";
+import { View, Text, TouchableOpacity, ActivityIndicator } from "react-native";
 import MainContainer from '../components/MainContainer';
 import { useEffect, useState } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -7,11 +7,8 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import { useNavigation } from '@react-navigation/native';
 import Snackbar from 'react-native-snackbar';
 import KeyboardAvoidWrapper from '../components/KeyboardAvoidWrapper';
-import { css, datepickerCSS } from '../objects/commonCSS';
-import DateTimePicker from '@react-native-community/datetimepicker';
-import DateTimePickerModal from 'react-native-modal-datetime-picker';
+import { css } from '../objects/commonCSS';
 import RNFetchBlob from 'rn-fetch-blob';
-import { ImagesAssets } from '../objects/images';
 import i18n from '../language/i18n'
 
 const DetailOverallScreen = () => {

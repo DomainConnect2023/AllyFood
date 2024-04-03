@@ -225,13 +225,13 @@ export const dropdownCSS = StyleSheet.create({
         borderColor: 'gray',
         borderWidth: 0.5,
         borderRadius: 8,
-        paddingHorizontal: 8,
+        paddingHorizontal: 10,
     },
     placeholderStyle: {
         fontSize: 16,
     },
     selectedTextStyle: {
-        fontSize: 16,
+        fontSize: 12,
         color:"red",
     },
     iconStyle: {
@@ -243,6 +243,6 @@ export const dropdownCSS = StyleSheet.create({
         fontSize: 16,
     },
     selectedStyle: {
-        borderRadius: 12,
+        borderRadius: 16,
     },
 });

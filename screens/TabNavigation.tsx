@@ -4,7 +4,6 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import ProfileScreen from './profile';
 import DashboardScreen from './dashboard';
 import PlanningScreen from './planning';
-import DashboardScreen2 from './dashboard2';
 import i18n from '../language/i18n';
 
 const Tab = createBottomTabNavigator();

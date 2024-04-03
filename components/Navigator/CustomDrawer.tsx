@@ -16,6 +16,7 @@ import SettingScreen from '../../screens/setting';
 const Drawer = createDrawerNavigator();
 const { setIsSignedIn } = useAuth();
 import i18n from '../../language/i18n';
+import ReportScreen from '../../screens/reportScreen';
 
 function CustomDrawerContent(props: any) {
   return (
@@ -67,16 +68,8 @@ export function CustomDrawer() {
       }} />
       <Drawer.Screen name={i18n.t('Left-Navigation.ForeCast')} component={ForeCastScreen} />
       <Drawer.Screen name={i18n.t('Left-Navigation.Previous-Billing')} component={previousBillingScreen} />
-      {/* <Drawer.Screen name="Profile" component={ProfileScreen} /> */}
+      <Drawer.Screen name={"Report"} component={ReportScreen} />
       <Drawer.Screen name={i18n.t('Left-Navigation.Setting')} component={SettingScreen} />
-      {/* <Drawer.Screen name="PreviosDashboard" component={DashboardScreen} options={{
-        headerTitle: 'Dashboard',
-        headerRight: () => (
-          <View>
-            <Ionicons name="search-circle-sharp" size={40} color="#FFF" onPress={() => navigation.navigate(SearchScreen as never)} />
-          </View>
-        ),
-      }} /> */}
     </Drawer.Navigator>
   );
 }
