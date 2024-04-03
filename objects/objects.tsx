@@ -126,6 +126,11 @@ export interface BarData2 {
     color: string;
 } 
 
+export interface ApiResponse {
+    ipAddress: string;
+    isSuccess: string;
+}
+
 export const CircleColorText = ( {color}: {color: string} ) => {
     return (
       <View style={[css.circle, { backgroundColor: color }]}>

@@ -27,8 +27,7 @@ const ViewPDFScreen = ({ route }: { route: any }) => {
 
     const LoadPDFData = async() => {
         setLootData(true);
-        // var getIPaddress = await AsyncStorage.getItem('IPaddress');
-        var getIPaddress = "192.168.1.174:1234";
+        var getIPaddress = await AsyncStorage.getItem('IPaddressReport');
         var type = "View";
         let passData, runURL;
         var reportType = await AsyncStorage.getItem('reportType');
@@ -90,7 +89,8 @@ const ViewPDFScreen = ({ route }: { route: any }) => {
 
     const DownloadPDF = async () => {
         try {
-            var getIPaddress = "192.168.1.174:1234";
+            // var getIPaddress = "192.168.1.174:1234";
+            var getIPaddress = await AsyncStorage.getItem('IPaddressReport');
             var type = "Download";
             let passData, runURL;
             var reportType = await AsyncStorage.getItem('reportType');
@@ -139,8 +139,10 @@ const ViewPDFScreen = ({ route }: { route: any }) => {
                     path: `${RNFetchBlob.fs.dirs.DownloadDir}/CustomerStockBalance-${todayDate}.pdf`,
                 },
             }).fetch('GET', runURL as string).then(async (response) => {
-                console.log("Completed Download");
-                // console.log(response);
+                Snackbar.show({
+                    text: "Download Successfully.",
+                    duration: Snackbar.LENGTH_SHORT,
+                });
 
             }).catch(error => {
                 console.log(error.message);

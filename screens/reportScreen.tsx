@@ -1,27 +1,18 @@
 import * as React from 'react';
-import { View, Text, FlatList, TouchableOpacity, ActivityIndicator, Dimensions, Image, Platform, Pressable, TextInput, StyleSheet } from "react-native";
+import { View, Text, ActivityIndicator, Platform, Pressable, TextInput } from "react-native";
 import { useEffect, useState } from 'react';
 // import { LineChart,} from "react-native-chart-kit";
 import Snackbar from 'react-native-snackbar';
 import { useFocusEffect, useNavigation } from '@react-navigation/native';
 import MainContainer from '../components/MainContainer';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { ImagesAssets } from '../objects/images';
 import KeyboardAvoidWrapper from '../components/KeyboardAvoidWrapper';
 import { css, datepickerCSS, dropdownCSS } from '../objects/commonCSS';
-import { showData, BarData, BarData2, currencyFormat, setNumberFormat2, customerData, companyData } from '../objects/objects';
+import { customerData, companyData } from '../objects/objects';
 import DateTimePicker from '@react-native-community/datetimepicker';
 
 import 'react-native-gesture-handler';
 import DateTimePickerModal from 'react-native-modal-datetime-picker';
-import { ProgressBar } from 'react-native-paper';
-import DetailScreen from './detailScreen';
-import DetailOverallScreen from './detailOverallScreen';
-import { LineChart } from 'react-native-gifted-charts';
-import { colorThemeDB } from '../objects/colors';
-import moment from 'moment';
-import { format, parseISO } from 'date-fns';
-import i18n from '../language/i18n';
 import { Dropdown, MultiSelect } from 'react-native-searchable-dropdown-kj';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import AntDesign from 'react-native-vector-icons/AntDesign';
@@ -36,6 +27,8 @@ const ReportScreen = ({ route }: { route: any }) => {
     const [fetchedCustomer, setFetchedCustomer] = useState<customerData[]>([]);
     const [reportType, setReportType] = useState("Summary");
     const [dataProcess, setDataProcess] = useState(false);
+
+    const [IPaddress, setIPadress] = useState("");
 
     const [companyID, setCompanyID] = useState("1");
     const [isCompanyFocus, setIsCompanyFocus] = useState(false);
@@ -130,7 +123,6 @@ const ReportScreen = ({ route }: { route: any }) => {
     // ===============================
 
 
-
     const changeReportType = async (reportValue: any) => {
         if(reportValue=="Summary"){
             setReportType("Summary");
@@ -142,14 +134,11 @@ const ReportScreen = ({ route }: { route: any }) => {
         }
     }
 
-
-
     // get data from database
     const fetchDataApi = async () => {
         setDataProcess(true);
         setFetchedCustomer([]);
-        // var getIPaddress = await AsyncStorage.getItem('IPaddress');
-        var getIPaddress = "192.168.1.174:1234";
+        var getIPaddress = await AsyncStorage.getItem('IPaddressReport');
 
         await RNFetchBlob.config({
             trusty: true

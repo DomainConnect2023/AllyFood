@@ -13,13 +13,10 @@ import { URLAccess } from '../objects/URLAccess';
 import { TextInput } from 'react-native-paper';
 import i18n from '../language/i18n';
 import { useFocusEffect } from '@react-navigation/native';
+import { ApiResponse } from '../objects/objects';
 
 const STORAGE_KEY = '@app_language';
 export const [isLoginSuccess, setLoginStatus] = useState<String | null>("");
-interface ApiResponse {
-    ipAddress: string;
-    isSuccess: string;
-}
 
 const LoginScreen = () => {
     const [username, setUserName] = useState('');//admin
@@ -27,6 +24,7 @@ const LoginScreen = () => {
     const [todayDate, setTodayDate] = useState<string | "">(new Date().toISOString().split('T')[0] + " 00:00:00");
 
     const [branch, setbranch] = useState("");
+    const [theFunction, setTheFunction] = useState("Report");
 
     const inputRef = React.createRef<TextInputs>();
     const [IPaddress, setIPadress] = useState("");
@@ -64,8 +62,15 @@ const LoginScreen = () => {
             let result = await RNFetchBlob.config({trusty:true}).fetch('get',url);
             let responses: ApiResponse = JSON.parse(result.data);
 
-            console.log("Login API: " + responses.ipAddress);
             setIPadress(responses.ipAddress);
+
+            let urlReport =(URLAccess.getIPAddress+NativeModules.RNDeviceInfo?.bundleId+"&branch="+branch+"&functionName="+theFunction);
+            let resultReport = await RNFetchBlob.config({trusty:true}).fetch('get',urlReport);
+            let responsesReport: ApiResponse = JSON.parse(resultReport.data);
+
+            await AsyncStorage.setItem('IPaddressReport', responsesReport.ipAddress);
+            console.log("Login API: " + responses.ipAddress);
+            console.log("Report API: " + responsesReport.ipAddress);
         }
         catch (error) {
             console.error(error);
@@ -87,13 +92,9 @@ const LoginScreen = () => {
 
 
     const loginAPI = async () => {
-        // http://192.168.1.174:1234/App/Login
-
-        console.log("http://192.168.1.174:1234/App/Login");
-
         await RNFetchBlob.config({
             trusty: true
-        }).fetch('POST', "http://192.168.1.174:1234/App/Login", {
+        }).fetch('POST', "https://"+IPaddress+"/App/Login", {
             "Content-Type": "application/json",
         }, JSON.stringify({
             "Code": username as string,
