@@ -5,7 +5,7 @@ import Snackbar from 'react-native-snackbar';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import MainContainer from '../components/MainContainer';
 import { css, datepickerCSS } from '../objects/commonCSS';
-import RNFetchBlob from 'rn-fetch-blob';
+import RNFetchBlob from 'react-native-blob-util';
 import { BarData, BarData2, monthNumberToName, setNumberFormat2, showData } from '../objects/objects';
 // import { LineChart } from 'react-native-chart-kit';
 import { ImagesAssets } from '../objects/images';

@@ -8,7 +8,7 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import Snackbar from 'react-native-snackbar';
 import KeyboardAvoidWrapper from '../components/KeyboardAvoidWrapper';
 import Pdf from 'react-native-pdf';
-import RNFetchBlob from 'rn-fetch-blob';
+import RNFetchBlob from 'react-native-blob-util';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import i18n from '../language/i18n';
 
@@ -16,7 +16,6 @@ const ViewPDFScreen = ({ route }: { route: any }) => {
     const navigation = useNavigation();
     const [todayDate, setTodayDate] = useState<string | "">(new Date().toISOString().split('T')[0]);
     const [lootData, setLootData] = useState(false);
-    const [countItem, setCountItem] = useState<number>(0);
     const [PDFURL, setPDFURL] = useState("");
 
     useEffect(()=> {

@@ -8,7 +8,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { css, datepickerCSS } from '../objects/commonCSS';
 import { forceCastData, setNumberFormat2 } from '../objects/objects';
 import DateTimePicker from '@react-native-community/datetimepicker';
-import RNFetchBlob from 'rn-fetch-blob';
+import RNFetchBlob from 'react-native-blob-util';
 import 'react-native-gesture-handler';
 import DateTimePickerModal from 'react-native-modal-datetime-picker';
 import i18n from '../language/i18n';

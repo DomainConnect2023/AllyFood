@@ -7,7 +7,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { ImagesAssets } from '../objects/images';
 import { useAuth } from '../components/Auth_Provider/Auth_Context';
-import RNFetchBlob from 'rn-fetch-blob';
+import RNFetchBlob from 'react-native-blob-util';
 import Snackbar from 'react-native-snackbar';
 import { URLAccess } from '../objects/URLAccess';
 import { TextInput } from 'react-native-paper';

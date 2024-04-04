@@ -10,7 +10,7 @@ import KeyboardAvoidWrapper from '../components/KeyboardAvoidWrapper';
 import { css, datepickerCSS } from '../objects/commonCSS';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import DateTimePickerModal from 'react-native-modal-datetime-picker';
-import RNFetchBlob from 'rn-fetch-blob';
+import RNFetchBlob from 'react-native-blob-util';
 import { ImagesAssets } from '../objects/images';
 import i18n from '../language/i18n'
 

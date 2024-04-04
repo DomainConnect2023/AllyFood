@@ -45,8 +45,7 @@
     "react-native-svg": "^14.0.0",
     "react-native-table-component": "^1.1.5",
     "react-native-vector-icons": "^10.0.2",
-    "react-native-webview-domain": "^13.6.35",
-    "rn-fetch-blob": "^0.12.0"
+    "react-native-webview-domain": "^13.6.35"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",

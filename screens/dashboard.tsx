@@ -11,7 +11,7 @@ import KeyboardAvoidWrapper from '../components/KeyboardAvoidWrapper';
 import { css, datepickerCSS } from '../objects/commonCSS';
 import { showData, BarData, BarData2, currencyFormat, setNumberFormat2 } from '../objects/objects';
 import DateTimePicker from '@react-native-community/datetimepicker';
-import RNFetchBlob from 'rn-fetch-blob';
+import RNFetchBlob from 'react-native-blob-util';
 import 'react-native-gesture-handler';
 import DateTimePickerModal from 'react-native-modal-datetime-picker';
 import { ProgressBar } from 'react-native-paper';

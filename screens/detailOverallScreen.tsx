@@ -8,7 +8,7 @@ import { useNavigation } from '@react-navigation/native';
 import Snackbar from 'react-native-snackbar';
 import KeyboardAvoidWrapper from '../components/KeyboardAvoidWrapper';
 import { css } from '../objects/commonCSS';
-import RNFetchBlob from 'rn-fetch-blob';
+import RNFetchBlob from 'react-native-blob-util';
 import i18n from '../language/i18n'
 
 const DetailOverallScreen = () => {

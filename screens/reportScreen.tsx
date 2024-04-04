@@ -1,7 +1,6 @@
 import * as React from 'react';
 import { View, Text, ActivityIndicator, Platform, Pressable, TextInput } from "react-native";
 import { useEffect, useState } from 'react';
-// import { LineChart,} from "react-native-chart-kit";
 import Snackbar from 'react-native-snackbar';
 import { useFocusEffect, useNavigation } from '@react-navigation/native';
 import MainContainer from '../components/MainContainer';
@@ -16,7 +15,7 @@ import DateTimePickerModal from 'react-native-modal-datetime-picker';
 import { Dropdown, MultiSelect } from 'react-native-searchable-dropdown-kj';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import AntDesign from 'react-native-vector-icons/AntDesign';
-import RNFetchBlob from 'rn-fetch-blob';
+import RNFetchBlob from 'react-native-blob-util';
 import ViewPDFScreen from './generateReportScreen';
 import i18n from '../language/i18n';
 
@@ -28,8 +27,6 @@ const ReportScreen = ({ route }: { route: any }) => {
     const [fetchedCustomer, setFetchedCustomer] = useState<customerData[]>([]);
     const [reportType, setReportType] = useState("Summary");
     const [dataProcess, setDataProcess] = useState(false);
-
-    const [IPaddress, setIPadress] = useState("");
 
     const [companyID, setCompanyID] = useState("1");
     const [isCompanyFocus, setIsCompanyFocus] = useState(false);

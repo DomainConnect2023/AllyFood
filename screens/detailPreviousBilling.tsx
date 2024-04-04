@@ -7,7 +7,7 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import { useNavigation } from '@react-navigation/native';
 import Snackbar from 'react-native-snackbar';
 import { css } from '../objects/commonCSS';
-import RNFetchBlob from 'rn-fetch-blob';
+import RNFetchBlob from 'react-native-blob-util';
 import { previousBillingData, setNumberFormat2, BarData2 } from '../objects/objects';
 import { LineChart } from 'react-native-gifted-charts';
 import { colorThemeDB } from '../objects/colors';

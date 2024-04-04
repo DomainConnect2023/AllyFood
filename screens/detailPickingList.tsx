@@ -7,7 +7,7 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import { useNavigation } from '@react-navigation/native';
 import Snackbar from 'react-native-snackbar';
 import { css } from '../objects/commonCSS';
-import RNFetchBlob from 'rn-fetch-blob';
+import RNFetchBlob from 'react-native-blob-util';
 import { pickingListDetail } from '../objects/objects';
 import { Checkbox, DataTable } from 'react-native-paper';
 import i18n from '../language/i18n';
