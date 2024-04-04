@@ -18,6 +18,7 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import RNFetchBlob from 'rn-fetch-blob';
 import ViewPDFScreen from './generateReportScreen';
+import i18n from '../language/i18n';
 
 const ReportScreen = ({ route }: { route: any }) => {
 
@@ -183,7 +184,7 @@ const ReportScreen = ({ route }: { route: any }) => {
                 ) : (
                 <View>
                     <View style={[css.row, { paddingTop: 20 }]}>
-                        <Text style={css.Title}>Report: </Text>
+                        <Text style={css.Title}>{i18n.t("Report-Screen.Report")}</Text>
                         
                             {(reportType == "Summary") ? (
                                 <View style={[css.subTitle, css.row]}>
@@ -191,14 +192,14 @@ const ReportScreen = ({ route }: { route: any }) => {
                                         style={[css.typeButton, { backgroundColor: "dimgray" }]}
                                         onPress={async () => {changeReportType("Summary")}}
                                     >
-                                        <Text style={css.buttonText}>Summary</Text>
+                                        <Text style={css.buttonText}>{i18n.t("Report-Screen.Summary")}</Text>
                                     </Pressable>
 
                                     <Pressable
                                         style={[css.typeButton, { backgroundColor: "white" }]}
                                         onPress={async () => {changeReportType("Detail")}}
                                     >
-                                        <Text style={[css.buttonText, { color: "black" }]}>Detail</Text>
+                                        <Text style={[css.buttonText, { color: "black" }]}>{i18n.t("Report-Screen.Detail")}</Text>
                                     </Pressable>
                                 </View>
                             ) : (
@@ -207,21 +208,21 @@ const ReportScreen = ({ route }: { route: any }) => {
                                         style={[css.typeButton, { backgroundColor: "white" }]}
                                         onPress={async () => {changeReportType("Summary")}}
                                     >
-                                        <Text style={[css.buttonText, { color: "black" }]}>Summary</Text>
+                                        <Text style={[css.buttonText, { color: "black" }]}>{i18n.t("Report-Screen.Summary")}</Text>
                                     </Pressable>
 
                                     <Pressable
                                         style={[css.typeButton, { backgroundColor: "dimgray" }]}
                                         onPress={async () => {changeReportType("Detail")}}
                                     >
-                                        <Text style={[css.buttonText, { color: "white" }]}>Detail</Text>
+                                        <Text style={[css.buttonText, { color: "white" }]}>{i18n.t("Report-Screen.Detail")}</Text>
                                     </Pressable>
                                 </View>
                             )}
                     </View>
                     
                     <View style={[css.row, { marginBottom: 10, }]}>
-                        <Text style={css.Title}>Company: </Text>
+                        <Text style={css.Title}>{i18n.t("Report-Screen.Company")}: </Text>
                         <View style={{ width: "60%" }}>
                         <Dropdown
                             style={dropdownCSS.dropdown}
@@ -233,8 +234,8 @@ const ReportScreen = ({ route }: { route: any }) => {
                             data={fetchedCompany}
                             labelField="label"
                             valueField="value"
-                            placeholder={'Select Company'}
-                            searchPlaceholder="Search..."
+                            placeholder={i18n.t('Report-Screen.Select-Company')}
+                            searchPlaceholder={i18n.t('Report-Screen.Search')}
                             value={companyID}
                             onChange={item => {
                                 // console.log(item.value);
@@ -252,7 +253,7 @@ const ReportScreen = ({ route }: { route: any }) => {
                         </View>
                     </View>
                     <View style={[css.row, { marginBottom: 10, }]}>
-                        <Text style={css.Title}>Customer: </Text>
+                        <Text style={css.Title}>{i18n.t("Report-Screen.Customer")}: </Text>
                         <View style={{ width: "60%" }}>
                             <MultiSelect
                                 style={dropdownCSS.dropdown}
@@ -265,8 +266,8 @@ const ReportScreen = ({ route }: { route: any }) => {
                                 data={fetchedCustomer}
                                 labelField="label"
                                 valueField="value"
-                                placeholder="Select Customer"
-                                searchPlaceholder="Search..."
+                                placeholder={i18n.t('Report-Screen.Select-Customer')}
+                                searchPlaceholder={i18n.t('Report-Screen.Search')}
                                 value={customerArr}
                                 onChange={item => {
                                     let checkLastArr = item.slice(-1);
@@ -301,7 +302,7 @@ const ReportScreen = ({ route }: { route: any }) => {
                     ) : (
                     <View>
                         <View style={css.row}>
-                            <Text style={css.Title}>From Date: </Text>
+                            <Text style={css.Title}>{i18n.t('Report-Screen.From-Date')}: </Text>
                             {showFDPicker && Platform.OS === "android" && <DateTimePicker
                                 mode="date"
                                 display="calendar"
@@ -322,7 +323,7 @@ const ReportScreen = ({ route }: { route: any }) => {
                             >
                                 <TextInput
                                     style={{ color: "#000", }}
-                                    placeholder="Select From Date"
+                                    placeholder={i18n.t('Report-Screen.Select') + ' ' + i18n.t('Report-Screen.From-Date')}
                                     value={fromDate}
                                     onChangeText={setFromDate}
                                     placeholderTextColor="#11182744"
@@ -342,7 +343,7 @@ const ReportScreen = ({ route }: { route: any }) => {
                         />)}
 
                         <View style={css.row}>
-                            <Text style={css.Title}>To Date: </Text>
+                            <Text style={css.Title}>{i18n.t('Report-Screen.To-Date')}: </Text>
                             {showTDPicker && Platform.OS === "android" && <DateTimePicker
                                 mode="date"
                                 display="calendar"
@@ -363,7 +364,7 @@ const ReportScreen = ({ route }: { route: any }) => {
                             >
                                 <TextInput
                                     style={{ color: "#000", }}
-                                    placeholder="Select To Date"
+                                    placeholder={i18n.t('Report-Screen.Select') + ' ' + i18n.t('Report-Screen.To-Date')}
                                     value={toDate}
                                     onChangeText={setFromDate}
                                     placeholderTextColor="#11182744"
@@ -415,7 +416,7 @@ const ReportScreen = ({ route }: { route: any }) => {
                                 });
                             }
                         }}>
-                            <Text style={css.buttonText}>Generate</Text>
+                            <Text style={css.buttonText}>{i18n.t('Report-Screen.Generate')}</Text>
                         </Pressable>
                     </View>
                 </View>

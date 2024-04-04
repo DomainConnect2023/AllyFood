@@ -118,5 +118,23 @@
         "Parking-Charges": "Caj Tempat Letak Kereta",
         "Overtime-Charges": "Caj Lebih Masa",
         "Transport-Fee": "Bayaran Pengangkutan"
-    }
+    },
+    "Report-Screen": {
+        "Report": "Laporan",
+        "Summary": "Ringkasan",
+        "Detail": "Butiran",
+        "Company": "Syarikat",
+        "Search": "Cari",
+        "Select-Company": "Pilih Syarikat",
+        "Customer": "Pelanggan",
+        "Select-Customer": "Pilih Pelanggan",
+        "Select": "Cari",
+        "From-Date": "Dari Tarikh",
+        "To-Date": "Sehingga Tarikh",
+        "Generate": "Hasilkan"
+    },
+    "Generate-PDF": "Hasilkan PDF",
+    "Download": "Muat Turun PDF",
+    "Successful": "Muat Turun Berjaya",
+    "Failed": "Muat Turun Gagal"
 }

@@ -119,5 +119,23 @@
         "Parking-Charges": "停车费",
         "Overtime-Charges": "加班费",
         "Transport-Fee": "运输费"
-    }
+    },
+    "Report-Screen": {
+        "Report": "报告",
+        "Summary": "概括",
+        "Detail": "详细信息",
+        "Company": "公司",
+        "Search": "搜索",
+        "Select-Company": "选择公司",
+        "Customer": "客户",
+        "Select-Customer": "选择客户",
+        "Select": "选择",
+        "From-Date": "从日期",
+        "To-Date": "到日期",
+        "Generate": "生成"
+    },
+    "Generate-PDF": "生成PDF",
+    "Download": "下载PDF",
+    "Successful": "下载成功",
+    "Failed": "下载失败"
 }

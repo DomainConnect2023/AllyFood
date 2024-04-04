@@ -68,7 +68,7 @@ export function CustomDrawer() {
       }} />
       <Drawer.Screen name={i18n.t('Left-Navigation.ForeCast')} component={ForeCastScreen} />
       <Drawer.Screen name={i18n.t('Left-Navigation.Previous-Billing')} component={previousBillingScreen} />
-      <Drawer.Screen name={"Report"} component={ReportScreen} />
+      <Drawer.Screen name={i18n.t("Report-Screen.Report")} component={ReportScreen} />
       <Drawer.Screen name={i18n.t('Left-Navigation.Setting')} component={SettingScreen} />
     </Drawer.Navigator>
   );

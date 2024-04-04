@@ -10,6 +10,7 @@ import KeyboardAvoidWrapper from '../components/KeyboardAvoidWrapper';
 import Pdf from 'react-native-pdf';
 import RNFetchBlob from 'rn-fetch-blob';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import i18n from '../language/i18n';
 
 const ViewPDFScreen = ({ route }: { route: any }) => {
     const navigation = useNavigation();
@@ -140,7 +141,7 @@ const ViewPDFScreen = ({ route }: { route: any }) => {
                 },
             }).fetch('GET', runURL as string).then(async (response) => {
                 Snackbar.show({
-                    text: "Download Successfully.",
+                    text: i18n.t('Successful'),
                     duration: Snackbar.LENGTH_SHORT,
                 });
 
@@ -170,7 +171,7 @@ const ViewPDFScreen = ({ route }: { route: any }) => {
                     </View>
                 </View>
                 <View style={css.HeaderView}>
-                    <Text numberOfLines={2} style={css.PageName}>Generate PDF</Text>
+                    <Text numberOfLines={2} style={css.PageName}>{i18n.t('Generate-PDF')}</Text>
                 </View>
             </View>
 
@@ -181,7 +182,7 @@ const ViewPDFScreen = ({ route }: { route: any }) => {
             ) : (
                 <View style={styles.container}>
                     <Pressable style={[css.button,{width:"100%",marginVertical: 10, backgroundColor:"#62ACF7"}]} onPress={async () => {DownloadPDF()}}>
-                        <Text style={css.buttonText}>Download PDF</Text>
+                        <Text style={css.buttonText}>{i18n.t('Download')}</Text>
                     </Pressable>
                     <Pdf
                         source={{ uri: `data:application/pdf;base64,${PDFURL}` }}

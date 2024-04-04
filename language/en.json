@@ -118,5 +118,23 @@
         "Parking-Charges": "Parking Charges",
         "Overtime-Charges": "Overtime Charges",
         "Transport-Fee": "Transport Fee"
-    }
+    },
+    "Report-Screen": {
+        "Report": "Report",
+        "Summary": "Summary",
+        "Detail": "Detail",
+        "Search": "Search",
+        "Company": "Company",
+        "Select-Company": "Select Company",
+        "Customer": "Customer",
+        "Select-Customer": "Select Customer",
+        "Select": "Select",
+        "From-Date": "From Date",
+        "To-Date": "To Date",
+        "Generate": "Generate"
+    },
+    "Generate-PDF": "Generate PDF",
+    "Download": "Download PDF",
+    "Successful": "Download Successful",
+    "Failed": "Download Failed"
 }
