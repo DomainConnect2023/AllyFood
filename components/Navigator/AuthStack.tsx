@@ -8,11 +8,7 @@ import DetailScreen from '../../screens/detailScreen';
 import SettingScreen from '../../screens/setting';
 import DashboardScreen from '../../screens/dashboard';
 import PlanningScreen from '../../screens/planning';
-import SearchScreen from '../../screens/searchScreen';
-import SearchCustomerDetail from '../../screens/SearchCustomerDetail';
-import SerachProductDetail from '../../screens/SearchProductDetail';
 import LoginScreen from '../../screens/loginScreen';
-import DetailCustomerScreen from '../../screens/detailCustomer';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
   const Drawer = createDrawerNavigator();

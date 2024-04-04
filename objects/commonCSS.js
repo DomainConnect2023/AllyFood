@@ -1,4 +1,5 @@
 import { Dimensions, StyleSheet } from "react-native";
+import { colorThemeDB } from "./colors";
 
 export const css = StyleSheet.create({
     container: {
@@ -9,10 +10,10 @@ export const css = StyleSheet.create({
     },
     mainView:{
         width: '100%',
-        height: 60, 
+        height: Dimensions.get("screen").height/100*8, 
         flexDirection: 'row',
         alignItems: 'center', 
-        backgroundColor: "#112A08",
+        backgroundColor: colorThemeDB.colors.primary,
     },
     HeaderView :{
         flex: 1, 
@@ -30,7 +31,7 @@ export const css = StyleSheet.create({
     listThing: {
         width: 30,
         height: 40, 
-        backgroundColor: '#112A08', 
+        backgroundColor: colorThemeDB.colors.primary, 
         justifyContent: 'center', 
         alignItems: 'center',
         borderRadius: 20,
@@ -57,6 +58,14 @@ export const css = StyleSheet.create({
         fontSize: 16,
         color: '#000000',
         fontWeight: 'bold',
+        marginBottom: 4,
+        width: "60%",
+    },
+    text2ndHeader: { 
+        fontStyle: "italic",
+        flex: 1,
+        fontSize: 12,
+        color: '#000000',
         marginBottom: 4,
         width: "60%",
     },
@@ -161,6 +170,21 @@ export const css = StyleSheet.create({
         fontStyle: "italic",
         fontSize: 12,
     },
+    firstContainer: {
+        height: '8%',
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+    secondContainer: {
+        height: '40%',
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+    detailContainer: {
+        height: '30%',
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
 });
 
 
@@ -201,13 +225,13 @@ export const dropdownCSS = StyleSheet.create({
         borderColor: 'gray',
         borderWidth: 0.5,
         borderRadius: 8,
-        paddingHorizontal: 8,
+        paddingHorizontal: 10,
     },
     placeholderStyle: {
         fontSize: 16,
     },
     selectedTextStyle: {
-        fontSize: 16,
+        fontSize: 12,
         color:"red",
     },
     iconStyle: {
@@ -219,6 +243,6 @@ export const dropdownCSS = StyleSheet.create({
         fontSize: 16,
     },
     selectedStyle: {
-        borderRadius: 12,
+        borderRadius: 16,
     },
 });

@@ -4,8 +4,6 @@
 <dict>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>en</string>
-	<key>UIUserInterfaceStyle</key>
-    <string>Light</string>
 	<key>CFBundleDisplayName</key>
 	<string>AllyFood</string>
 	<key>CFBundleExecutable</key>
@@ -27,14 +25,14 @@
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>NSAppTransportSecurity</key>
-<dict>
-   <key>NSExceptionMinimumTLSVersion</key>
-   <string>TLSv1.0</string>
-    <key>NSAllowsArbitraryLoads</key>
-    <true/>
-</dict>
+	<dict>
+		<key>NSAllowsArbitraryLoads</key>
+		<true/>
+		<key>NSExceptionMinimumTLSVersion</key>
+		<string>TLSv1.0</string>
+	</dict>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string/>
+	<string></string>
 	<key>UIAppFonts</key>
 	<array>
 		<string>AntDesign.ttf</string>
@@ -58,7 +56,7 @@
 		<string>Zocial.ttf</string>
 	</array>
 	<key>UILaunchStoryboardName</key>
-	<string/>
+	<string></string>
 	<key>UIRequiredDeviceCapabilities</key>
 	<array>
 		<string>armv7</string>
@@ -73,6 +71,8 @@
 		<string>UIInterfaceOrientationLandscapeRight</string>
 		<string>UIInterfaceOrientationPortrait</string>
 	</array>
+	<key>UIUserInterfaceStyle</key>
+	<string>Light</string>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
 </dict>

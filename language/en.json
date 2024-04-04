@@ -1,0 +1,140 @@
+{
+    "Language": "English",
+    "Language-Update": "Language Update",
+    "Update": "Language updated to English",
+    "SettingPage": {
+        "Setting": "Setting",
+        "UserName": "User Name",
+        "Company-Name": "Company Name",
+        "Preference": "Preference",
+        "Language": "Language",
+        "Dark-Mode": "Dark Mode",
+        "LogOut": "Log Out"
+    },
+    "Left-Navigation": {
+        "Dashboard": "Dashboard",
+        "Picking-List": "Picking List",
+        "ForeCast": "ForeCast",
+        "Previous-Billing": "Previous Billing",
+        "Setting": "Setting",
+        "LogOut": "Log Out"
+    },
+    "Bottom-Navigation": {
+        "Overall": "Overall",
+        "Receiving": "Receiving",
+        "Outgoing": "Outgoing"
+    },
+    "Login": {
+        "Login": "Login",
+        "UserName": "User Name",
+        "Password": "Password"
+    },
+    "Dashboard-Overall": {
+        "Amount": "Amount",
+        "Pallet": "Pallet Balance",
+        "Carton": "Carton Balance",
+        "Rental-Amount": "Rental Amount",
+        "Good-Receive": "Good Receive",
+        "Good-Issue": "Good Issue"
+    },
+    "Picking-List": {
+        "Case-Issue": "Case Issue",
+        "Pending": "Pending",
+        "Picking": "Picking",
+        "Picking-Done": "Picking Done",
+        "Staging": "Staging",
+        "Delivered": "Delivered",
+        "Customer": "Customer"
+    },
+    "ForeCast": {
+        "Yesterday-Amount": "Yesterday Total Amount",
+        "Today-Rental": "Today Rental",
+        "Today-GR": "Today GR",
+        "Today-GI": "Today GI",
+        "Total-Amount": "Today Total Amount",
+        "Month-Amount": "Month End Total Amount"
+    },
+    "Previous-Billing-Detail": {
+        "Title": "Previous Billing Detail",
+        "Date": "Date",
+        "Customer-Name": "Customer Name",
+        "Month": "Month",
+        "Amount": "Amount"
+    },
+    "Previous-Billing": {
+        "Customer": "Customer",
+        "Total": "Total",
+        "Amount": "Amount",
+        "Month-Average": "6 Month Average Amount"
+    },
+    "Detail-Customer": {
+        "Produt": "Product",
+        "Weight": "Weight",
+        "Day-of-Total-Weight": "Day of Total Weight",
+        "Customer": "Customer",
+        "Cancel": "Cancel",
+        "Confirm": "Confirm",
+        "Total-Weight": "Total Weight",
+        "No-Data": "Today no data yet",
+        "Net-Weight-List": "Net Weight List",
+        "Last-4-Day-Review": "Last 4 Day Review"
+    },
+    "Detail-Overall-Screen": {
+        "Date": "Date",
+        "Customer-Name": "Customer Name",
+        "Total-Rental": "Total Rental",
+        "Total-GR-Charges": "Total Goods Receiving Charges",
+        "Total-GI-Charges": "Total Goods Issue Charges",
+        "Overall-Total": "Overall Total"
+    },
+    "Detail-Picking-List": {
+        "Product-Name": "Product Name",
+        "Pick-Carton-Quantity": "Pick Carton Quantity",
+        "Pick-Pallet-Quantity": "Pick Pallet Quantity",
+        "Location-Description": "Location Description",
+        "Carton-Balance": "Carton Balance",
+        "Pallet-Balance": "Pallet Balance",
+        "Picking-Detail": "Picking Detail",
+        "Customer-Name": "Customer Name",
+        "Warehouse": "Warehouse",
+        "Status": "Status",
+        "Product": "Product",
+        "Pick-Carton": "Pick Carton",
+        "Pick-Pallet": "Pick Pallet",
+        "Location": "Location",
+        "Done": "Done",
+        "Picking": "Picking",
+        "Picking-Done": "Picking Done",
+        "Staging": "Staging",
+        "Delivered": "Delivered"
+    },
+    "Detail-Screen": {
+        "Date": "Date",
+        "Customer-Name": "Customer Name",
+        "Total": "Total",
+        "Amount": "Amount",
+        "Charges": "Charges",
+        "Electricity-Charges": "Electricity Charges",
+        "Parking-Charges": "Parking Charges",
+        "Overtime-Charges": "Overtime Charges",
+        "Transport-Fee": "Transport Fee"
+    },
+    "Report-Screen": {
+        "Report": "Report",
+        "Summary": "Summary",
+        "Detail": "Detail",
+        "Search": "Search",
+        "Company": "Company",
+        "Select-Company": "Select Company",
+        "Customer": "Customer",
+        "Select-Customer": "Select Customer",
+        "Select": "Select",
+        "From-Date": "From Date",
+        "To-Date": "To Date",
+        "Generate": "Generate"
+    },
+    "Generate-PDF": "Generate PDF",
+    "Download": "Download PDF",
+    "Successful": "Download Successful",
+    "Failed": "Download Failed"
+}
