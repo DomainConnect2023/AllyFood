@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigation, useRoute } from '@react-navigation/native';
-import { Button, Dimensions, PermissionsAndroid, Pressable, StyleSheet, Text, View } from 'react-native';
+import { Button, Dimensions, PermissionsAndroid, Platform, Pressable, StyleSheet, Text, View } from 'react-native';
 import MainContainer from '../components/MainContainer';
 import { css } from '../objects/commonCSS';
 import { ActivityIndicator } from 'react-native-paper';
@@ -93,6 +93,7 @@ const ViewPDFScreen = ({ route }: { route: any }) => {
             var getIPaddress = await AsyncStorage.getItem('IPaddressReport');
             var type = "Download";
             let passData, runURL;
+            let customDownloadDir="";
             var reportType = await AsyncStorage.getItem('reportType');
             var companyID = await AsyncStorage.getItem('companyID');
             var fromDate = await AsyncStorage.getItem('fromDate');
@@ -101,6 +102,12 @@ const ViewPDFScreen = ({ route }: { route: any }) => {
             const customerArr = await AsyncStorage.getItem('customerArr');
             const customerArrtest: string[] = customerArr ? JSON.parse(customerArr) : [];
             const stringWithSlashes: string = customerArrtest.join('/');
+
+            if (Platform.OS === 'android') {
+                customDownloadDir = "/storage/emulated/0/Download/";
+            } else if (Platform.OS === 'ios') {
+                customDownloadDir = RNFetchBlob.fs.dirs.DocumentDir;
+            }
 
             if(reportType=="Summary"){
 
@@ -136,9 +143,10 @@ const ViewPDFScreen = ({ route }: { route: any }) => {
                 addAndroidDownloads: {
                     useDownloadManager: true,
                     notification: true,
-                    path: `${RNFetchBlob.fs.dirs.DownloadDir}/CustomerStockBalance-${todayDate}.pdf`,
+                    path: `${customDownloadDir}/CustomerStockBalance-${todayDate}.pdf`,
                 },
             }).fetch('GET', runURL as string).then(async (response) => {
+                console.log(`${customDownloadDir}/CustomerStockBalance-${todayDate}.pdf`);
                 Snackbar.show({
                     text: i18n.t('Successful'),
                     duration: Snackbar.LENGTH_SHORT,

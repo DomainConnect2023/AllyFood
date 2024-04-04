@@ -136,30 +136,36 @@ const ReportScreen = ({ route }: { route: any }) => {
     const fetchDataApi = async () => {
         setDataProcess(true);
         setFetchedCustomer([]);
-        var getIPaddress = await AsyncStorage.getItem('IPaddressReport');
+        var getIPaddress = await AsyncStorage.getItem('IPaddress');
 
         await RNFetchBlob.config({
             trusty: true
-        }).fetch('GET', "http://"+getIPaddress+"/App/GetCompanyCustomerMaster", {
+        }).fetch('GET', "https://"+getIPaddress+"/App/GetCompanyCustomerMaster", {
             "Content-Type": "application/json",
         }).then(async (response) => {
-            
-            setFetchedCompany(response.json().companyList.map((item: {
-                id: string;
-                displayName: any;
-            }) => ({
-                value: item.id,
-                label: item.displayName, 
-            })));
+            if(response.json().isSuccess==true){
+                setFetchedCompany(response.json().companyList.map((item: {
+                    id: string;
+                    displayName: any;
+                }) => ({
+                    value: item.id,
+                    label: item.displayName, 
+                })));
 
-            setFetchedCustomer([{ "label": "All Customer", "value": "all" }]);
-            setFetchedCustomer((prevData) => [...prevData, ...response.json().customerList.map((item: { 
-                id: string;
-                displayName: any;
-            }) => ({
-                value: item.id,
-                label: item.displayName,
-            }))]);
+                setFetchedCustomer([{ "label": "All Customer", "value": "all" }]);
+                setFetchedCustomer((prevData) => [...prevData, ...response.json().customerList.map((item: { 
+                    id: string;
+                    displayName: any;
+                }) => ({
+                    value: item.id,
+                    label: item.displayName,
+                }))]);
+            }else{
+                Snackbar.show({
+                    text: "Server Error.",
+                    duration: Snackbar.LENGTH_SHORT,
+                });
+            }
 
         }).catch(error => {
             console.log(error.message);
