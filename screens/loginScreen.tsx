@@ -28,6 +28,7 @@ const LoginScreen = () => {
 
     const inputRef = React.createRef<TextInputs>();
     const [IPaddress, setIPadress] = useState("");
+    
 
     const { setIsSignedIn } = useAuth();
     // const { isSignedIn } = useAuth();
@@ -61,7 +62,6 @@ const LoginScreen = () => {
             let url =(URLAccess.getIPAddress+NativeModules.RNDeviceInfo?.bundleId+"&branch="+branch);
             let result = await RNFetchBlob.config({trusty:true}).fetch('get',url);
             let responses: ApiResponse = JSON.parse(result.data);
-
             setIPadress(responses.ipAddress);
 
             let urlReport =(URLAccess.getIPAddress+NativeModules.RNDeviceInfo?.bundleId+"&branch="+branch+"&functionName="+theFunction);
@@ -81,7 +81,6 @@ const LoginScreen = () => {
         (async()=> {
             // setIPadress(URLAccess.getLocalIP);
             getIPAdd();
-
             if (__DEV__) {
                 setUserName("admin");
                 setPassword("ALLY123");
