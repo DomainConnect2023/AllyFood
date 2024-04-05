@@ -317,15 +317,17 @@ const ReportScreen = ({ route }: { route: any }) => {
                             <Pressable
                                 style={{
                                     width: '60%',
+                                    height: 50,
                                     marginBottom: 10,
                                     borderWidth: 1,
                                     borderColor: '#ccc',
                                     borderRadius: 8,
+                                    justifyContent:"center",
                                 }}
                                 onPress={tonggleFromDatePicker}
                             >
                                 <TextInput
-                                    style={{ color: "#000", }}
+                                    style={{ color: "#000", fontSize: 18}}
                                     placeholder={i18n.t('Report-Screen.Select') + ' ' + i18n.t('Report-Screen.From-Date')}
                                     value={fromDate}
                                     onChangeText={setFromDate}
@@ -343,6 +345,12 @@ const ReportScreen = ({ route }: { route: any }) => {
                             display='inline'
                             onConfirm={confirmIOSFromDate}
                             onCancel={hideIOSDatePicker}
+                            style={{ 
+                            width: '60%',
+                            marginBottom: 10,
+                            borderWidth: 1,
+                            borderColor: '#ccc',
+                            borderRadius: 8,}}
                         />)}
 
                         <View style={css.row}>
@@ -358,21 +366,26 @@ const ReportScreen = ({ route }: { route: any }) => {
                             <Pressable
                                 style={{
                                     width: '60%',
+                                    height:50,
                                     marginBottom: 10,
                                     borderWidth: 1,
                                     borderColor: '#ccc',
                                     borderRadius: 8,
+                                    justifyContent:"center",
+                                    
+
                                 }}
                                 onPress={tonggleToDatePicker}
                             >
                                 <TextInput
-                                    style={{ color: "#000", }}
+                                    style={{ color: "#000", fontSize: 18}}
                                     placeholder={i18n.t('Report-Screen.Select') + ' ' + i18n.t('Report-Screen.To-Date')}
                                     value={toDate}
                                     onChangeText={setFromDate}
                                     placeholderTextColor="#11182744"
                                     editable={false}
                                     onPressIn={tonggleToDatePicker}
+                                    
                                 />
                             </Pressable>
                         </View>
@@ -384,6 +397,12 @@ const ReportScreen = ({ route }: { route: any }) => {
                             display='inline'
                             onConfirm={confirmIOSToDate}
                             onCancel={hideIOSDatePicker}
+                            style={{ 
+                                width: '60%',
+                                marginBottom: 10,
+                                borderWidth: 1,
+                                borderColor: '#ccc',
+                                borderRadius: 8,}}
                         />)}
                     </View>
                     )}
@@ -394,6 +413,7 @@ const ReportScreen = ({ route }: { route: any }) => {
                         display='inline'
                         onConfirm={confirmIOSFromDate}
                         onCancel={hideIOSDatePicker}
+                        
                     />)}
                     
                     <View style={[css.row, { paddingTop: 20 }]}>
