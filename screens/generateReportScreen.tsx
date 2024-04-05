@@ -136,8 +136,6 @@ const ViewPDFScreen = ({ route }: { route: any }) => {
                 }
             }
 
-            const { dirs } = RNFetchBlob.fs;
-            const dirToSave = Platform.OS === 'ios' ? dirs.DocumentDir : dirs.DownloadDir;
             const configfb = {
                 fileCache: true,
                 addAndroidDownloads: {
@@ -145,13 +143,13 @@ const ViewPDFScreen = ({ route }: { route: any }) => {
                     notification: true,
                     mediaScannable: true,
                     title: `CustomerStockBalance-${todayDate}.pdf`,
-                    path: `${dirs.DownloadDir}/CustomerStockBalance-${todayDate}.pdf`,
+                    path: `${customDownloadDir}/CustomerStockBalance-${todayDate}.pdf`,
                 },
                 useDownloadManager: true,
                 notification: true,
                 mediaScannable: true,
                 title: `CustomerStockBalance-${todayDate}.pdf`,
-                path: `${dirToSave}/CustomerStockBalance-${todayDate}.pdf`,
+                path: `${customDownloadDir}/CustomerStockBalance-${todayDate}.pdf`,
             };
             const configOptions = Platform.select({
                 ios: configfb,
@@ -171,22 +169,13 @@ const ViewPDFScreen = ({ route }: { route: any }) => {
                     duration: Snackbar.LENGTH_SHORT,
                 });
             }).catch(e => {
+                Snackbar.show({
+                    text: 'Download fail: '+e,
+                    duration: Snackbar.LENGTH_SHORT,
+                });
                 console.log('invoice Download==>', e);
             });
 
-            // const { dirs } = RNFetchBlob.fs;
-            // await RNFetchBlob.config({
-            //     trusty: true,
-            //     fileCache: true,
-            //     // appendExt: 'pdf',
-            //     addAndroidDownloads: {
-            //         useDownloadManager: true,
-            //         notification: true,
-            //         mediaScannable: true,
-            //         title: "Test",
-            //         path: `${customDownloadDir}/CustomerStockBalance.pdf`,
-            //     },
-            // }).fetch('GET', runURL as string).then(async (response) => {
 
             //     if(Platform.OS === 'ios'){
             //         RNFetchBlob.fs.writeFile(`${dirs.DownloadDir}/CustomerStockBalance.pdf`, response.data, 'base64');
@@ -199,13 +188,6 @@ const ViewPDFScreen = ({ route }: { route: any }) => {
             //         duration: Snackbar.LENGTH_SHORT,
             //     });
 
-            // }).catch(error => {
-            //     console.log(error.message);
-            //     Snackbar.show({
-            //         text: error.message,
-            //         duration: Snackbar.LENGTH_SHORT,
-            //     });
-            // });
 
         } catch (error) {
             console.error('Error downloading PDF:', error);
