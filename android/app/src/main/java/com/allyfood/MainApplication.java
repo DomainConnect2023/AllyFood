@@ -65,8 +65,6 @@ public class MainApplication extends Application implements ReactApplication {
       // If you opted-in for the New Architecture, we load the native entry point for this app.
       DefaultNewArchitectureEntryPoint.load();
     }
-<<<<<<< HEAD
-
     ReactNativeBlobUtilUtils.sharedTrustManager = x509TrustManager = new X509TrustManager() {
       @Override
       public void checkClientTrusted(java.security.cert.X509Certificate[] chain, String authType) throws CertificateException {
@@ -81,23 +79,6 @@ public class MainApplication extends Application implements ReactApplication {
           return new java.security.cert.X509Certificate[]{};
       }
     };
-
-=======
-    ReactNativeBlobUtilUtils.sharedTrustManager = x509TrustManager = new X509TrustManager() {
-                @Override
-                public void checkClientTrusted(java.security.cert.X509Certificate[] chain, String authType) throws CertificateException {
-                }
-
-                @Override
-                public void checkServerTrusted(java.security.cert.X509Certificate[] chain, String authType) throws CertificateException {
-                }
-
-                @Override
-                public java.security.cert.X509Certificate[] getAcceptedIssuers() {
-                    return new java.security.cert.X509Certificate[]{};
-                }
-        };
->>>>>>> ca287f67ea4b8f21d25f541434878bf60c9c64cf
     ReactNativeFlipper.initializeFlipper(this, getReactNativeHost().getReactInstanceManager());
   }
 }
