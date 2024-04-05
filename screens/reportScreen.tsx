@@ -92,12 +92,12 @@ const ReportScreen = ({ route }: { route: any }) => {
     }
 
     const confirmIOSFromDate = async (date: any) => {
-        setFromDate(date.toDateString());
+        setFromDate(date.toISOString().split('T')[0]);
         hideIOSDatePicker();
     }
 
     const confirmIOSToDate = async(date: any) => {
-        setToDate(date.toDateString());
+        setToDate(date.toISOString().split('T')[0]);
         hideIOSDatePicker();
     }
 
