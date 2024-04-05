@@ -135,30 +135,77 @@ const ViewPDFScreen = ({ route }: { route: any }) => {
                     runURL = "http://"+getIPaddress+"/App/GetCustomerStkBalReport/"+type+"/"+reportType+"/"+companyID+"/"+fromDate+"/"+toDate+"/";
                 }
             }
-            
-            await RNFetchBlob.config({
-                trusty: true,
+
+            const { dirs } = RNFetchBlob.fs;
+            const dirToSave = Platform.OS === 'ios' ? dirs.DocumentDir : dirs.DownloadDir;
+            const configfb = {
                 fileCache: true,
-                // appendExt: 'pdf',
                 addAndroidDownloads: {
                     useDownloadManager: true,
                     notification: true,
-                    path: `${customDownloadDir}/CustomerStockBalance-${todayDate}.pdf`,
+                    mediaScannable: true,
+                    title: `CustomerStockBalance-${todayDate}.pdf`,
+                    path: `${dirs.DownloadDir}/CustomerStockBalance-${todayDate}.pdf`,
                 },
-            }).fetch('GET', runURL as string).then(async (response) => {
-                console.log(`${customDownloadDir}/CustomerStockBalance-${todayDate}.pdf`);
+                useDownloadManager: true,
+                notification: true,
+                mediaScannable: true,
+                title: `CustomerStockBalance-${todayDate}.pdf`,
+                path: `${dirToSave}/CustomerStockBalance-${todayDate}.pdf`,
+            };
+            const configOptions = Platform.select({
+                ios: configfb,
+                android: configfb,
+            });
+
+            RNFetchBlob.config(configOptions || {}).fetch('GET', runURL as string, {})
+            .then(res => {
+     
+                if (Platform.OS === 'ios') {
+                    RNFetchBlob.fs.writeFile(configfb.path, res.data, 'base64');
+                    RNFetchBlob.ios.previewDocument(configfb.path);
+                }
+
                 Snackbar.show({
                     text: i18n.t('Successful'),
                     duration: Snackbar.LENGTH_SHORT,
                 });
-
-            }).catch(error => {
-                console.log(error.message);
-                Snackbar.show({
-                    text: error.message,
-                    duration: Snackbar.LENGTH_SHORT,
-                });
+            }).catch(e => {
+                console.log('invoice Download==>', e);
             });
+
+            // const { dirs } = RNFetchBlob.fs;
+            // await RNFetchBlob.config({
+            //     trusty: true,
+            //     fileCache: true,
+            //     // appendExt: 'pdf',
+            //     addAndroidDownloads: {
+            //         useDownloadManager: true,
+            //         notification: true,
+            //         mediaScannable: true,
+            //         title: "Test",
+            //         path: `${customDownloadDir}/CustomerStockBalance.pdf`,
+            //     },
+            // }).fetch('GET', runURL as string).then(async (response) => {
+
+            //     if(Platform.OS === 'ios'){
+            //         RNFetchBlob.fs.writeFile(`${dirs.DownloadDir}/CustomerStockBalance.pdf`, response.data, 'base64');
+            //         RNFetchBlob.ios.previewDocument(`${dirs.DownloadDir}/CustomerStockBalance.pdf`);
+            //     }
+
+            //     console.log(`${dirs.DownloadDir}/CustomerStockBalance.pdf`);
+            //     Snackbar.show({
+            //         text: i18n.t('Successful'),
+            //         duration: Snackbar.LENGTH_SHORT,
+            //     });
+
+            // }).catch(error => {
+            //     console.log(error.message);
+            //     Snackbar.show({
+            //         text: error.message,
+            //         duration: Snackbar.LENGTH_SHORT,
+            //     });
+            // });
 
         } catch (error) {
             console.error('Error downloading PDF:', error);
