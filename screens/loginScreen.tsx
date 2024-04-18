@@ -1,24 +1,23 @@
 import React, { useEffect, useState } from 'react';
-import { Image, Pressable, NativeModules } from 'react-native';
+import { Image, Pressable, NativeModules, BackHandler } from 'react-native';
 import { View, Text, TextInput as TextInputs, StyleSheet } from 'react-native';
 import KeyboardAvoidWrapper from '../components/KeyboardAvoidWrapper';
 import MainContainer from '../components/MainContainer';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { ImagesAssets } from '../objects/images';
-import { useAuth } from '../components/Auth_Provider/Auth_Context';
 import RNFetchBlob from 'react-native-blob-util';
 import Snackbar from 'react-native-snackbar';
 import { URLAccess } from '../objects/URLAccess';
 import { TextInput } from 'react-native-paper';
 import i18n from '../language/i18n';
-import { useFocusEffect } from '@react-navigation/native';
+import { useFocusEffect, useNavigation } from '@react-navigation/native';
 import { ApiResponse } from '../objects/objects';
 
 const STORAGE_KEY = '@app_language';
-export const [isLoginSuccess, setLoginStatus] = useState<String | null>("");
 
 const LoginScreen = () => {
+    const navigation = useNavigation();
     const [username, setUserName] = useState('');//admin
     const [password, setPassword] = useState('');//ALLY123
     const [todayDate, setTodayDate] = useState<string | "">(new Date().toISOString().split('T')[0] + " 00:00:00");
@@ -28,10 +27,6 @@ const LoginScreen = () => {
 
     const inputRef = React.createRef<TextInputs>();
     const [IPaddress, setIPadress] = useState("");
-    
-
-    const { setIsSignedIn } = useAuth();
-    // const { isSignedIn } = useAuth();
 
     const [locale, setLocale] = React.useState(i18n.locale);
 
@@ -85,6 +80,19 @@ const LoginScreen = () => {
                 setUserName("admin");
                 setPassword("ALLY123");
             }
+
+            const disableBackButton = () => {
+                // Disable the back button functionality
+                return true; // Returning true prevents default behavior (i.e., navigating back)
+            };
+          
+            // Add event listener for the hardware back button press
+            BackHandler.addEventListener('hardwareBackPress', disableBackButton);
+          
+            return () => {
+                // Remove event listener when component unmounts
+                BackHandler.removeEventListener('hardwareBackPress', disableBackButton);
+            };
         })();
     }, [])
 
@@ -111,7 +119,7 @@ const LoginScreen = () => {
                 await AsyncStorage.setItem('userID', response.json().userId.toString());
                 setUserName("");
                 setPassword("");
-                setIsSignedIn(true);
+                navigation.navigate("CustomDrawer" as never);
             } else {
                 Snackbar.show({
                     text: response.json().message,
